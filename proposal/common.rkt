@@ -8,7 +8,8 @@
          current-background
          default-background
          make-slide-assembler
-         t/n)
+         t/n
+         s-frame)
 
 (define thesis
   "Automated property-based testing is
@@ -31,7 +32,15 @@ semantics engineering.")
 
 (current-background default-background)
 
+(current-title-color colors:title-color)
+
 (define (t/n str #:v-combine [v-comb vl-append])
   (apply v-comb
          (for/list ([s (in-list (string-split str "\n"))])
            (t s))))
+
+(define (s-frame p)
+  (shadow-frame p
+                #:background-color colors:note-color
+                #:frame-color colors:shadow
+                #:frame-line-width 2))

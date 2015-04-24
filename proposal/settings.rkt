@@ -15,6 +15,7 @@
 (define colors:note-color ((current-palette) 'note-color))
 (define colors:shadow ((current-palette) 'shadow))
 (define colors:emph-dull ((current-palette) 'emph-dull))
+(define colors:emph-bright ((current-palette) 'emph-bright))
 
 ;; fonts
 (define font:main-font 

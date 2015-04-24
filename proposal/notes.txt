@@ -5,6 +5,57 @@ Automated property-based testing is
 effective tool support for lightweight 
 semantics engineering.
 
+========================================
+Timeline
+========================================
+calculi -> models of PLs -> mechanized models/proofs
+
+- lambda calculus (formalization of computation)
+- ISWIM model real languages as calculi
+- SOS
+- ... stuff (what?)
+- SML standard
+- CompCert
+
+
+========================================
+Use Cases (modeling real langauges)
+========================================
++ Coq
+-- Compcert
++ ACL2
+-- AMD floating point
++ K
+-- C
+-- Java
++ Redex
+-- Javascript
+-- Python
+-- (Racket)
+-- R6RS
++ Ott
+--OCaml light
+
+========================================
+Generic Tools for:
+========================================
+- specifying syntax
+- specifying execution
+- specifying static properties
+- testing <==========
+- but not formal analysis
+
+========================================
+Dissertation Chapter Idea
+========================================
+- extended example, specifying gramamr,
+  reduction, evaluator, type system of
+  a language in Redex, and then testing
+  it (and ideally trying different
+  methods of testing to motivate other
+  stuff)
+- already have the amb tutorial I guess
+
 
 ========================================
 -----Semantics

@@ -2,7 +2,8 @@
 
 (require racket/class
          racket/draw
-         racket/match)
+         racket/match
+         (only-in pict colorize disk hc-append))
 
 (provide (all-defined-out))
 
@@ -29,6 +30,11 @@
 (define (add-palette-mapping! p map-to color)
   (set-palette-mapping! p (hash-set (palette-mapping p) 
                                     map-to color)))
+
+(define (show-palette p)
+  (apply hc-append
+         (for/list ([c (in-list (hash-values (palette-colors p)))])
+           (colorize (disk 40) c))))
 
 ;; http://www.colourlovers.com/palette/765305/japan9
 (define japan9
@@ -68,9 +74,6 @@
 (add-palette-mapping! milky-way 'shadow "pale skin")
 (add-palette-mapping! milky-way 'emph-dull "artemis")
 (add-palette-mapping! milky-way 'emph-bright "teal green")
-                      
-                      
-                      
-
+ 
 (current-palette milky-way)
         
