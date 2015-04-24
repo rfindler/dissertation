@@ -7,11 +7,13 @@
 (provide thesis
          current-background
          default-background
-         make-slide-assembler)
+         make-slide-assembler
+         t/n)
 
 (define thesis
-  "... automated testing ... lighweight semantics ... ")
-
+  "Automated property-based testing is
+effective tool support for lightweight 
+semantics engineering.")
 (define current-background (make-parameter #f))
 
 (define (default-background width height)
@@ -28,3 +30,8 @@
 (current-main-font font:main-font)
 
 (current-background default-background)
+
+(define (t/n str #:v-combine [v-comb vl-append])
+  (apply v-comb
+         (for/list ([s (in-list (string-split str "\n"))])
+           (t s))))

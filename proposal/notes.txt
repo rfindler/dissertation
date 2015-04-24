@@ -1,11 +1,28 @@
 
-Related Work
+Thesis
+========================================
+Automated property-based testing is
+effective tool support for lightweight 
+semantics engineering.
+
+
 ========================================
 -----Semantics
+What? Why?
 -----Mechanized Semantics
+-----Heavyweight Mechanized Semantics
+Coq, ACL2, Isabelle/HOL, Agda
 -----Lightweight Mechanized Semantics
+K, PLT Redex, Ott, Haskell
 -----Random Testing
+Quickcheck
 -----Property-Based Testing
 -----Automatic Property-Based Testing
+Smallcheck, Korat
 -----Automatic Test Case Generation
------Heavyweight Mechanized Semantics
+Korat
+
+-----Other
+Model Checking
+
+
