@@ -6,11 +6,24 @@ Automated property-based testing is
 effective tool support for lightweight 
 semantics engineering.
 
+
+========================================
+Robby Meeting 4/30
+========================================
+- start by explaining semantics engineering
+- show 4 square plot proof/tst vs software/semantics engineering
+- add related work as a todo
+- do a proposed organization by chapter
+- a semantics "is a function from programs to answers"
+- go from that to Redex
+- slide on disseration by chapter
+- todo: concrete tasks in terms of months
+- CEK machine for benchmark?
+
 ========================================
 Timeline
 ========================================
 calculi -> models of PLs -> mechanized models/proofs
-
 - lambda calculus (formalization of computation)
 - ISWIM model real languages as calculi
 - SOS
@@ -34,8 +47,9 @@ Use Cases (modeling real langauges)
 -- Python
 -- (Racket)
 -- R6RS
-+ Ott
++ Ott/Lem
 --OCaml light
+--other stuff like memory models
 
 ========================================
 Generic Tools for:
@@ -103,4 +117,4 @@ Model Checking
 -----
 * Focus on making dissertation useful to the n
   people who ever actually read it...
-* n is a at least 3
+* n is at least 3
