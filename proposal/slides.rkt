@@ -4,12 +4,15 @@
          "common.rkt"
          "settings.rkt"
          "venn.rkt"
-         "table.rkt")
+         "table.rkt"
+         "four-plot.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
 
 (show-venn)
+
+(do-quadrants)
 
 (constructs-table)
 

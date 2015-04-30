@@ -48,8 +48,8 @@ Use Cases (modeling real langauges)
 -- (Racket)
 -- R6RS
 + Ott/Lem
---OCaml light
---other stuff like memory models
+-- OCaml light
+-- other stuff like memory models
 
 ========================================
 Generic Tools for:
