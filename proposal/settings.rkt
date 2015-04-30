@@ -18,5 +18,6 @@
 (define colors:emph-bright ((current-palette) 'emph-bright))
 
 ;; fonts
+(define font:base-font "Benton")
 (define font:main-font 
-  `(,colors:main-font-color . "Benton"))
+  `(,colors:main-font-color . ,font:base-font))

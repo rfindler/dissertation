@@ -1,4 +1,5 @@
 
+========================================
 Thesis
 ========================================
 Automated property-based testing is
@@ -56,6 +57,28 @@ Dissertation Chapter Idea
   stuff)
 - already have the amb tutorial I guess
 
+========================================
+Random vs Other
+========================================
+- huge size of enumerable space for even
+  small systems
+- look at that smallcheck paper where
+  they constrain things somehow
+
+
+========================================
+Problem Areas in Mechanized Sematics
+========================================
+- scalability
+- expressiveness
+- correctness
+- modularity
+
+========================================
+Example using a constrained goal
+========================================
+- Larry's suggestion
+
 
 ========================================
 -----Semantics
@@ -77,3 +100,7 @@ Korat
 Model Checking
 
 
+-----
+* Focus on making dissertation useful to the n
+  people who ever actually read it...
+* n is a at least 3
