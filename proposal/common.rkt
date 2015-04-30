@@ -39,8 +39,8 @@ semantics engineering.")
          (for/list ([s (in-list (string-split str "\n"))])
            (t s))))
 
-(define (s-frame p)
-  (shadow-frame p
+(define-syntax-rule (s-frame p ...)
+  (shadow-frame p ...
                 #:background-color colors:note-color
                 #:frame-color colors:shadow
                 #:frame-line-width 2))
