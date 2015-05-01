@@ -5,7 +5,8 @@
          "settings.rkt"
          "venn.rkt"
          "table.rkt"
-         "four-plot.rkt")
+         "four-plot.rkt"
+         "misc.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
@@ -17,3 +18,5 @@
 (constructs-table)
 
 (contents-table)
+
+(do-my-work)
