@@ -70,7 +70,9 @@
        (make-pin-seq (quad/labels 400
                                   "software\nengineering" "semantics\nengineering"
                                   "proof" "test")
-                     (list (list "Almost\nEverything" 'lower-left 100 100)
+                     (list (list "Quickcheck" 'lower-left 150 25)
+                           (list "Korat" 'lower-left 25 100)
+                           (list "Many, many\nmore" 'lower-left 100 225)
                            (list "Coq" 'upper-right 50 25)
                            (list "ACL2" 'upper-right 200 75)
                            (list "Many More" 'upper-right 100 200)
