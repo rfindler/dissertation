@@ -6,12 +6,15 @@
          "venn.rkt"
          "table.rkt"
          "four-plot.rkt"
-         "misc.rkt")
+         "misc.rkt"
+         "explain-sem.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
 
 (show-venn)
+
+(do-lse-tree)
 
 (do-quadrants)
 
