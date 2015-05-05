@@ -105,8 +105,8 @@
                                     ("Heavyweight" "for proving theorems" ,vc-append)
                                     ("Lightweight" "for developing\nmodels" ,hc-append)
                                     ("Semantics\nEngineering"
-                                   "engineered as\nsoftware"
-                                   ,hc-append)))])
+                                     "engineered as\nsoftware"
+                                     ,hc-append)))])
       (match-define (list zoom-tag decorator comb) zoom/add)
       (play-n ;#:title slides-title
               (λ (n)

@@ -7,7 +7,8 @@
          "table.rkt"
          "four-plot.rkt"
          "misc.rkt"
-         "explain-sem.rkt")
+         "explain-sem.rkt"
+         "related-work.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
@@ -19,6 +20,8 @@
 (do-quadrants)
 
 (constructs-table)
+
+(do-related-work)
 
 (contents-table)
 
