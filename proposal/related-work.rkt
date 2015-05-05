@@ -67,9 +67,9 @@
          
   (rw-slide "Well-typed term generation"
             (cite "Testing an optimising compiler by generating random lambda terms"
-                  "[Palka, Claessen, Russo, Hughes, AST 2011]")
+                  "[Pałka, Claessen, Russo, Hughes, AST 2011]")
             (cite "Generating Constrained Random Data with Uniform Distribution"
-                  "[Claessen, Duregard, Palka, FLOPS 2014]"))
+                  "[Claessen, Duregård, Pałka, FLOPS 2014]"))
   
   (rw-slide "CLP for random generation"
             (cite "Language Fuzzing Using Constraint Logic Programming"
