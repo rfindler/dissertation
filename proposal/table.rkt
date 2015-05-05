@@ -6,7 +6,8 @@
          "settings.rkt")
 
 (provide constructs-table
-         contents-table)
+         contents-table
+         todo-table)
 
 (define (mk-mark char color)
   (define letter (tt "X"))
@@ -83,16 +84,18 @@
 
 (define (constructs-table)
   (slide #:title "Test Generation Coverage"
-         (scale cols 1.5)))
+         (scale-to-fit (s-frame cols) (inset titleless-page -20))))
 
 (define contents 
-  (map t (list  "Component" "Work" "Writing"
-                "Ad-hoc generator"  "-"    "0%"
-               "Enumeration"       "100%" "50%"
-               "Derivation gen."   "100%" "50%"
-               "Benchmark"         "85%"  "50%"
-               "Benchmark results" "85%"  "50%"
-               "Typed comparison"  "100%" "75%")))
+  (map t (list  "Chapter" "Contents"
+                "1." "Introduction"
+                "2." "Redex Intro/Example"
+                "3." "Grammar-based generation"
+                "4." "Derivation generation"
+                "5." "Benchmark"
+                "6." "Evaluation"
+                "7." "Related Work"
+                "8." "Conclusion")))
 
 (define (table/line ncols picts
                     col-aligns row-aligns
@@ -118,7 +121,7 @@
                                              (take (reverse picts)
                                                    ncols)))))))))
 
-(define cont-table (table/line 3 contents
+(define cont-table (table/line 2 contents
                                lc-superimpose cc-superimpose
                                50 10))
 
@@ -134,8 +137,9 @@
                "Total" "13")))
 
 (define (contents-table)
-  (slide #:title "Dissertation Contents"
-         (scale cont-table 1.5)))
+  (slide #:title "Dissertation Plan"
+         (scale-to-fit (s-frame cont-table)
+                       (inset titleless-page -20))))
 
 (define todo-tbl (table/line 2 todo-picts
                                lc-superimpose cbl-superimpose
@@ -144,6 +148,6 @@
 
 (define (todo-table)
   (slide #:title "Remaining Work"
-         (scale-to-fit todo-tbl (inset titleless-page -20))))
+         (scale-to-fit (s-frame todo-tbl) (inset titleless-page -20))))
 
 

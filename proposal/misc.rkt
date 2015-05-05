@@ -1,6 +1,7 @@
 #lang racket
 
 (require slideshow
+         unstable/gui/pict
          "common.rkt"
          "settings.rkt")
 
@@ -55,4 +56,56 @@
                                          (ind-rel 'both)
                                          (n-rel 'both))))
 
+
+(define (redex-comp-pict)
+  (define (bubble str)
+    (define txt-p (t str))
+    (tag-pict
+     (cc-superimpose
+      (colorize
+       (filled-ellipse (* (pict-width txt-p) 1.25)
+                       (/ (+ (pict-width txt-p)
+                             (pict-height txt-p))
+                          2))
+       colors:emph-dull)
+      txt-p)
+     (string->symbol str)))
+  (define mid-bub
+    (bubble "Redex"))
+  #;(define base-p
+    (hc-append
+     (vc-append 25
+                (bubble "Definition")
+                (ghost mid-bub)
+                (bubble "Typesetting"))
+     (tag-pict mid-bub 'redex-middle)
+     (vc-append 25
+                (bubble "Execution")
+                (ghost mid-bub)
+                (bubble "Testing"))))
+  (define base-p
+    (table 3 (list (bubble "Definition") (blank 0 0) (bubble "Execution")
+                   (blank 0 0) (tag-pict (bubble "Redex") 'redex-middle) (blank 0 0)
+                   (bubble "Typesetting") (blank 0 0) (bubble "Testing"))
+           cc-superimpose cc-superimpose
+           20 20))
+  (for/fold ([p base-p])
+            ([arrow (in-list `(("Definition" ,cb-find ,(/ (* 3 pi) 2) ,lc-find 0)
+                               ("Typesetting" ,ct-find ,(/ pi 2) ,lc-find 0)
+                               ("Execution" ,cb-find ,(/ (* 3 pi) 2) ,rc-find ,pi)
+                               ("Testing" ,ct-find ,(/ pi 2) ,rc-find ,pi)))])
+    (match-define (list tagstr from from-ang to to-ang) arrow)
+    (pin-arrow-line 20 p
+                    (car (find-tag p (string->symbol tagstr))) from
+                    (car (find-tag p 'redex-middle)) to
+                    #:start-angle from-ang
+                    #:end-angle to-ang
+                    #:line-width 6
+                    #:color colors:emph-bright)))
+    
+(define (do-redex-comp)
+  (slide (scale-to
+          (redex-comp-pict)
+          (pict-width (inset titleless-page -25))
+          (pict-height (inset titleless-page -25)))))
   

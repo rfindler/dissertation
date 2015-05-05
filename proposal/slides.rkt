@@ -25,4 +25,6 @@
 
 (contents-table)
 
+(todo-table)
+
 (do-my-work)
