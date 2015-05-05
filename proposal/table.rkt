@@ -96,26 +96,54 @@
 
 (define (table/line ncols picts
                     col-aligns row-aligns
-                    col-seps row-seps)
+                    col-seps row-seps
+                    #:final-line? [fline? #f])
   (define tab-pict (table ncols picts
                          col-aligns row-aligns
                          col-seps row-seps))
-  (lt-superimpose
-   tab-pict
-   (vc-append
-    (blank 0 (+ 5 (apply max (map pict-height
-                                  (take contents ncols)))))
-    (colorize
-     (linewidth lw
-                (hline (pict-width tab-pict) 0))
-     colors:emph-dull))))
+  (define line-pict (colorize
+                     (linewidth lw
+                                (hline (pict-width tab-pict) 0))
+                     colors:emph-dull))
+  (lb-superimpose
+   (lt-superimpose
+    tab-pict
+    (vc-append
+     (blank 0 (+ 5 (apply max (map pict-height
+                                   (take picts ncols)))))
+     line-pict))
+   ((if fline? values ghost)
+    (vc-append line-pict
+               (blank 0 (+ 5 (apply max (map pict-height
+                                             (take (reverse picts)
+                                                   ncols)))))))))
 
 (define cont-table (table/line 3 contents
                                lc-superimpose cc-superimpose
                                50 10))
 
+(define todo-picts
+  (map t/n (list "Task" "Estimated\ntime (weeks)"
+               "Related work" "3"
+               "Writing" "6"
+               "Reduction lhs as input" "1"
+               "Generation from reduction" "2"
+               "Benchmark extensions (CESK)" "1"
+               "Generate new results" "1"
+               "Match compilation" "2"
+               "Total" "13")))
+
 (define (contents-table)
   (slide #:title "Dissertation Contents"
          (scale cont-table 1.5)))
+
+(define todo-tbl (table/line 2 todo-picts
+                               lc-superimpose cbl-superimpose
+                               50 10
+                               #:final-line? #t))
+
+(define (todo-table)
+  (slide #:title "Remaining Work"
+         (scale-to-fit todo-tbl (inset titleless-page -20))))
 
 

@@ -45,7 +45,7 @@
            (vc-append 20 (t area)
                       (apply vl-append (cons 10 cites))))
           titleless-page)))
-1
+
 (define (tools-slide)
   (slide #:title "Related work"
          (s-frame (vc-append 20 (vc-append (t "Lightweight semantics frameworks")
@@ -69,7 +69,9 @@
             (cite "Testing an optimising compiler by generating random lambda terms"
                   "[Pałka, Claessen, Russo, Hughes, AST 2011]")
             (cite "Generating Constrained Random Data with Uniform Distribution"
-                  "[Claessen, Duregård, Pałka, FLOPS 2014]"))
+                  "[Claessen, Duregård, Pałka, FLOPS 2014]")
+            (cite "Mechanized Metatheory Model Checking"
+                  "[Cheney, Momigliano, PPDP 2006]"))
   
   (rw-slide "CLP for random generation"
             (cite "Language Fuzzing Using Constraint Logic Programming"
