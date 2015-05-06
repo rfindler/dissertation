@@ -19,6 +19,8 @@
 
 (do-quadrants)
 
+(do-redex-comp)
+
 (constructs-table)
 
 (do-related-work)
