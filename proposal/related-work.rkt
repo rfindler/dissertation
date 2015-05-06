@@ -70,6 +70,14 @@
 
 (define (do-related-work)
   
+  
+  (slide #:title "Related work"
+         (s-frame (vc-append 20 (t "Most closely related, by category")
+                             (vl-append 10
+                              (item "Semantics frameworks")
+                              (item "Well-typed term generation")
+                              (item "CLP for random generation")))))
+  
   (tools-slide)
   
   (parameterize ([lightweight-only #t])
