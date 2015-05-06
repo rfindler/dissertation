@@ -14,6 +14,7 @@
                (t authors))))
 
 (define show-maybes (make-parameter #f))
+(define lightweight-only (make-parameter #f))
 
 (define (maybe-text)
   ((if (show-maybes) values ghost)
@@ -21,12 +22,13 @@
      (colorize (t " with automated checking")
                colors:emph-dull))))
 
-(define (tool name maybe-automated-tests)
+(define (tool name maybe-automated-tests lightweight)
   (define name-p (t name))
   (item (refocus
          (hbl-append
          (cc-superimpose name-p
-                         (if (and (not maybe-automated-tests) (show-maybes))
+                         (if (or (and (not maybe-automated-tests) (show-maybes))
+                                 (and (not lightweight) (lightweight-only)))
                               (colorize (linewidth 3 (hline (pict-width name-p) 0))
                                         colors:emph-dull)
                               (blank 0 0)))
@@ -48,22 +50,32 @@
 
 (define (tools-slide)
   (slide #:title "Related work"
-         (s-frame (vc-append 20 (vc-append (t "Lightweight semantics frameworks")
+         (s-frame (vc-append 20 (vc-append (hbl-append 
+                                            ((if (lightweight-only) values ghost)
+                                             (colorize
+                                              (parameterize ([current-main-font font:base-font])
+                                                (t "Lightweight"))
+                                              colors:emph-dull))
+                                            (t " Semantics Frameworks"))
                                            (maybe-text))
                              (vl-append 10
-                                        (tool "αML" #f)
-                                        (tool "αProlog" " model checking")
-                                        (tool "K" " model checking")
-                                        (tool "Ott/Lem" #f)
-                                        (tool "Ruler" #f))))))
+                                        (tool "αML" #f #t)
+                                        (tool "αProlog" " model checking" #t)
+                                        (tool "Coq" #f #f)
+                                        (tool "Isabelle/HOL" #f #f)
+                                        (tool "K" " model checking" #t)
+                                        (tool "Ott/Lem" #f #t)
+                                        (tool "Ruler" #f #t))))))
 
 
 (define (do-related-work)
   
   (tools-slide)
-
-  (parameterize ([show-maybes #t])
-    (tools-slide))
+  
+  (parameterize ([lightweight-only #t])
+    (tools-slide)
+    (parameterize ([show-maybes #t])
+      (tools-slide)))
          
   (rw-slide "Well-typed term generation"
             (cite "Testing an optimising compiler by generating random lambda terms"
