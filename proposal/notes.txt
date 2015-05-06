@@ -14,7 +14,7 @@ Robby Meeting 5/6
 + swap tree and venn
 + operational ~> : state X state, f is ~>*
 + denotational [[ ]] : syntax -> c.p.o.
-- test/SE "TDD" "everything" "3/1 ratio of testers to developers"
+* test/SE "TDD" "everything" "3/1 ratio of testers to developers"
   maybe just Quickcheck to connect to Redex
 - frameworks slide: heavyweight -> checking -> 
 - intro slide to related work section

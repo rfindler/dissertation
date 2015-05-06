@@ -44,7 +44,7 @@
                   quadrant x y
                   text)
   (define qdrnt-p (car (find-tag quad quadrant)))
-  (define to-pin (s-frame (t/n text)))
+  (define to-pin (s-frame ((if (pict? text) values t/n) text)))
   (pin-over quad
             qdrnt-p
             lt-find
@@ -70,9 +70,18 @@
        (make-pin-seq (quad/labels 400
                                   "software\nengineering" "semantics\nengineering"
                                   "proof" "test")
-                     (list (list "Quickcheck" 'lower-left 150 25)
-                           (list "Korat" 'lower-left 25 100)
-                           (list "Many, many\nmore" 'lower-left 100 225)
+                     (list (list "TDD" 'lower-left 15 100)
+                           (list (hc-append
+                                  (vc-append (t "testers")
+                                             (colorize
+                                              (linewidth 4
+                                                         (hline (pict-width (t "developers")) 0))
+                                              colors:main-font-color)
+                                             (t "developers"))
+                                  (t " \u2248 1"))
+                                 'lower-left 25 225)
+                           (list "Quickcheck" 'lower-left 150 25)
+                           (list "everything..." 'lower-left 150 125)
                            (list "Coq" 'upper-right 50 25)
                            (list "ACL2" 'upper-right 200 75)
                            (list "Many More" 'upper-right 100 200)
