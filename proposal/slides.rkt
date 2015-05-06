@@ -8,18 +8,21 @@
          "four-plot.rkt"
          "misc.rkt"
          "explain-sem.rkt"
-         "related-work.rkt")
+         "related-work.rkt"
+         "testing.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
 
-(show-venn)
-
 (do-lse-tree)
+
+(show-venn)
 
 (do-quadrants)
 
 (do-redex-comp)
+
+(do-automated-testing)
 
 (constructs-table)
 

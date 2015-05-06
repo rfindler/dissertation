@@ -59,18 +59,6 @@
 
 
 (define (redex-comp-pict)
-  (define (bubble str)
-    (define txt-p (t str))
-    (tag-pict
-     (cc-superimpose
-      (colorize
-       (filled-ellipse (* (pict-width txt-p) 1.25)
-                       (/ (+ (pict-width txt-p)
-                             (pict-height txt-p))
-                          2))
-       colors:emph-dull)
-      txt-p)
-     (string->symbol str)))
   (define mid-bub
     (bubble "Redex"))
   (define base-p

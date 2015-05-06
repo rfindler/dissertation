@@ -2,6 +2,8 @@
 
 (require slideshow
          pict
+         redex
+         redex/pict
          unstable/gui/pict
          unstable/gui/pict/align
          "common.rkt"
@@ -11,6 +13,11 @@
 
 (struct node (text children))
 
+(define arrow-p (t "\u21aa"))
+(define-language l0)
+(define arrow*-p (hbl-append arrow-p (t "*")))
+(define brackets-p (t "〚·〛"))
+
 (define the-tree
   (node "Semantics"
         (list (node "Denotational" #f)
@@ -18,6 +25,7 @@
                     (list (node "Mechanized"
                                 (list (node "Heavyweight" #f)
                                       (node "Lightweight"
+                                            #f #;
                                             (list (node "Semantics\nEngineering" #f))))))))))
 
 (define layout-t
@@ -81,13 +89,14 @@
      (inset (bitmap bmp) (- l) (- t) (- r) (- b))]
     [(p) (freeze p 0 0 0 0)]))
 
-(define (decorate-node base node-tag text combine)
+(define (decorate-node base node-tag txt/pct combine)
+  (define txt-p (if (pict? txt/pct) txt/pct (t/n txt/pct)))
   (define node-p (car (find-tag base (string->symbol node-tag))))
   (define anchor (blank (pict-width node-p) (pict-height node-p)))
   (pin-over base
             node-p
             cc-find
-            (refocus (combine anchor (freeze (s-frame (t/n text))))
+            (refocus (combine anchor (freeze (s-frame txt-p)))
                      anchor)))
             
 
@@ -95,28 +104,35 @@
 
 (define slides-title "Lightweight Semantics Engineering")
 
+(define opsem-pict (vl-append (hbl-append arrow-p (t " : state x state"))
+                              (hbl-append (t "f is ") arrow*-p)))
+
+(define densem-pict (hbl-append brackets-p (t " : syntax → cpo")))
+
 (define (do-lse-tree)
   (define last-p
     (for/fold ([p (layout-tree the-tree)])
-              ([zoom/add (in-list `(("Semantics" "f : programs -> answers" ,vc-append)
-                                    ("Denotational" "f : syntax ->\nmathematical object" ,vc-append)
-                                    ("Operational" "f : syntax -> syntax" ,hc-append)
+              ([zoom/add (in-list `(("Semantics" "f : programs → answers" ,vc-append)
+                                    ("Denotational" ,densem-pict ,vc-append)
+                                    ("Operational" ,opsem-pict ,hc-append)
                                     ("Mechanized" "a programming\nlanguage" ,hc-append)
                                     ("Heavyweight" "for proving theorems" ,vc-append)
-                                    ("Lightweight" "for developing\nmodels" ,hc-append)
-                                    ("Semantics\nEngineering"
+                                    ("Lightweight" "for developing\nmodels" ,vc-append)
+                                    #;("Semantics\nEngineering"
                                      "engineered as\nsoftware"
                                      ,hc-append)))])
       (match-define (list zoom-tag decorator comb) zoom/add)
       (play-n ;#:title slides-title
               (λ (n)
-                (zoom-to p zoom-tag n 3)))
+                (scale-to-fit (zoom-to p zoom-tag n 3)
+                              (inset titleless-page -25))))
       ((if decorator
           (λ (p)
             (decorate-node p zoom-tag decorator comb))
           values)
        (zoom-to p zoom-tag 1 3))))
   
-  (play-n  #:title slides-title
+  (play-n  ;#:title slides-title
            (λ (n)
-             (zoom-to last-p "base" n 1))))
+             (scale-to-fit (zoom-to last-p "base" n 1)
+                           (inset titleless-page -25)))))
