@@ -9,7 +9,8 @@
          "misc.rkt"
          "explain-sem.rkt"
          "related-work.rkt"
-         "testing.rkt")
+         "testing.rkt"
+         "evaluation.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
@@ -25,6 +26,8 @@
 (do-automated-testing)
 
 (constructs-table)
+
+(do-eval)
 
 (do-related-work)
 
