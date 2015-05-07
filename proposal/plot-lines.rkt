@@ -6,9 +6,11 @@
          racket/runtime-path)
 
 (provide line-plot-pict
-         line-plot-picts-with-intervals)
+         line-plot-picts-with-intervals
+         enum-plot-pict)
 
 (define-runtime-path res-dir "../results/24-hr")
+(define-runtime-path enum-dir "../results/24-hr-enum")
 
 (define (line-plot/directory dir-path
                              #:interval-line [i-line #f])
@@ -30,17 +32,23 @@
 
 (define (type->sym t)
   (hash-ref (hash 'search 'diamond
-                  'grammar 'circle)
+                  'grammar 'circle
+                  'enum 'square
+                  'ordered 'plus)
             t))
 
 (define (type->color t)
   (hash-ref (hash 'search 1
-                  'grammar 2)
+                  'grammar 2
+                  'enum 3
+                  'ordered 4)
             t))
 
 (define (type->name t)
   (hash-ref (hash 'search "Derivation Generation"
-                  'grammar "Ad Hoc Generation")
+                  'grammar "Ad Hoc Generation"
+                  'enum "Random index"
+                  'ordered "Enumerated")
             t))
 
 (define line-styles
@@ -74,37 +82,45 @@
                    l))))
         (list type (reverse (cons (list max-t (/ (length pts) 2)) pts)))))
     
-    (unless (= 2 (length types+datas)) 
-      (error 'plot-lines.rkt "ack: assuming that there are only two competitors"))
-    (define-values (_ crossover-points)
-      (for/fold ([last-winner #f]
-                 [crossover-points '()])
-                ([grammar-pr (in-list (list-ref (assoc 'grammar types+datas) 1))]
-                 [seach-pr (in-list (list-ref (assoc 'search types+datas) 1))])
-        (unless (and (= (list-ref grammar-pr 1)
-                        (list-ref seach-pr 1)))
-          (error 'plot-lines.rkt "ack: expected points to match up ~s ~s"
-                 grammar-pr
-                 seach-pr))
-        (define y-position (list-ref grammar-pr 1))
-        (define grammar-time (list-ref grammar-pr 0))
-        (define search-time (list-ref seach-pr 0))
-        (define best (min grammar-time search-time))
-        (define current-winner
-          (cond
-            [(= grammar-time best) 'grammar]
-            [(= search-time best) 'search]))
-        (values current-winner
-                (cond
-                  [(and last-winner (not (equal? last-winner current-winner)))
-                   (cons (point-label (vector best y-position)
-                                      (format "~a, ~a"
-                                              (number+unit/s y-position "bug")
-                                              (format-time best))
-                                      #:anchor 'bottom-right)
-                         crossover-points)]
-                  [else
-                   crossover-points]))))
+    (define (crossover-points)
+      (unless (= 3 (length types+datas)) 
+          (error 'plot-lines.rkt "ack: assuming that there are only two competitors"))
+      (define-values (_ cps)
+        (for/fold ([last-winner #f]
+                   [crossover-points '()])
+                  ([grammar-pr (in-list (list-ref (assoc 'grammar types+datas) 1))]
+                   [enum-pr (in-list (list-ref (assoc 'enum types+datas) 1))]
+                   [ordered-pr (in-list (list-ref (assoc 'ordered types+datas) 1))])
+          (unless (and (= (list-ref grammar-pr 1)
+                          (list-ref enum-pr 1))
+                       (= (list-ref grammar-pr 1)
+                          (list-ref ordered-pr 1)))
+            (error 'plot-lines.rkt "ack: expected points to match up ~s ~s ~s"
+                   grammar-pr
+                   enum-pr
+                   ordered-pr))
+          (define y-position (list-ref grammar-pr 1))
+          (define grammar-time (list-ref grammar-pr 0))
+          (define enum-time (list-ref enum-pr 0))
+          (define ordered-time (list-ref ordered-pr 0))
+          (define best (min grammar-time enum-time ordered-time))
+          (define current-winner
+            (cond
+             [(= grammar-time best) 'grammar]
+             [(= ordered-time best) 'ordered]
+             [(= enum-time best) 'enum]))
+          (values current-winner
+                  (cond
+                   [(and last-winner (not (equal? last-winner current-winner)))
+                    (cons (point-label (vector best y-position)
+                                       (format "~a, ~a"
+                                               (number+unit/s y-position "bug")
+                                               (format-time best))
+                                       #:anchor 'bottom-right)
+                          crossover-points)]
+                   [else
+                    crossover-points]))))
+      cps)
     (define (interval-line num-bugs)
       (define (find-envelope data)
         (let loop ([d data])
@@ -126,18 +142,20 @@
                              num-bugs
                              (format-interval (first (first pts))
                                               (first (second pts))))))
+    (define (line-renderers)
+      (for/list ([type+pts (in-list types+datas)]
+                 [n (in-naturals)])
+        (define type (list-ref type+pts 0))
+        (define pts (list-ref type+pts 1))
+        (lines
+         (reverse pts)
+         ;#:width 2
+         #:color (type->color type)
+         #:style (list-ref line-styles n)
+         #:label (type->name type))))
     (match-lambda
-      ['lines
-       (for/list ([type+pts (in-list types+datas)]
-                  [n (in-naturals)])
-         (define type (list-ref type+pts 0))
-         (define pts (list-ref type+pts 1))
-         (lines
-          (reverse pts)
-          ;#:width 2
-          #:color (type->color type)
-          #:style (list-ref line-styles n)
-          #:label (type->name type)))]
+      ['lines (line-renderers)]
+      ['lines+xover (append (line-renderers) (crossover-points))]
       [(? number? i-line)
        (list (interval-line i-line))])))
 
@@ -219,3 +237,10 @@
 (define line-plot-picts-with-intervals
   (for/list ([int (in-list '(5 10 15 20 25 30))])
     (line-plot/renderers (append line-rs (get-renderers int)))))
+
+(define enum-plot-pict
+  (let-values ([(d-stats _)
+                (process-data
+                 (extract-data/log-directory enum-dir)
+                 (extract-names/log-directory enum-dir))])0
+    (line-plot/renderers ((make-renderers d-stats) 'lines+xover))))

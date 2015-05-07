@@ -23,6 +23,10 @@
                                (- client-w margin margin)
                               (- client-h margin margin)))
 
+(define enum-pict
+  (scale-to-fit enum-plot-pict 
+                       (- client-w margin margin)
+                       (- client-h margin margin)))
 
 (define lp-pict-2
   (pin-over
@@ -46,15 +50,12 @@
 
 (define (do-eval)
   
-  (slide #:title "Ad-hoc random generator comparison"
-         lp-pict)
+  (slide #:title "Grammar-based generation approaches"
+         enum-pict)
   
-  (slide #:title "Ad-hoc random generator comparison"
-         lp-pict-2)
-  
-  (slide #:title "Ad-hoc random generator comparison"
+  (slide #:title "Grammar-based generation approaches"
          (cb-superimpose
-          lp-pict-2
+          enum-pict
           (faded-fade
            (vc-append
             (scale 
@@ -73,18 +74,19 @@
                                                (current-main-font))])
                            (t "4")) ))
              2)
-            (blank 0 (/ (pict-height lp-pict) 10)))
+            (blank 0 (/ (pict-height enum-pict) 10)))
            #:color "white"
            #:init 0.05
            #:delta 2
            #:grads 50)))
   
-  
-  (slide #:title "Ad-hoc random generator comparison"
+  (define comp-title "Derivation vs. ad-hoc generation")
+         
+  (slide #:title comp-title
          lp-pict)
   
   (for ([p (in-list line-plot-picts-with-intervals)])
-    (slide #:title "Ad-hoc random generator comparison"
+    (slide #:title comp-title
            (scale-to-fit p
                          (- client-w margin margin)
                          (- client-h margin margin)))))
