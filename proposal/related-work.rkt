@@ -7,12 +7,6 @@
 
 (provide do-related-work)
 
-(define (cite title authors)
-  (vl-append
-   (item (it title))
-   (hbl-append (ghost (t "XXX"))
-               (t authors))))
-
 (define show-maybes (make-parameter #f))
 (define lightweight-only (make-parameter #f))
 

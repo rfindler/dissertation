@@ -7,7 +7,8 @@
          "common.rkt"
          "settings.rkt")
 
-(provide do-automated-testing)
+(provide do-automated-testing
+         explain-methods)
 
 (define pb-pict-base
   (hc-append 100
@@ -78,12 +79,12 @@
 (define ad-hoc-pict
   (vl-append
    (hc-append 30 
-              (s-frame (scale lambda-lang-pict 2))
+              (s-frame lambda-lang-pict)
               (s-frame
                (apply vc-append
                       (add-between
                        (for/list ([t (in-list '(e (e e) (1 e) (1 x)))])
-                         (scale (term->pict/pretty-write Λ t) 2))
+                         (term->pict/pretty-write Λ t))
                        (arrow 20 (- (/ pi 2)))))))
    (t "[Hanford 1970]")))
 
@@ -106,8 +107,7 @@
    (item-frame "choose a random index" 
                "enumerate in order")))
    
-   
-   
+      
 
 
 (define (do-automated-testing)

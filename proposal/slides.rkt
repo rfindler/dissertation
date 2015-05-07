@@ -27,6 +27,8 @@
 
 (constructs-table)
 
+(explain-methods)
+
 (do-eval)
 
 (do-related-work)
