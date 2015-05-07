@@ -13,7 +13,13 @@
          t/n
          s-frame
          bubble
-         code-snip-pict)
+         code-snip-pict
+         sexp->pict
+         cite
+         prod-p
+         nats-p
+         emph-line
+         item-frame)
 
 (define thesis
 "Automated property-based testing is effective 
@@ -38,6 +44,9 @@ for semantics engineering and <lightweightness good>.")
 
 (current-title-color colors:title-color)
 
+(define prod-p (t "\u2a2f"))
+(define nats-p (t "\u2115"))
+
 (define (t/n str #:v-combine [v-comb vl-append])
   (apply v-comb
          (for/list ([s (in-list (string-split str "\n"))])
@@ -49,7 +58,11 @@ for semantics engineering and <lightweightness good>.")
                 #:frame-color colors:shadow
                 #:frame-line-width 2))
 
-
+(define-syntax-rule (item-frame p ...)
+  (let* ([pps (list (t p) ...)]
+         [maxw (apply max (map pict-width pps))])
+    (s-frame (item (t p) #:width (* 1.25 maxw)) ...)))
+     
 (define (bubble str)
   (define txt-p (t str))
   (tag-pict
@@ -79,3 +92,21 @@ for semantics engineering and <lightweightness good>.")
   (port-count-lines! the-port)
   (typeset-code (read-syntax snip-name the-port)))
 
+(define (sexp->pict sexp)
+  (define the-port (open-input-string (pretty-format sexp)))
+  (port-count-lines! the-port)
+  (typeset-code (read-syntax "sexp->pict" the-port)))
+
+(define (cite title authors)
+  (vl-append
+   (item (it title))
+   (hbl-append (ghost (t "XXX"))
+               (t authors))))
+
+(define (emph-line txt)
+  (hc-append (colorize
+              (let ([sp (ghost (t "XXXXXX"))])
+               (cc-superimpose (linewidth 5 (hline (* (pict-width sp) 0.75) 0))
+                               sp))
+              colors:emph-dull)
+             (t txt)))

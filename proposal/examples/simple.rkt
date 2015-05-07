@@ -2,6 +2,8 @@
 
 (require redex)
 
+(provide arithmetic)
+
 ;SNIP<LANG>
 (define-language arithmetic
   (e     ::= (e binop e)
@@ -9,15 +11,21 @@
   (binop ::= + - *))
 ;SNIP<LANG>
 
+(define-extended-language a-eval arithmetic
+  (E ::= (E binop e)
+         (number binop E)
+         hole))
+  
+
 (define a-reduction
   (reduction-relation
-   arithmetic
+   a-eval
    (--> (in-hole E (number_1 binop number_2))
         (in-hole E
          ,((λ (n1 n2)
             (case (term binop)
               [(+) (+ n1 n2)]
-              ;[(-) (- n1 n2)]
+              [(-) (- n1 n2)]
               [(*) (* n1 n2)]))
           (term number_1) (term number_1))))))
 
@@ -27,6 +35,7 @@
              (and (= (length ress) 1)
                   (redex-match arithmetic number (car ress))))))
 
-(redex-check arithmetic e (red-to-number (term e)))
+(module+ test
+  (redex-check arithmetic e (red-to-number (term e))))
 
                       
