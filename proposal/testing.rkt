@@ -83,7 +83,7 @@
               (s-frame
                (apply vc-append
                       (add-between
-                       (for/list ([t (in-list '(e (e e) (1 e) (1 x)))])
+                       (for/list ([t (in-list '(e (e e) (1 e) (1 w)))])
                          (term->pict/pretty-write Λ t))
                        (arrow 20 (- (/ pi 2)))))))
    (t "[Hanford 1970]")))

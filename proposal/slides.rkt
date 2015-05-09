@@ -10,7 +10,8 @@
          "explain-sem.rkt"
          "related-work.rkt"
          "testing.rkt"
-         "evaluation.rkt")
+         "evaluation.rkt"
+         "bench.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
@@ -28,6 +29,8 @@
 (constructs-table)
 
 (explain-methods)
+
+(do-benchmark)
 
 (do-eval)
 

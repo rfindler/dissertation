@@ -13,7 +13,7 @@
   (e ::= (e e)
          (λ (x) e)
          (if0 e e e)
-         n)
+         x n)
   (x ::= variable)
   (n ::= number))
 ;SNIP<LANG>
