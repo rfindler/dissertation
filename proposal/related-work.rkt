@@ -38,7 +38,10 @@
   (slide #:title "Related work"
          (scale-to-fit
           (s-frame
-           (vc-append 20 (t area)
+           (vc-append 20 (colorize
+                          (parameterize ([current-main-font font:base-font])
+                            (t area))
+                          colors:emph-dull)
                       (apply vl-append (cons 10 cites))))
           titleless-page)))
 
@@ -66,11 +69,15 @@
   
   
   (slide #:title "Related work"
-         (s-frame (vc-append 20 (t "Most closely related, by category")
+         (s-frame (vc-append 20 (colorize
+                                 (parameterize ([current-main-font font:base-font])
+                                   (t "Most closely related, by category"))
+                                 colors:emph-dull)
                              (vl-append 10
                               (item "Semantics frameworks")
                               (item "Well-typed term generation")
-                              (item "CLP for random generation")))))
+                              (item "CLP for random generation")
+                              (item "Comparative automated testing studies")))))
   
   (tools-slide)
   
@@ -91,4 +98,11 @@
             (cite "Language Fuzzing Using Constraint Logic Programming"
                   "[Dewy, Roesch, Hardekopf, ASE 2014]")
             (cite "Automated Data Structure Generation: Refuting Common Wisdom"
-                  "[Dewey, Nichols, Hardekopf, ICSE 2014]")))
+                  "[Dewey, Nichols, Hardekopf, ICSE 2014]"))
+  (rw-slide "Automated testing, comparative studies"
+            (cite "SmallCheck and Lazy SmallCheck: automatic exhaustive testing for small values"
+                  "[Runciman, Naylor, Lindblad, Haskell 2008]")
+            (cite "The New Quickcheck for Isabelle: Random, Exhaustive and Symbolic Testing under One Roof"
+                  "[Bulwahn, CPP 2012]")
+            (cite "An Empirical Comparison of Automated Generation and Classification Techniques for Object-Oriented Unit Testing"
+                  "[d'Amorim, Pacheco, Xie, Marinov, Ernst, ASE 2006]")))

@@ -99,7 +99,9 @@ for semantics engineering and <lightweightness good>.")
 
 (define (cite title authors)
   (vl-append
-   (item (it title))
+   (parameterize ([current-main-font (cons 'italic (current-main-font))])
+     (item title))
+   ;(item (it title))
    (hbl-append (ghost (t "XXX"))
                (t authors))))
 
