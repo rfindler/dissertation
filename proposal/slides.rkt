@@ -11,7 +11,8 @@
          "related-work.rkt"
          "testing.rkt"
          "evaluation.rkt"
-         "bench.rkt")
+         "bench.rkt"
+         "trace-picts.rkt")
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))
@@ -29,6 +30,8 @@
 (constructs-table)
 
 (explain-methods)
+
+(do-trace)
 
 (do-benchmark)
 

@@ -106,6 +106,22 @@
      e-pict)))
    (item-frame "choose a random index" 
                "enumerate in order")))
+
+
+(require (prefix-in rt: "redex-typeset.rkt"))
+
+(define deriv-pict
+  (vc-append
+   (hc-append
+    (item-frame "grammar"
+                "judgment forms"
+                "functions")
+    (arrow 100 0)
+    (s-frame (t/n "terms satisfying those\ndefintions")))
+    (s-frame (vc-append (t "Example:")
+                        (hbl-append (t "Make a random ") rt:e-pict (t " and ") rt:t-pict)
+                        (t "such that")
+                        rt:tc-jdg-pict))))
    
       
 
@@ -118,9 +134,13 @@
   (slide (sscale def-to-tests-pict)))
 
 (define (explain-methods)
-  (slide (sscale ad-hoc-pict))
+  (slide #:title "Generation: ad-hoc" (sscale ad-hoc-pict))
 
-  (slide (sscale enum-pict)))
+  (slide #:title "Generation: enumeration" (sscale enum-pict))
+  
+  (slide #:title "Generation: derivation" (sscale deriv-pict)))
+         
+         
 
 
    
