@@ -121,7 +121,21 @@
 
 (require (prefix-in rt: "redex-typeset.rkt"))
 
-(define deriv-pict
+(define dewey-quote2
+  (vl-append (para (string-append "\"...declarative specifications to generate programs..."
+                                  "no existing language fuzzers use this approach, but there are "
+                                  "[related] techniques for automatic data structure generation"))
+             (t "[Dewey et al, ASE 2014]")))
+
+(define example-frame
+  (s-frame (vc-append 5 
+                       (t "Example:")
+                       (hbl-append (t "Make a random ") rt:e-pict (t " and ") rt:t-pict)
+                       (t "such that:")
+                       rt:tc-jdg-pict)))
+
+(define (deriv-pict [seq-num 0])
+  (define seq-picts (list example-frame dewey-quote2))
   (vc-append
    (hc-append
     (item-frame "grammar"
@@ -129,11 +143,10 @@
                 "functions")
     (vc-append (arrow 50 0) (blank 0 25))
     (s-frame (t/n "terms satisfying those\ndefintions")))
-    (s-frame (vc-append 5 
-                        (t "Example:")
-                        (hbl-append (t "Make a random ") rt:e-pict (t " and ") rt:t-pict)
-                        (t "such that:")
-                        rt:tc-jdg-pict))))
+   (cc-superimpose (list-ref seq-picts seq-num)
+                   (apply cc-superimpose (map ghost seq-picts)))))
+    
+ 
    
       
 
@@ -153,7 +166,9 @@
 
   (slide #:title "Generation: enumeration" (sscale enum-pict))
   
-  (slide #:title "Generation: derivation" (sscale deriv-pict)))
+  (slide #:title "Generation: derivation" (sscale (deriv-pict 0)))
+  
+  (slide #:title "Generation: derivation" (sscale (deriv-pict 1))))
          
          
 
