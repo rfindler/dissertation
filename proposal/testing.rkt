@@ -76,8 +76,17 @@
             (pict-width (inset titleless-page -50))
             (pict-height (inset titleless-page -50))))
 
-(define ad-hoc-pict
-  (vl-append
+(define dewey-quote
+  (vl-append 5
+   (para (string-append "\"Current State of the Art. The predominant program generation strategy "
+                        "for language fuzzing is based on stochastic context-free grammars.\""))
+   (t "[Dewey, Roesch, Hardekpof, ASE 2014]")))
+
+(define hanford-cite (t "[Hanford 1970]"))
+
+(define (ad-hoc-pict [seq-num 0])
+  (define pict-seq (list hanford-cite dewey-quote))
+  (vc-append
    (hc-append 30 
               (s-frame lambda-lang-pict)
               (s-frame
@@ -86,7 +95,9 @@
                        (for/list ([t (in-list '(e (e e) (1 e) (1 w)))])
                          (term->pict/pretty-write Λ t))
                        (arrow 20 (- (/ pi 2)))))))
-   (t "[Hanford 1970]")))
+   (lt-superimpose
+    (list-ref pict-seq seq-num)
+    (apply lt-superimpose (map ghost pict-seq)))))
 
 (define enum-pict
   (vc-append
@@ -116,11 +127,12 @@
     (item-frame "grammar"
                 "judgment forms"
                 "functions")
-    (arrow 100 0)
+    (vc-append (arrow 50 0) (blank 0 25))
     (s-frame (t/n "terms satisfying those\ndefintions")))
-    (s-frame (vc-append (t "Example:")
+    (s-frame (vc-append 5 
+                        (t "Example:")
                         (hbl-append (t "Make a random ") rt:e-pict (t " and ") rt:t-pict)
-                        (t "such that")
+                        (t "such that:")
                         rt:tc-jdg-pict))))
    
       
@@ -134,7 +146,10 @@
   (slide (sscale def-to-tests-pict)))
 
 (define (explain-methods)
-  (slide #:title "Generation: ad-hoc" (sscale ad-hoc-pict))
+  
+  (slide #:title "Generation: ad-hoc" (sscale (ad-hoc-pict 0)))
+  
+  (slide #:title "Generation: ad-hoc" (sscale (ad-hoc-pict 1)))
 
   (slide #:title "Generation: enumeration" (sscale enum-pict))
   
