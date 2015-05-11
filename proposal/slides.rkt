@@ -12,7 +12,11 @@
          "testing.rkt"
          "evaluation.rkt"
          "bench.rkt"
-         "trace-picts.rkt")
+         "trace-picts.rkt"
+         "intro.rkt")
+
+
+(title)
 
 (slide #:title "Thesis"
        (s-frame (t/n thesis)))

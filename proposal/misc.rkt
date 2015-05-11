@@ -38,7 +38,7 @@
                                (list "Making Random Judgments"
                                      "[Fetscher, Claessen, Palka, Hughes, Findler, ESOP 15]")
                                (list "fFeat: Fair Functional Enumerations of Algebraic Types"
-                                     "[New, Fetscher, McCarthy, Findler, ICFP 15]"))))
+                                     "[New, Fetscher, McCarthy, Findler, in preparation]"))))
 
 (define ind-rel (make-dual-pict "Indirectly related"
                                  (list
