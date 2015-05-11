@@ -135,7 +135,7 @@
                        rt:tc-jdg-pict)))
 
 (define (deriv-pict [seq-num 0])
-  (define seq-picts (list example-frame dewey-quote2))
+  (define seq-picts (list example-frame))
   (vc-append
    (hc-append
     (item-frame "grammar"
@@ -149,14 +149,14 @@
  
    
       
-
+(define prop-title "Property-based testing")
 
 (define (do-automated-testing)
-  (slide (sscale (pb-pict-emph)))
+  (slide #:title prop-title (sscale (pb-pict-emph)))
   
-  (slide (sscale (pb-pict-emph #t)))
+  (slide #:title prop-title (sscale (pb-pict-emph #t)))
   
-  (slide (sscale def-to-tests-pict)))
+  (slide #:title "Redex: \"push-button\" testing" (sscale def-to-tests-pict)))
 
 (define (explain-methods)
   
@@ -168,7 +168,7 @@
   
   (slide #:title "Generation: derivation" (sscale (deriv-pict 0)))
   
-  (slide #:title "Generation: derivation" (sscale (deriv-pict 1))))
+  #;(slide #:title "Generation: derivation" (sscale (deriv-pict 1))))
          
          
 

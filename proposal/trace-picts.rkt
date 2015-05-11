@@ -255,14 +255,15 @@
                (term->pict/pretty-write STLC-2 '=)
                (term->pict/pretty-write STLC-2 (second psd)))))
 
-(define goal-mark (colorize (text "?" '(bold) 20)
+(define goal-mark (colorize (parameterize ([current-main-font font:base-font])
+                              (bt "?"))
                             colors:emph-bright))
 
 (define attempt-mark (cc-superimpose
                       (colorize
                        (scale (arrow 24 (- (/ pi 2)))
-                              1.5
-                              1.2)
+                              2
+                              1.5)
                        colors:note-color)
                       goal-mark))
 

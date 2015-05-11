@@ -54,7 +54,9 @@ tools"))
    (pict-height titleless-page)))
 
 (define arr-p
-  (colorize (scale (rotate (scale (arrow 20 0) 2 1) (* (/ 3 4) pi)) 2)
+  (colorize (vr-append (scale (rotate (scale (arrow 20 0) 2 1) (* (/ 3 4) pi)) 2)
+                       (parameterize ([current-main-font font:base-font])
+                         (ghost (t "me"))))
             colors:note-color))
 
 (define (v2/text/dot [show-dot? #f] [show-arr? #f])

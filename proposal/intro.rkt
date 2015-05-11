@@ -44,16 +44,16 @@
                                         client-h)
                           title-info)
           (faded-fade nulogo
-                      #:color colors:emph-bright
-                      #:init 0.025
+                      #:color "white"
+                      #:init 0.01
                       #:circle? #t
                       #:grads 120
                       #:delta 2))
           (faded-fade (scale-to-fit pltlogo
                                     (pict-width nulogo)
                                     (pict-height nulogo))
-                      #:color colors:emph-bright
-                      #:init 0.025
+                      #:color "white"
+                      #:init 0.01
                       #:circle? #t
                       #:grads 120
                       #:delta 2))))
