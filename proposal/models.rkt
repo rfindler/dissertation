@@ -1,0 +1,36 @@
+#lang racket
+
+(require pict
+         slideshow
+         "common.rkt"
+         "settings.rkt"
+         "table.rkt")
+
+(provide models-table)
+
+(define models-list
+  (map
+   (match-lambda
+    [(? string? str) (t str)]
+    [(? number? n) (t (number->string n))]
+    [#f (blank 0 0)]
+    [#t (colorize (disk 15) colors:emph-dull)])
+   '("Model" "synthesized" "artifact" "loc"
+     "delim-cont" #f #t 928
+     "let-poly" #t #f 742
+     "list-machine" #f #t 276
+     "poly-stlc" #t #t 309
+     "rbtrees" #t #f 209
+     "rvm" #f #t 1069
+     "stlc+lists" #t #f 213
+     "stlc-subst" #t #f 275)))
+
+(define mod-table
+  (table/line 4 models-list
+              cbl-superimpose cc-superimpose
+              50 10))
+
+(define (models-table)
+  (slide #:title "Benchmark models"
+         (scale-to-fit (s-frame mod-table)
+                       (inset titleless-page -20))))

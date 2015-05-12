@@ -134,8 +134,21 @@
                        (t "such that:")
                        rt:tc-jdg-pict)))
 
+(define (clp-frame show-c?)
+  (s-frame (vc-append (t "How it's done:")
+                      (cc-superimpose
+                       ((if show-c? ghost values)
+                        (t "Randomized logic programming engine"))
+                       ((if show-c? values ghost)
+                        (hbl-append (t "Randomized ")
+                                    (colorize 
+                                     (parameterize ([current-main-font font:base-font])
+                                       (t "constraint"))
+                                     colors:emph-dull)
+                                    (t " logic programming engine")))))))
+
 (define (deriv-pict [seq-num 0])
-  (define seq-picts (list example-frame))
+  (define seq-picts (list example-frame (clp-frame #f) (clp-frame #t)))
   (vc-append
    (hc-append
     (item-frame "grammar"
@@ -145,10 +158,8 @@
     (s-frame (t/n "terms satisfying those\ndefintions")))
    (cc-superimpose (list-ref seq-picts seq-num)
                    (apply cc-superimpose (map ghost seq-picts)))))
-    
- 
-   
-      
+
+
 (define prop-title "Property-based testing")
 
 (define (do-automated-testing)
@@ -168,7 +179,9 @@
   
   (slide #:title "Generation: derivation" (sscale (deriv-pict 0)))
   
-  #;(slide #:title "Generation: derivation" (sscale (deriv-pict 1))))
+  (slide #:title "Generation: derivation" (sscale (deriv-pict 1)))
+  
+  (slide #:title "Generation: derivation" (sscale (deriv-pict 2))))
          
          
 

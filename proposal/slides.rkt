@@ -16,10 +16,13 @@
          "intro.rkt")
 
 
+(define (thesis-slide)
+  (slide #:title "Thesis"
+         (s-frame (t/n thesis))))
+
 (title)
 
-(slide #:title "Thesis"
-       (s-frame (t/n thesis)))
+(thesis-slide)
 
 (do-lse-tree)
 
@@ -41,10 +44,12 @@
 
 (do-eval)
 
-(do-related-work)
-
 (contents-table)
 
 (todo-table)
 
+(do-related-work)
+
 (do-my-work)
+
+(thesis-slide)

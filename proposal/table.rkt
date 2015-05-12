@@ -7,7 +7,8 @@
 
 (provide constructs-table
          contents-table
-         todo-table)
+         todo-table
+         table/line)
 
 (define (mk-mark char color)
   (define letter (tt "X"))

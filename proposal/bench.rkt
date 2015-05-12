@@ -3,7 +3,8 @@
 (require slideshow
          pict/code
          "settings.rkt"
-         "common.rkt")
+         "common.rkt"
+         "models.rkt")
 
 (provide do-benchmark)
 
@@ -88,6 +89,8 @@
                                  -1)
        colors:emph-bright)
       txt)))
+
+  (models-table)
   
   (slide
    #:title bench-title
@@ -100,7 +103,7 @@
             buggy)
     client-w client-h)
    (t "")
-   (t "Example of a bug used for mutation testing")
+   (t "Example of a bug")
    (t "(poly-stlc-4.rkt)"))
   
   
@@ -115,7 +118,7 @@
                buggy-3)
     client-w client-h)
    (t "")
-   (t "Another bug used for mutation testing")
+   (t "Another bug")
    (t "(stlc-sub-3.rkt)"))
 
   
@@ -130,5 +133,5 @@
                buggy-2)
     client-w client-h)
    (t "")
-   (t "Another bug used for mutation testing")
+   (t "Yet another bug")
    (t "(stlc-7.rkt)")))
