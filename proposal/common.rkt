@@ -21,7 +21,7 @@
          emph-line
          item-frame)
 
-(define thesis @string-append{Lighweight mechanization and 
+(define thesis @string-append{Lightweight mechanization and 
                               automated property-based testing are 
                               effective for semantics engineering.})
 

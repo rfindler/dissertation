@@ -16,6 +16,10 @@
          do-trace
          trace-picts)
 
+(default-font-size (current-font-size))
+(metafunction-font-size (current-font-size))
+(label-font-size (current-font-size))
+
 (struct ptree (pict conc-pict children success?) #:transparent)
 ; children is (vectorof (or pict ptree))
 

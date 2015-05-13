@@ -16,6 +16,7 @@ Robby meeting 5/13
 + add num bugs to becnhmark table (298)
 + indentation + highlighting bug examples
 + move related work to after grid slide
++ fix example derivation font sizes
 
 ========================================
 Robby Meeting 5/6
