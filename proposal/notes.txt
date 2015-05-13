@@ -6,6 +6,16 @@ Automated property-based testing is
 effective tool support for lightweight 
 semantics engineering.
 
+========================================
+Robby meeting 5/13
+========================================
++ remove quotes in slide 126
++ enum: axe combinators, show mapping from grammar
+  show first few terms
++ make it clear when "constraint" gets added what happened
++ add num bugs to becnhmark table (298)
++ indentation + highlighting bug examples
++ move related work to after grid slide
 
 ========================================
 Robby Meeting 5/6
@@ -18,7 +28,7 @@ Robby Meeting 5/6
   maybe just Quickcheck to connect to Redex
 * frameworks slide: heavyweight -> checking -> 
 * intro slide to related work section
-- maybe add comparative testing studies for rel. work
++ maybe add comparative testing studies for rel. work
 - todo slide related work "broader" "landscape" "exploration"
   "read about broader research landscape"
 

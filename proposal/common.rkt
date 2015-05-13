@@ -1,4 +1,4 @@
-#lang racket/base
+#lang at-exp racket/base
 
 (require slideshow
          pict
@@ -21,15 +21,21 @@
          emph-line
          item-frame)
 
-(define thesis
-"Automated property-based testing is effective 
-for semantics engineering and <lightweightness good>.")
+(define thesis @string-append{Lighweight mechanization and 
+                              automated property-based testing are 
+                              effective for semantics engineering.})
 
 (define current-background (make-parameter #f))
 
 (define (default-background width height)
   (color colors:slide-background
          (filled-rectangle width height)))
+
+(current-main-font font:main-font)
+
+(current-background default-background)
+
+(current-title-color colors:title-color)
 
 (define (make-slide-assembler default-assembler)
   (lambda (title title-sep content)
@@ -38,11 +44,6 @@ for semantics engineering and <lightweightness good>.")
 
 (current-slide-assembler (make-slide-assembler (current-slide-assembler)))
 
-(current-main-font font:main-font)
-
-(current-background default-background)
-
-(current-title-color colors:title-color)
 
 (define prod-p (t "\u2a2f"))
 (define nats-p (t "\u2115"))
@@ -93,7 +94,9 @@ for semantics engineering and <lightweightness good>.")
   (typeset-code (read-syntax snip-name the-port)))
 
 (define (sexp->pict sexp)
-  (define the-port (open-input-string (pretty-format sexp)))
+  (define out-string (open-output-string))
+  (pretty-write sexp out-string)
+  (define the-port (open-input-string (get-output-string out-string)))
   (port-count-lines! the-port)
   (typeset-code (read-syntax "sexp->pict" the-port)))
 

@@ -1,6 +1,7 @@
 #lang racket
 
 (require slideshow
+         pict
          pict/code
          "settings.rkt"
          "common.rkt"
@@ -8,13 +9,29 @@
 
 (provide do-benchmark)
 
+(define-syntax-rule (code-emph cd)
+  (let ([cd-pict (code cd)])
+    (refocus
+     (cc-superimpose
+      (cellophane
+       (colorize
+        (filled-rounded-rectangle
+         (pict-width cd-pict)
+         (pict-height cd-pict)
+         -0.2)
+        colors:emph-dull)
+       0.5)
+      cd-pict)
+     cd-pict)))
+   
+
 (define ok
   (s-frame
   (code (define-metafunction poly-stlc 
           const-type : c -> Σ
           ...
           [(const-type cons)
-           (∀ a (a → ((list a) → (list a))))]
+           (∀ a (a → ((list a) → #,(code-emph (list a)))))]
           ...))))
 
 (define buggy
@@ -23,52 +40,52 @@
           const-type : c -> Σ
           ...
           [(const-type cons)
-           (∀ a (a → ((list a) → a)))]
+           (∀ a (a → ((list a) → #,(code-emph a))))]
           ...))))
 
 (define buggy-2 
   (s-frame
    (code (define-language stlc
-                        (M N ::= 
-                           (λ (x σ) M)
-                           ...)
-                        ...
-                        (v (λ (x τ) M)
-                           ...)
-                        (E hole
-                           (E M))))))
+           (M N ::= 
+              (λ (x σ) M)
+              ...)
+           ...
+           (v (λ (x τ) M)
+              ...)
+           (E hole
+              (E M))))))
 
 (define ok-2 
   (s-frame
    (code (define-language stlc
-                     (M N ::= 
-                        (λ (x σ) M)
-                        ...)
-                     ...
-                     (v (λ (x τ) M)
-                        ...)
-                     (E hole
-                        (E M)
-                        (v E)))
-                   )))
+           (M N ::= 
+              (λ (x σ) M)
+              ...)
+           ...
+           (v (λ (x τ) M)
+              ...)
+           (E hole
+              #,(code-emph (E M))
+              (v E)))
+         )))
 
 (define ok-3
   (s-frame
    (code (define-metafunction stlc
-          subst : M x M -> M
-          ...
-          [(subst (M N) x M_x)
-           ((subst M x M_x) (subst N x M_x))]
-          ...))))
+           subst : M x M -> M
+           ...
+           [(subst (M N) x M_x)
+            ((subst M x M_x) (subst N x #,(code-emph M_x)))]
+           ...))))
 
 (define buggy-3
   (s-frame
-  (code (define-metafunction stlc
-          subst : M x M -> M
-          ...
-          [(subst (M N) x M_x)
-           ((subst M x M_x) (subst N x M))]
-          ...))))
+   (code (define-metafunction stlc
+           subst : M x M -> M
+           ...
+           [(subst (M N) x M_x)
+            ((subst M x M_x) (subst N x #,(code-emph M)))]
+           ...))))
 
 (define bench-title "Automated testing benchmark")
 
@@ -82,7 +99,7 @@
     "4 generation strategies"
     "193 bug/strategy instances")
    (let ([txt (scale (vc-append (t "Metric:")
-                                (t"How long per counterexample?")) 1.25)])
+                                (t"Seconds per counterexample?")) 1.25)])
      (cc-superimpose
       (colorize
        (filled-rounded-rectangle (* (pict-width txt) 1.25) (* (pict-height txt) 1.25)

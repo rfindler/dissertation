@@ -30,6 +30,8 @@
 
 (do-quadrants)
 
+(do-related-work)
+
 (do-redex-comp)
 
 (do-automated-testing)
@@ -47,8 +49,6 @@
 (contents-table)
 
 (todo-table)
-
-(do-related-work)
 
 (do-my-work)
 

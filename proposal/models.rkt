@@ -15,18 +15,18 @@
     [(? number? n) (t (number->string n))]
     [#f (blank 0 0)]
     [#t (colorize (disk 15) colors:emph-dull)])
-   '("Model" "synthesized" "artifact" "loc"
-     "delim-cont" #f #t 928
-     "let-poly" #t #f 742
-     "list-machine" #f #t 276
-     "poly-stlc" #t #t 309
-     "rbtrees" #t #f 209
-     "rvm" #f #t 1069
-     "stlc+lists" #t #f 213
-     "stlc-subst" #t #f 275)))
+   '("Model" "synthesized" "artifact" "loc" "# of bugs"
+     "delim-cont" #f #t 928 3
+     "let-poly" #t #f 742 7
+     "list-machine" #f #t 276 3
+     "poly-stlc" #t #t 309 9
+     "rbtrees" #t #f 209 3
+     "rvm" #f #t 1069 7
+     "stlc+lists" #t #f 213 9
+     "stlc-subst" #t #f 275 9)))
 
 (define mod-table
-  (table/line 4 models-list
+  (table/line 5 models-list
               cbl-superimpose cc-superimpose
               50 10))
 

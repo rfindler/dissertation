@@ -99,24 +99,36 @@
     (list-ref pict-seq seq-num)
     (apply lt-superimpose (map ghost pict-seq)))))
 
-(define enum-pict
+(define first-enums-pict
+  (s-frame
+   (apply vl-append
+          (for/list ([i (in-range 7)])
+            (sexp->pict (generate-term Λ e #:i-th i))))))
+
+(define enum-methods-pict
+  (item-frame "choose a random index" 
+              "enumerate in order"))
+
+
+(define (enum-pict seq-num)
+  (define seq-picts (list first-enums-pict enum-methods-pict))
   (vc-append
    (hc-append
     (s-frame
      (vl-append
      (emph-line "enumerations:")
      (hbl-append (t "enum α : (α → ") nats-p
-                 (t ") ") prod-p (t " (") nats-p (t " → α)"))
-     (blank 0 15)
-     (emph-line "combinators:")
-     (t "enum → enum → enum")))
-   (s-frame
-    (vl-append 5
-     (hbl-append (t "enum ") (parameterize ([default-font-size (current-font-size)])
-                              (term->pict/pretty-write Λ 'e)))
-     e-pict)))
-   (item-frame "choose a random index" 
-               "enumerate in order")))
+                 (t ") ") prod-p (t " (") nats-p (t " → α)"))))
+    (s-frame
+     (hc-append 
+      10
+      e-pict
+      (arrow 50 0)
+      (hbl-append (t "enum ") (parameterize ([default-font-size (current-font-size)])
+                                (term->pict/pretty-write Λ 'e))))))
+   (cc-superimpose
+    (list-ref seq-picts seq-num)
+    (apply cc-superimpose (map ghost seq-picts)))))
 
 
 (require (prefix-in rt: "redex-typeset.rkt"))
@@ -135,17 +147,19 @@
                        rt:tc-jdg-pict)))
 
 (define (clp-frame show-c?)
-  (s-frame (vc-append (t "How it's done:")
-                      (cc-superimpose
-                       ((if show-c? ghost values)
-                        (t "Randomized logic programming engine"))
-                       ((if show-c? values ghost)
-                        (hbl-append (t "Randomized ")
-                                    (colorize 
-                                     (parameterize ([current-main-font font:base-font])
-                                       (t "constraint"))
-                                     colors:emph-dull)
-                                    (t " logic programming engine")))))))
+  (s-frame (vc-append 5
+                      (t "How it's done:")
+                      (t "randomized")
+                      (if show-c? 
+                          (colorize 
+                           (parameterize ([current-main-font font:base-font])
+                             (t "constraint"))
+                           colors:emph-dull)
+                          (blank 0 0))
+                      (t "logic programming engine")
+                      (if show-c? 
+                          (blank 0 0)
+                          (ghost (t "constraint"))))))
 
 (define (deriv-pict [seq-num 0])
   (define seq-picts (list example-frame (clp-frame #f) (clp-frame #t)))
@@ -175,7 +189,9 @@
   
   (slide #:title "Generation: ad-hoc" (sscale (ad-hoc-pict 1)))
 
-  (slide #:title "Generation: enumeration" (sscale enum-pict))
+  (slide #:title "Generation: enumeration" (sscale (enum-pict 0)))
+
+  (slide #:title "Generation: enumeration" (sscale (enum-pict 1)))
   
   (slide #:title "Generation: derivation" (sscale (deriv-pict 0)))
   

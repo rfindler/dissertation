@@ -128,14 +128,14 @@
 
 (define todo-picts
   (map t/n (list "Task" "Estimated\ntime (weeks)"
-               "Related work" "3"
+               "Related work, broad" "2"
                "Writing" "6"
                "Reduction lhs as input" "1"
                "Generation from reduction" "2"
                "Benchmark extensions (CESK)" "1"
                "Generate new results" "1"
                "Match compilation" "2"
-               "Total" "13")))
+               "Total" "12")))
 
 (define (contents-table)
   (slide #:title "Dissertation Plan"

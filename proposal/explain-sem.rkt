@@ -115,7 +115,7 @@
               ([zoom/add (in-list `(("Semantics" "f : programs → answers" ,vc-append)
                                     ("Denotational" ,densem-pict ,vc-append)
                                     ("Operational" ,opsem-pict ,hc-append)
-                                    ("Mechanized" "a programming\nlanguage" ,hc-append)
+                                    ("Mechanized" "2 programming\nlanguages" ,hc-append)
                                     ("Heavyweight" "for proving theorems" ,vc-append)
                                     ("Lightweight" "for developing\nmodels" ,vc-append)
                                     #;("Semantics\nEngineering"
