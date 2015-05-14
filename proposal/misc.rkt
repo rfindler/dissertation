@@ -93,7 +93,8 @@
                   #:under? #t))
   
 (define (do-redex-comp)
-  (slide (scale-to
+  (slide #:title "Redex architecture"
+         (scale-to
           (redex-comp-pict)
           (pict-width (inset titleless-page -25))
           (pict-height (inset titleless-page -25)))))

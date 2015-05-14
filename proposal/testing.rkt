@@ -103,7 +103,14 @@
   (s-frame
    (apply vl-append
           (for/list ([i (in-range 7)])
-            (sexp->pict (generate-term Λ e #:i-th i))))))
+            (hbl-append (t (string-append (number->string i) "\t"))
+                        (sexp->pict (generate-term Λ e #:i-th i)))))))
+
+(define big-enum-pict
+  (s-frame
+   (hc-append (t "10^8 + 3\t")
+              (parameterize ([pretty-print-columns 30])
+                (sexp->pict (generate-term Λ e #:i-th (+ 3 (expt 10 8))))))))
 
 (define enum-methods-pict
   (item-frame "choose a random index" 
@@ -111,7 +118,7 @@
 
 
 (define (enum-pict seq-num)
-  (define seq-picts (list first-enums-pict enum-methods-pict))
+  (define seq-picts (list first-enums-pict big-enum-pict enum-methods-pict))
   (vc-append
    (hc-append
     (s-frame
@@ -192,6 +199,8 @@
   (slide #:title "Generation: enumeration" (sscale (enum-pict 0)))
 
   (slide #:title "Generation: enumeration" (sscale (enum-pict 1)))
+  
+  (slide #:title "Generation: enumeration" (sscale (enum-pict 2)))
   
   (slide #:title "Generation: derivation" (sscale (deriv-pict 0)))
   

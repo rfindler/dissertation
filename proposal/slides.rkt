@@ -24,6 +24,12 @@
 
 (thesis-slide)
 
+(slide #:title "Outline"
+       (item-frame "What is lightweight mechanized semantics?"
+                   "Related Work"
+                   "Work/Results"
+                   "Dissertation Plan"))
+
 (do-lse-tree)
 
 (show-venn)

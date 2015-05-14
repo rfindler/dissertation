@@ -128,7 +128,7 @@
 
 (define todo-picts
   (map t/n (list "Task" "Estimated\ntime (weeks)"
-               "Related work, broad" "2"
+               "Related work, broad survey" "2"
                "Writing" "6"
                "Reduction lhs as input" "1"
                "Generation from reduction" "2"
