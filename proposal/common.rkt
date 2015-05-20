@@ -73,7 +73,7 @@
                      (/ (+ (pict-width txt-p)
                            (pict-height txt-p))
                         2))
-     colors:emph-dull)
+     colors:note-color)
     txt-p)
    (string->symbol str)))
 

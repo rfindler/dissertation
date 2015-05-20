@@ -104,5 +104,5 @@
                   "[Runciman, Naylor, Lindblad, Haskell 2008]")
             (cite "The New Quickcheck for Isabelle: Random, Exhaustive and Symbolic Testing under One Roof"
                   "[Bulwahn, CPP 2012]")
-            (cite "An Empirical Comparison of Automated Generation and Classification Techniques for Object-Oriented Unit Testing"
+            #;(cite "An Empirical Comparison of Automated Generation and Classification Techniques for Object-Oriented Unit Testing"
                   "[d'Amorim, Pacheco, Xie, Marinov, Ernst, ASE 2006]")))

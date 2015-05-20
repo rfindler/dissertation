@@ -99,12 +99,12 @@
     "4 generation strategies"
     "193 bug/strategy instances")
    (let ([txt (scale (vc-append (t "Metric:")
-                                (t"Seconds per counterexample?")) 1.25)])
+                                (t"Seconds per counterexample")) 1.25)])
      (cc-superimpose
       (colorize
        (filled-rounded-rectangle (* (pict-width txt) 1.25) (* (pict-height txt) 1.25)
                                  -1)
-       colors:emph-bright)
+       colors:note-color)
       txt)))
 
   (models-table)

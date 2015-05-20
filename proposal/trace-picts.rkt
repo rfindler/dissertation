@@ -429,7 +429,7 @@
           (colorize
            (filled-rounded-rectangle (+ 5 (pict-width p))
                                      (+ 5 (pict-height p)))
-           colors:emph-bright)
+           colors:note-color)
           p)
          p)
         p))
@@ -648,7 +648,7 @@
                            [non-terminal-style '(bold . modern)])
               (term->pict/pretty-write STLC-2 the-term))
             (last trace-slide-picts))
-           #:color colors:shadow
+           #:color colors:note-color
            #:init 0.125
            #:delta 4
            #:grads 100))))

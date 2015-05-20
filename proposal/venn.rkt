@@ -66,7 +66,7 @@ tools"))
     (blank 20 0)
     (vc-append
      ((if show-dot? values ghost)
-      (let ([dsk (colorize (disk 5) colors:emph-bright)])
+      (let ([dsk (colorize (disk 5) colors:note-color)])
         (refocus
          (hb-append
           (vl-append dsk

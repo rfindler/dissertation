@@ -1,0 +1,25 @@
+
+Writing
+========================================
+
+Related Work
+========================================
+- Bulwahn PhD
+
+Match Compilation
+========================================
+- finish pull request
+
+
+Reduction lhs
+========================================
+
+Reduction -> Inference Rules
+========================================
+
+CE(S)K for benchmark
+========================================
+
+Final benchmark reuslts/analysis
+========================================
+

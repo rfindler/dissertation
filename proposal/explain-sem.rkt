@@ -35,7 +35,7 @@
      (tag-pict (cc-superimpose (colorize (filled-rounded-rectangle (+ 20 (pict-width t-p))
                                                                    (+ 20 (pict-height t-p))
                                                                    -0.1)
-                                         colors:emph-bright)
+                                         colors:note-color)
                                t-p)
                (string->symbol txt))]
     [(node txt (list cs ...))
