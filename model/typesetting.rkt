@@ -5,7 +5,7 @@
          "pats.rkt"
          "program.rkt"
          "clp.rkt"
-         "disunify-a.rkt"
+         "disunify.rkt"
          "du-typesetting.rkt"
          "../paper/common.rkt")
 

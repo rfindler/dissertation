@@ -3,7 +3,7 @@
 (require redex/reduction-semantics
          (except-in rackunit check)
          "program.rkt"
-         "disunify-a.rkt"
+         "disunify.rkt"
          "clp.rkt")
 
 (caching-enabled? #f) ;; variable freshness

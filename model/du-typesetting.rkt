@@ -1,6 +1,6 @@
 #lang racket
 
-(require "disunify-a.rkt"
+(require "disunify.rkt"
          redex/reduction-semantics
          redex/pict
          slideshow/pict)
