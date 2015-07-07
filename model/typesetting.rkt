@@ -114,11 +114,11 @@
    (left-curly-brace-style
     (λ ()
       (parameterize ([metafunction-cases '(0)])
-        (render-metafunction check #:contract? contract?))))
+        (metafunction->pict check #:contract? contract?))))
    (parameterize ([metafunction-cases '(1)]
                   [metafunction-pict-style 'left-right])
      (with-rewriters/params
-      (render-metafunction check #:contract? #f)))))
+      (metafunction->pict check #:contract? #f)))))
 
 (define (left-curly-brace-style t)
   (parameterize ([metafunction-pict-style 'up-down/vertical-side-conditions]
@@ -135,11 +135,25 @@
     (parameterize ([metafunction-pict-style 'up-down]
                    [metafunction-cases '(0 1)])
       (with-all-rewriters
-       (render-metafunction param-elim #:contract? #t)))
+       (metafunction->pict param-elim #:contract? #t)))
     (parameterize ([metafunction-pict-style 'left-right]
                    [metafunction-cases '(2 3)])
       (with-all-rewriters
-       (render-metafunction param-elim))))))
+       (metafunction->pict param-elim))))))
+
+(define (elim-x-pict)
+  (with-rewriters/params
+   (vl-append
+    (parameterize ([metafunction-pict-style 'up-down]
+                   [metafunction-cases '(0)])
+      (metafunction->pict elim-x #:contract? #t))
+    (parameterize ([metafunction-pict-style 'left-right]
+                   [metafunction-cases '(1)])
+      (metafunction->pict elim-x)))))
+
+(define (all-pairs-pict)
+  (with-rewriters/params
+   (metafunction->pict all-pairs)))
 
 
 (define (big-pict)

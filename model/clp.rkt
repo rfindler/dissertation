@@ -51,10 +51,10 @@
                     (∧ (∧) (∧)))))))
 
 (define-syntax-rule (clpt exp) 
-  (with-font-params (render-term CLP exp)))
+  (render-term CLP exp))
 
 (define-syntax-rule (clpt/e exp)
-  (with-font-params (render-term/pretty-write CLP exp #f)))
+  (render-term/pretty-write CLP exp #f))
 
 (define-syntax-rule (rule-name exp)
-  (with-font-params (text (format "[~a]" exp) (label-style) (label-font-size))))
+  (text (format "[~a]" exp) (label-style) (label-font-size)))
