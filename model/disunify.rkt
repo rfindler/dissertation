@@ -112,12 +112,13 @@
   [(param-elim (∧ (x_0 = p_0) ... (x_1 = x) (x_2 = p_2) ...) (x_4 ... x x_5 ...))
    (param-elim (∧ (x_0 = p_0) ... (x_3 = p_3)  ...) (x_4 ... x x_5 ...))
    (side-condition (term (not-in x (p_0 ...))))
-   (where ((x_3 = p_3) ...) (elim-x x ((x_1 = x) (x_2 = p_2) ...)))
+   (where ((x_3 = p_3) ...) (elim-x x ((x_1 = x) (x_2 = p_2) ...) ()))
    (clause-name "param-elim-2")]
   [(param-elim (∧ e ...) (x ...))
    (∧ e ...)
    (clause-name "param-elim-finish")])
 
+#;
 (define-metafunction U
   [(elim-x x (e ...))
    (ex x (e ...) ())]
@@ -140,20 +141,18 @@
    (match-lambda [`(,r = ,l) (set r l)])))
 
 (define-metafunction U
-  [(ex x ((p_0 = p_1) ... (p_2 = x) e_2 ...) (e_3 ...))
-   (ex x ((p_0 = p_1) ...  e_2 ...) (e_3 ... (p_2 = x)))
-   (side-condition (not (member (term x) (term (p_1 ...)))))]
-  [(ex x (e_1 ...) ((p_2 = x_2) ...))
+  [(elim-x x ((p_0 = p_1) ... (p_2 = x) e_2 ...) (e_3 ...))
+   (elim-x x ((p_0 = p_1) ...  e_2 ...) (e_3 ... (p_2 = x)))
+   (side-condition (term (not-in x (p_1 ...))))]
+  [(elim-x x (e_1 ...) ((p_2 = x_2) ...))
    (e_1 ... e_2 ...)
    (where (e_2 ...) (all-pairs (p_2 ...) ()))])
 
 (define-metafunction U
-  [(all-pairs (p_1 p_2 p_3 ...) (e ...))
-   (all-pairs (p_2 p_3 ...) (e ... (p_1 = p_2)))]
-  [(all-pairs (p) (e ...))
+  [(all-pairs (p_1 p_2 ...) (e ...))
+   (all-pairs (p_2 ...) (e ... (p_1 = p_2) ...))]
+  [(all-pairs () (e ...))
    (e ...)])
-  
-
 
 (define-metafunction U
   solve/test : (any ...) (∧ e ...) (∧ δ ...) -> any

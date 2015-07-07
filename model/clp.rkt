@@ -5,8 +5,7 @@
          redex/pict
          "pats.rkt"
          "program.rkt"
-         "disunify.rkt"
-         "../paper/common.rkt")
+         "disunify.rkt")
 
 (provide (all-defined-out))
 

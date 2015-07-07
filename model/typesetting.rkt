@@ -6,48 +6,45 @@
          "program.rkt"
          "clp.rkt"
          "disunify.rkt"
-         "du-typesetting.rkt"
-         "../paper/common.rkt")
+         "du-typesetting.rkt")
 
 (provide (all-defined-out))
 
 ;; TODO: fix layout
 
 (define-syntax-rule (with-rewriters/params body)
-  (with-font-params
-   (with-all-rewriters
-    body)))
+  (with-all-rewriters
+   body))
 
 (define (init-lang)
-  (with-font-params
+  (with-atomic-rewriter 
+   'number "Constant"
    (with-atomic-rewriter 
-    'number "Constant"
-    (with-atomic-rewriter 
-     'variable-not-otherwise-mentioned "Variable"
-     (with-atomic-rewriter
-      'id "Identifier"
-      (let ()
-        (define programs 
-          (render-language pats #:nts '(P D r a d)))
-        (define formulas
-          (render-language pats #:nts '(C e δ)))
-        (define patterns
-          (render-language base-pats))
-        
-        (define bkg 
-          (blank 0 (max (pict-height programs)
-                        (pict-height formulas)
-                        (pict-height patterns))))
-        (define (add-label p label)
-          (vc-append 
-           10
-           (lb-superimpose bkg p)
-           ;; wrong font!
-           (text label)))
-        (hc-append 40 
-                   (add-label programs "Programs")
-                   (add-label formulas "Formulas")
-                   (add-label patterns "Patterns"))))))))
+    'variable-not-otherwise-mentioned "Variable"
+    (with-atomic-rewriter
+     'id "Identifier"
+     (let ()
+       (define programs 
+         (render-language pats #:nts '(P D r a d)))
+       (define formulas
+         (render-language pats #:nts '(C e δ)))
+       (define patterns
+         (render-language base-pats))
+       
+       (define bkg 
+         (blank 0 (max (pict-height programs)
+                       (pict-height formulas)
+                       (pict-height patterns))))
+       (define (add-label p label)
+         (vc-append 
+          10
+          (lb-superimpose bkg p)
+          ;; wrong font!
+          (text label)))
+       (hc-append 40 
+                  (add-label programs "Programs")
+                  (add-label formulas "Formulas")
+                  (add-label patterns "Patterns")))))))
                    
 
 (define (lang-pict)
@@ -146,27 +143,25 @@
 
 
 (define (big-pict)
-  (with-font-params
-   (vc-append 
-    40
-    (lang-pict)
-    (vl-append 40
-               (vl-append 10
-                          (compile-pict)
-                          (compile-M-pict))
-               (vl-append 10
-                          (extract-apps-J-pict)
-                          (extract-apps-r-pict)
-                          (extract-apps-a-pict)
-                          (extract-apps-p-pict))
-               (clp-red-pict)))))
+  (vc-append 
+   40
+   (lang-pict)
+   (vl-append 40
+              (vl-append 10
+                         (compile-pict)
+                         (compile-M-pict))
+              (vl-append 10
+                         (extract-apps-J-pict)
+                         (extract-apps-r-pict)
+                         (extract-apps-a-pict)
+                         (extract-apps-p-pict))
+              (clp-red-pict))))
 
 (define (big-pict-2)
-  (with-font-params
-   (vl-append 40
-              (solve-pict)
-              (dissolve-pict)
-              (unify-pict)
-              (disunify-pict)
-              (check-pict)
-              (param-elim-pict))))
+  (vl-append 40
+             (solve-pict)
+             (dissolve-pict)
+             (unify-pict)
+             (disunify-pict)
+             (check-pict)
+             (param-elim-pict)))

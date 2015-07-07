@@ -5,8 +5,7 @@
          slideshow/pict
          redex/reduction-semantics
          redex/pict
-         redex/tut-subst
-         "../paper/common.rkt")
+         redex/tut-subst)
 
 (provide (all-defined-out))
 
@@ -163,18 +162,16 @@
      (render-judgment-form tc)))))
 
 (define (stlc-type-by-2s)
-  (with-font-params
-   (with-rewriters
-    (hb-append 20
-               (parameterize ([judgment-form-cases '(0 2)])
-                 (render-judgment-form tc))
-               (parameterize ([judgment-form-cases '(1 3)])
-                 (render-judgment-form tc))))))
+  (with-rewriters
+   (hb-append 20
+              (parameterize ([judgment-form-cases '(0 2)])
+                (render-judgment-form tc))
+              (parameterize ([judgment-form-cases '(1 3)])
+                (render-judgment-form tc)))))
 
 (define (lookup-pict) 
   (with-rewriters
-   (with-font-params
-    (render-metafunction lookup))))
+   (render-metafunction lookup)))
 
 (define (eval-pict) 
   (parameterize ([metafunction-style 'script]
@@ -202,7 +199,7 @@
 (define (stlc-min-lang-types)
   (with-rewriters
    (hc-append 30
-              (with-font-params (render-language STLC-min #:nts '(e τ Γ)))
+              (render-language STLC-min #:nts '(e τ Γ))
               (stlc-type-by-2s))))
 
 
