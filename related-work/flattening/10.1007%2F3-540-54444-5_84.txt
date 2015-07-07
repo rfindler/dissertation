@@ -1,0 +1,16 @@
+%0 Book Section
+%D 1991
+%@ 978-3-540-54444-9
+%B Programming Language Implementation and Logic Programming
+%V 528
+%S Lecture Notes in Computer Science
+%E Maluszyński, Jan
+%E Wirsing, Martin
+%R 10.1007/3-540-54444-5_84
+%T Adding equations to NU-Prolog
+%U http://dx.doi.org/10.1007/3-540-54444-5_84
+%I Springer Berlin Heidelberg
+%8 1991-01-01
+%A Naish, Lee
+%P 15-26
+%G English

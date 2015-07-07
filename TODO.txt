@@ -4,7 +4,7 @@ Writing
 
 Related Work
 ========================================
-- Bulwahn PhD
++ Bulwahn PhD
 
 Match Compilation
 ========================================
@@ -13,6 +13,8 @@ Match Compilation
 
 Reduction lhs
 ========================================
+- context size?
+- #:hints
 
 Reduction -> Inference Rules
 ========================================
@@ -23,3 +25,6 @@ CE(S)K for benchmark
 Final benchmark reuslts/analysis
 ========================================
 
+Schedule Defense
+========================================
+- check with Robby about his August schedule

@@ -1,0 +1,16 @@
+%0 Journal Article
+%D 1994
+%@ 0885-6125
+%J Machine Learning
+%V 14
+%N 2
+%R 10.1023/A:1022678217288
+%T Flattening and Saturation: Two Representation Changes for Generalization
+%U http://dx.doi.org/10.1023/A%3A1022678217288
+%I Kluwer Academic Publishers-Plenum Publishers
+%8 1994-02-01
+%K Inductive logic programming
+%K generalization with background knowledge
+%A Rouveirol, Céline
+%P 219-232
+%G English
