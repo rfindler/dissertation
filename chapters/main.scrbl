@@ -25,5 +25,8 @@ new approach to
 
 @table-of-contents[]
 
+@include-section{redex-intro/redex.scrbl}
 @include-section{semantics/semantics.scrbl}
+
+@generate-bibliography[]
 

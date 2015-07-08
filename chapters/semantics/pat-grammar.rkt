@@ -48,21 +48,20 @@
      e]))
 
 (define-syntax-rule (with-slp-rws body)
-  (with-font-params
-   (with-atomic-rewriters
-    ([':name "name"]
-     [':any "any"]
-     [':number "number"]
-     [':string "string"]
-     [':natural "natural"]
-     [':integer "integer"]
-     [':real "real"]
-     [':list "list"]
-     [':boolean "boolean"]
-     [':variable "variable"]
-     [':variable-not-otherwise-mentioned
-      "variable-not-otherwise-mentioned"])
-    body)))
+  (with-atomic-rewriters
+   ([':name "name"]
+    [':any "any"]
+    [':number "number"]
+    [':string "string"]
+    [':natural "natural"]
+    [':integer "integer"]
+    [':real "real"]
+    [':list "list"]
+    [':boolean "boolean"]
+    [':variable "variable"]
+    [':variable-not-otherwise-mentioned
+     "variable-not-otherwise-mentioned"])
+   body))
   
 
 (define (pats-supp-lang-pict)

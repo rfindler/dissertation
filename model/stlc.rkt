@@ -194,7 +194,7 @@
                                    (text "Type judgment" "Menlo, bold")
                                    stlc-typing-pict))
              (text "Evaluation" "Menlo, bold")
-             eval-pict))
+             (eval-pict)))
 
 (define (stlc-min-lang-types)
   (with-rewriters

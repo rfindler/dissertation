@@ -1,30 +1,23 @@
 #lang racket
 
-(require redex/pict
+(require racket/runtime-path
+         redex/pict
          scribble/core
-         scribble/decode)
+         scribble/decode
+         "related-work/citations.rkt")
 
-(provide with-font-params
-         text-scale
-         abstract)
+(provide abstract
+         common-path
+         (all-from-out "related-work/citations.rkt"))
 
-(define (text-scale p)
-  (with-font-params p))
+(define-runtime-path common-path ".")
 
-(define-syntax-rule
-  (with-font-params e1 e2 ...)
-  (parameterize (#;[default-font-size 12]
-                 #;[metafunction-font-size 12]
-                 #;[default-font-size 12]
-                 #;[label-font-size 12]
-                 #;[metafunction-up/down-indent 10])
-    e1 e2 ...))
-
-[default-font-size 15]
-[metafunction-font-size 15]
-[default-font-size 15]
-[label-font-size 15]
-[metafunction-up/down-indent 10]
+;; redex font params
+(default-font-size 15)
+(metafunction-font-size 15)
+(default-font-size 15)
+(label-font-size 15)
+(metafunction-up/down-indent 10)
 
 (define (abstract . text)
   (make-element "abstract" (decode-content text)))

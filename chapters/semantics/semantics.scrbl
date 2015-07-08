@@ -9,7 +9,6 @@
           (only-in slideshow/pict scale-to-fit scale)
           (only-in "../../model/stlc.rkt" stlc-type-pict-horiz)
           (only-in pict vl-append blank)
-          "../related-work/citations.rkt"
           "typesetting.rkt"
           "../../model/clp.rkt"
           (except-in "../../model/typesetting.rkt" lang-pict)

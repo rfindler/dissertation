@@ -170,7 +170,7 @@
 
 
 (define (g-p)
-  (with-font-params (render-term FexL g)))
+  (render-term FexL g))
 
 (define-syntax-rule (feqt t1 t2)
   (eqt/lang FexL t1 t2))
@@ -179,52 +179,47 @@
   (neqt/lang FexL t1 t2))
 
 (define-syntax-rule (∀neqt vars t1 t2)
-  (with-font-params
-   (hbl-append
-    (render-term FexL |(|)
-    (render-term FexL ∀)
-    (render-term FexL vars)
-    space
-    (neqt/lang FexL t1 t2)
-    (render-term FexL |)|))))
+  (hbl-append
+   (render-term FexL |(|)
+   (render-term FexL ∀)
+   (render-term FexL vars)
+   space
+   (neqt/lang FexL t1 t2)
+   (render-term FexL |)|)))
 
 (define (g-jdg-pict)
-  (with-font-params
-   (hbl-append 
-    40
-    (infer (eqt (g (lst p_1 p_2)) 2)
-           (ghost (∀neqt (p_1 p_2) (lst p_1 p_2) p)))
-    (infer (cbl-superimpose (feqt (g p) 1)
-                            (ghost (feqt (g (p_1 p_2)) 2)))
-           (∀neqt (p_1 p_2) (lst p_1 p_2) p)))))
+  (hbl-append 
+   40
+   (infer (eqt (g (lst p_1 p_2)) 2)
+          (ghost (∀neqt (p_1 p_2) (lst p_1 p_2) p)))
+   (infer (cbl-superimpose (feqt (g p) 1)
+                           (ghost (feqt (g (p_1 p_2)) 2)))
+          (∀neqt (p_1 p_2) (lst p_1 p_2) p))))
 
 (define (incorrect-g-jdg-pict)
-  (with-font-params
-   (hbl-append 
-    40
-    (infer (eqt (g (lst p_1 p_2)) 2)
-           (ghost (∀neqt (p_1 p_2) (lst p_1 p_2) p)))
-    (infer (cbl-superimpose (feqt (g p) 1)
-                            (ghost (feqt (g (p_1 p_2)) 2)))
-           (neqt/lang FexL (lst p_1 p_2) p)))))
+  (hbl-append 
+   40
+   (infer (eqt (g (lst p_1 p_2)) 2)
+          (ghost (∀neqt (p_1 p_2) (lst p_1 p_2) p)))
+   (infer (cbl-superimpose (feqt (g p) 1)
+                           (ghost (feqt (g (p_1 p_2)) 2)))
+          (neqt/lang FexL (lst p_1 p_2) p))))
 
 
 (define (f-ex-pict)
-  (with-font-params
-   (define (align p) 
-     (lbl-superimpose p (ghost (render-term FexL | (a b c))|))))
-   (hc-append 
-    40
-    (render-metafunction g)
-    (vl-append
-     (hbl-append (render-term FexL (g (lst 1 2)))
-                 (render-term FexL | = 2|))
-     (hbl-append (render-term FexL (g (lst 1 2 3)))
-                 (render-term FexL | = 1|))))))
+  (define (align p) 
+    (lbl-superimpose p (ghost (render-term FexL | (a b c))|))))
+  (hc-append 
+   40
+   (render-metafunction g)
+   (vl-append
+    (hbl-append (render-term FexL (g (lst 1 2)))
+                (render-term FexL | = 2|))
+    (hbl-append (render-term FexL (g (lst 1 2 3)))
+                (render-term FexL | = 1|)))))
 
 (define g-of-12
-  (with-font-params
-   (render-term FexL (g (list 1 2)))))
+  (render-term FexL (g (list 1 2))))
 
 (define j-pict/p
   (let
@@ -282,7 +277,7 @@
                 (render-language redex-lang #:nts '(p))
                 (render-language redex-lang #:nts '(t))
                 (render-language redex-lang #:nts '(a x f b)))))))
-  #|
+#|
 (define (unify-func-pict/contract)
   (vl-append
    (metafunction-signature

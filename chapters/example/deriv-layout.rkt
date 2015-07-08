@@ -29,50 +29,46 @@
 (define r (string->symbol "\u27E7"))
 
 (define-syntax-rule (typ env e t)
-  (with-font-params
-   (hbl-append
-    (render-term STLC env)
-    space
-    (render-term STLC ⊢)
-    space
-    (render-term STLC e)
-    space
-    (render-term STLC :)
-    space
-    (render-term STLC t))))
+  (hbl-append
+   (render-term STLC env)
+   space
+   (render-term STLC ⊢)
+   space
+   (render-term STLC e)
+   space
+   (render-term STLC :)
+   space
+   (render-term STLC t)))
 
 (define-syntax-rule (lkf x t)
-  (with-font-params
-   (hbl-append
-    (render-term STLC lookup)
-    (render-term STLC ⟦)
-    (render-term STLC x)
-    (render-term STLC ⟧)
-    space
-    (render-term STLC =)
-    space
-    (render-term STLC t))))
+  (hbl-append
+   (render-term STLC lookup)
+   (render-term STLC ⟦)
+   (render-term STLC x)
+   (render-term STLC ⟧)
+   space
+   (render-term STLC =)
+   space
+   (render-term STLC t)))
 
 (define-syntax-rule (eqt/lang lang t1 t2)
-  (with-font-params
-   (hbl-append
-    (render-term lang t1)
-    space
-    (render-term lang =)
-    space
-    (render-term lang t2))))
+  (hbl-append
+   (render-term lang t1)
+   space
+   (render-term lang =)
+   space
+   (render-term lang t2)))
 
 (define-syntax-rule (eqt t1 t2)
   (eqt/lang STLC t1 t2))
 
 (define-syntax-rule (neqt/lang lang t1 t2)
-  (with-font-params
-   (hbl-append
-    (render-term lang t1)
-    space
-    (render-term lang ≠)
-    space
-    (render-term lang t2))))
+  (hbl-append
+   (render-term lang t1)
+   space
+   (render-term lang ≠)
+   space
+   (render-term lang t2)))
 
 (define-syntax-rule (neqt t1 t2)
   (neqt/lang STLC t1 t2))
@@ -123,24 +119,22 @@
     (apply hb-append
            (* 2 (pict-width space))
            l))
-  (with-font-params
-   (vc-append 2
-              top
-              (linewidth 1
-                         (hline 
-                          (max/min (pict-width r)
-                                   (pict-width top))
-                          1))
-              r)))
+  (vc-append 2
+             top
+             (linewidth 1
+                        (hline 
+                         (max/min (pict-width r)
+                                  (pict-width top))
+                         1))
+             r))
 
 (define (lookup-infer-pict)
-  (with-font-params
-   (vc-append 10
-              (infer (eqt (lookup (x τ Γ) x) τ))
-              (infer (eqt (lookup • x) #f))
-              (infer (eqt (lookup (x_1 τ_x Γ) x_2) τ)
-                     (neqt x_1 x_2)
-                     (eqt (lookup Γ x_2) τ)))))
+  (vc-append 10
+             (infer (eqt (lookup (x τ Γ) x) τ))
+             (infer (eqt (lookup • x) #f))
+             (infer (eqt (lookup (x_1 τ_x Γ) x_2) τ)
+                    (neqt x_1 x_2)
+                    (eqt (lookup Γ x_2) τ))))
 
 (define (lookup-both-pict)
   (define loc (blank))
@@ -156,4 +150,4 @@
 (define-syntax-rule (stlc-term e)
   (render-term STLC e))
 
-(define-syntax-rule (et exp) (with-font-params (stlc-term exp)))
+(define-syntax-rule (et exp) (stlc-term exp))
