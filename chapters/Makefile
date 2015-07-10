@@ -1,5 +1,5 @@
  
-TEXFLAGS = --prefix prefix.tex ++style racket-ss.sty ++extra nuthesis.cls ++extra tocstyle.sty
+TEXFLAGS= --prefix prefix.tex ++style racket-ss.sty ++extra nuthesis.cls ++extra tocstyle.sty
 DOCNAME=main
 
 all: main.scrbl
