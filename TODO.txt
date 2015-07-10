@@ -8,8 +8,7 @@ Related Work
 
 Match Compilation
 ========================================
-- finish pull request
-
+- rework approch to non-linear sequence variables...
 
 Reduction lhs
 ========================================
@@ -28,3 +27,4 @@ Final benchmark reuslts/analysis
 Schedule Defense
 ========================================
 - check with Robby about his August schedule
+- move target date to something like Sept 15

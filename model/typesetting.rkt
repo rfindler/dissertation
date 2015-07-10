@@ -16,6 +16,10 @@
   (with-all-rewriters
    body))
 
+(define-syntax-rule (ct t)
+  (with-all-rewriters
+   (clpt t)))
+
 (define (init-lang)
   (with-atomic-rewriter 
    'number "Constant"

@@ -1,7 +1,8 @@
 #lang scribble/base
 
 @(require scribble/core
-          "common.rkt")
+          "common.rkt"
+          "util.rkt")
 
 @(element "title" '("Automated Testing for Operational Semantics"))
 
@@ -29,4 +30,7 @@ new approach to
 @include-section{semantics/semantics.scrbl}
 
 @generate-bibliography[]
+
+@include-section{appendix/appendix.scrbl}
+@include-section{appendix/proof.scrbl}
 

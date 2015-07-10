@@ -1,12 +1,12 @@
  
-TEXFLAGS = --prefix prefix.tex ++extra nuthesis.cls ++extra tocstyle.sty
+TEXFLAGS = --prefix prefix.tex ++style racket-ss.sty ++extra nuthesis.cls ++extra tocstyle.sty
 DOCNAME=main
 
 all: main.scrbl
 	scribble --pdf $(TEXFLAGS) $(DOCNAME).scrbl
 
 main.scrbl: common.scrbl
-	raco make $(DOCNAME).scrbl
+	raco make -v $(DOCNAME).scrbl
 
 common.scrbl:
 
