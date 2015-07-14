@@ -9,10 +9,11 @@
          (for-syntax racket/base))
 
 (provide raw-latex a-quote
-         texmath
+         tx
          racketblock/define
          add-commas
          theorem
+         lemma
          proof
          definition
          qed
@@ -26,7 +27,7 @@
   (unless (thunk)
     (error 'assert "assertion ~a:~a failed:\n  ~s" source line exp)))
 
-(define (texmath arg)
+(define (tx arg)
   (raw-latex (string-append "$" arg "$")))
 
 (define (raw-latex . args)
@@ -78,6 +79,7 @@
                                  args)))))
 
 (define-environment theorem)
+(define-environment lemma)
 (define-environment proof #t)
 (define-environment definition)
 (define qed (element (style "qed" '()) '()))

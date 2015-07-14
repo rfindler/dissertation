@@ -1,6 +1,7 @@
 #lang racket
 
 (require redex/pict
+         ;redex/reduction-semantics
          slideshow/pict
          "pats.rkt"
          "program.rkt"

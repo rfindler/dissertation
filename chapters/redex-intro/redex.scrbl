@@ -13,14 +13,8 @@
 
 @(define stlc-rel-path-string
    (path->string
-    (find-relative-path (let ([ans (current-directory)])
-                          (printf "~s\n" ans)
-                          ans)
-                        (let ([ans (simplify-path (build-path common-path 'up "model" "stlc.rkt"))])
-                          (printf "~s\n" ans)
-                          ans))))
-
-@(displayln stlc-rel-path-string)
+    (find-relative-path (current-directory)
+                        (simplify-path (build-path common-path 'up "model" "stlc.rkt")))))
 
 @(define stlc-stxobjs
    (parameterize ([port-count-lines-enabled #t])

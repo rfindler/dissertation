@@ -20,6 +20,7 @@
 
 @include-section{redex-intro/redex.scrbl}
 @include-section{semantics/semantics.scrbl}
+@include-section{evaluation/evaluation.scrbl}
 
 @generate-bibliography[]
 
