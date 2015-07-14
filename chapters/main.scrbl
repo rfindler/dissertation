@@ -18,9 +18,14 @@
 
 @table-of-contents[]
 
+@include-section{introduction/introduction.scrbl}
 @include-section{redex-intro/redex.scrbl}
+@include-section{grammar/grammar.scrbl}
+@include-section{derivation/deriv.scrbl}
 @include-section{semantics/semantics.scrbl}
+@include-section{benchmark/benchmark.scrbl}
 @include-section{evaluation/evaluation.scrbl}
+@include-section{conclusion/conclusion.scrbl}
 
 @generate-bibliography[]
 
