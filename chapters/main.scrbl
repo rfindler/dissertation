@@ -25,6 +25,7 @@
 @include-section{semantics/semantics.scrbl}
 @include-section{benchmark/benchmark.scrbl}
 @include-section{evaluation/evaluation.scrbl}
+@include-section{related-work/related-work.scrbl}
 @include-section{conclusion/conclusion.scrbl}
 
 @generate-bibliography[]

@@ -14,6 +14,7 @@
           (except-in "../../model/typesetting.rkt" lang-pict)
           "pat-grammar.rkt"
           "../common.rkt"
+          "../util.rkt"
           (only-in pict hbl-append)
           "dist-pict.rkt")
 
@@ -122,6 +123,12 @@ equations and disequations.
 @Secref["sec:search"] discusses the heuristics in our implementation
 and @secref["sec:pats"] describes how our implementation
 scales up to support features in Redex that are not covered in this model.
+
+@section[#:tag "sec:exmampe-red"]{An Example Reduction}
+
+@figure["fig:red-graph"
+        @list{Reduction graph for example generator program}
+        @raw-latex{\includegraphics[scale=0.75]{graph.pdf}}]
 
 @section[#:tag "sec:mf-semantics"]{Compiling Metafunctions}
 
