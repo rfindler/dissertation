@@ -148,13 +148,7 @@
 
 (define (elim-x-pict)
   (with-rewriters/params
-   (vl-append
-    (parameterize ([metafunction-pict-style 'up-down]
-                   [metafunction-cases '(0)])
-      (metafunction->pict elim-x #:contract? #t))
-    (parameterize ([metafunction-pict-style 'left-right]
-                   [metafunction-cases '(1)])
-      (metafunction->pict elim-x)))))
+   (metafunction->pict elim-x)))
 
 (define (all-pairs-pict)
   (with-rewriters/params
