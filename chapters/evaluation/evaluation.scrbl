@@ -21,7 +21,7 @@ hand-tuned typed term generator.
               Benchmark.}
         @(centered (plot-points 24hr))]
 
-@section[#:tag "sec:benchmark"]{The Redex Benchmark}
+@section[#:tag "sec:benchmark-eval"]{The Redex Benchmark}
 
 Our first effort at evaluating the effectiveness of the derivation
 generator compares it to the existing random expression generator
