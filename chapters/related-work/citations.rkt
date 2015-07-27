@@ -661,7 +661,6 @@
                                 #:pages '(1 46))
    #:date 1998))
 
-
 (define list-machine
   (make-bib
    #:author (authors "Andrew W. Appel" "Robert Dockins" "Xavier Leroy")
@@ -848,3 +847,9 @@
    #:date 2009
    #:location (dissertation-location #:institution "Indiana University")))
    
+(define small-check
+  (make-bib
+   #:title "SmallCheck and Lazy SmallCheck: Automatic Exhaustive Testing for Small Values"
+   #:author (authors "Colin Runciman" "Matthew Naylor" "Fredrik Lindblad")
+   #:location (proceedings-location haskell)
+   #:date 2008))
