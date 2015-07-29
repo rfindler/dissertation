@@ -7,6 +7,8 @@
           scriblib/footnote
           scribble/manual
           racket/format
+          racket/match
+          racket/function
           (only-in pict scale))
 
 @title[#:tag "sec:benchmark"]{The Benchmark Models}
@@ -32,6 +34,39 @@ number of copies of the model, such that each copy is
 identical to the correct one, except for a single bug. The bugs
 always manifest as a term that falsifies the soundness
 property. 
+
+@(define mod-data
+   (map
+    (match-lambda
+      [`(,name ,a ,b loc ,c)
+       `(,name ,a ,b ,(get-line-count (string->symbol name)) ,c)]
+      [thing thing])
+    '(("Model" "synthesized" "artifact" "loc" "# of bugs")
+      ("delim-cont" #f #t loc 3)
+      ("let-poly" #t #f loc 7)
+      ("list-machine" #f #t loc 3)
+      ("poly-stlc" #t #t loc 9)
+      ("rbtrees" #t #f loc 3)
+      ("rvm" #f #t loc 7)
+      ("stlc" #t #f loc 9)
+      ("stlc-sub" #t #f loc 9))))
+
+@(define models-list
+  (map
+   ((curry map)
+    (match-lambda
+      [(? string? str) str]
+      [(? number? n) (number->string n)]
+      [#f ""]
+      [#t "•"]))
+   mod-data))
+
+@figure*["fig:benchmark-models" "Benchmark Models"
+  @centered[
+     @tabular[#:sep @hspace[10]
+              #:column-properties '(left center center center)
+              #:row-properties '(bottom-border ())
+              models-list]]]
 
 The table in @figure-ref["fig:benchmark-overview"] gives an
 overview of the benchmark suite, showing some numbers for
@@ -72,6 +107,21 @@ Each subsection of this section introduces one of the
 models in the benchmark, along with the errors we introduced
 into each model. 
 
+@(define last-col-width 60)
+@(define (break-last-cols rows)
+   (let recur ([rows rows])
+     (match rows
+       ['() '()]
+       [(cons (list a b c d (? (λ (e)
+                                 ((string-length (car e)) . > . last-col-width)) e))
+              rest)
+        (define str (car e))
+        (cons (list a b c d (list (substring str 0 last-col-width)))
+              (cons (list "" "" "" "" (list (substring str last-col-width)))
+                    (recur rest)))]
+       [(cons this rest)
+        (cons this (recur rest))])))
+
 @figure*["fig:benchmark-overview" "Benchmark Overview"]{
  @centered{
   @tabular[#:sep 
@@ -80,11 +130,11 @@ into each model.
            #:row-properties '((baseline bottom-border) (baseline))
            (cons
             (list @bold{Model}
-                  @bold{LoC}
                   @bold{Bug#}
                   @bold{S/M/D/U}
                   @bold{Size}
                   @bold{Description of Bug})
+            (break-last-cols
             (let ([last-type #f])
               (for/list ([t/n (in-list all-types/nums)])
                 (define type (list-ref t/n 0))
@@ -93,14 +143,11 @@ into each model.
                   (list (if (equal? last-type type)
                             ""
                             @seclink[(format "sec:b:~a" type)]{@(symbol->string type)})
-                        (if (equal? last-type type)
-                            ""
-                            (format "~a" (get-line-count type)))
                         (number->string num)
                         (symbol->string (get-category type num))
                         (number->string (get-counterexample-size type num))
                         (list (get-error type num)))
-                  (set! last-type type)))))]
+                  (set! last-type type))))))]
   }
 }
 

@@ -32,4 +32,5 @@
 
 @include-section{appendix/appendix.scrbl}
 @include-section{appendix/proof.scrbl}
+@include-section{appendix/bugs.scrbl}
 

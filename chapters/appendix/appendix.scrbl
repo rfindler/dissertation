@@ -4,4 +4,4 @@
    include this section before the appendix...}
 
 @(require scribble/core)
-@(element (style "appendix" '(command)) "")
+@(element (style "appendices" '(command)) "")
