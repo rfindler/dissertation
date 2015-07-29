@@ -6,9 +6,9 @@
           scribble/core
           racket/match)
 
-@title{Detailed Listing of Benchmark Bugs}
+@title[#:tag "sec:bench-table"]{Detailed Listing of Benchmark Bugs}
 
-@(define last-col-width 60)
+@(define last-col-width 50)
 @(define (break-last-cols rows)
    (let recur ([rows rows])
      (match rows
@@ -17,13 +17,19 @@
                                  ((string-length (car e)) . > . last-col-width)) e))
               rest)
         (define str (car e))
-        (cons (list a b c d (list (substring str 0 last-col-width)))
-              (cons (list "" "" "" "" (list (substring str last-col-width)))
-                    (recur rest)))]
+        (let loop ([n last-col-width])
+          (cond
+            [(= (add1 n) (string-length str))
+             (cons (list a b c d e) (recur rest))]
+            [(equal? #\space (string-ref str n))
+             (cons (list a b c d (list (substring str 0 n)))
+                   (cons (list "" "" "" "" (list (substring str (add1 n))))
+                         (recur rest)))]
+            [else (loop (add1 n))]))]
        [(cons this rest)
         (cons this (recur rest))])))
 
-@(element (style "begin"  '(exact-chars))
+@(element (style "begin" '(exact-chars))
          "singlespace")
 
 @tabular[#:sep 

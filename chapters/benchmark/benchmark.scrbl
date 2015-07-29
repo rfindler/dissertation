@@ -68,7 +68,8 @@ property.
               #:row-properties '(bottom-border ())
               models-list]]]
 
-The table in @figure-ref["fig:benchmark-overview"] gives an
+@;TODO secref doesn't work with the dissertation format and appendix
+The table in Appendix B @;{@secref["sec:bench-table"]} gives an
 overview of the benchmark suite, showing some numbers for
 each model and bug. Each model has its name and the number
 of lines of code for the bug-free model (the buggy versions
@@ -106,50 +107,6 @@ in the s-expression representation of the term.
 Each subsection of this section introduces one of the
 models in the benchmark, along with the errors we introduced
 into each model. 
-
-@(define last-col-width 60)
-@(define (break-last-cols rows)
-   (let recur ([rows rows])
-     (match rows
-       ['() '()]
-       [(cons (list a b c d (? (λ (e)
-                                 ((string-length (car e)) . > . last-col-width)) e))
-              rest)
-        (define str (car e))
-        (cons (list a b c d (list (substring str 0 last-col-width)))
-              (cons (list "" "" "" "" (list (substring str last-col-width)))
-                    (recur rest)))]
-       [(cons this rest)
-        (cons this (recur rest))])))
-
-@figure*["fig:benchmark-overview" "Benchmark Overview"]{
- @centered{
-  @tabular[#:sep 
-           @hspace[1]
-           #:column-properties '(left)
-           #:row-properties '((baseline bottom-border) (baseline))
-           (cons
-            (list @bold{Model}
-                  @bold{Bug#}
-                  @bold{S/M/D/U}
-                  @bold{Size}
-                  @bold{Description of Bug})
-            (break-last-cols
-            (let ([last-type #f])
-              (for/list ([t/n (in-list all-types/nums)])
-                (define type (list-ref t/n 0))
-                (define num (list-ref t/n 1))
-                (begin0
-                  (list (if (equal? last-type type)
-                            ""
-                            @seclink[(format "sec:b:~a" type)]{@(symbol->string type)})
-                        (number->string num)
-                        (symbol->string (get-category type num))
-                        (number->string (get-counterexample-size type num))
-                        (list (get-error type num)))
-                  (set! last-type type))))))]
-  }
-}
 
 @section[#:tag "sec:b:stlc"]{stlc} 
 A simply-typed λ-calculus with base
