@@ -44,6 +44,7 @@ Section 2.2 describes the facilities available for random testing
 in Redex as they existed prior to the present work, contrasting
 their demonstrated effectiveness and their shortcomings.
 
+@include-section["redex-intro.scrbl"]
 
 @section{Overview of PLT Redex and Reduction Semantics}
 

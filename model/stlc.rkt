@@ -2,6 +2,7 @@
 
 (require racket/match
          racket/list
+         racket/pretty
          slideshow/pict
          redex/reduction-semantics
          redex/pict
@@ -11,37 +12,45 @@
 
 (define-language STLC-min
   (e ::= (e e) 
-         (λ (x τ) e) 
+         (λ [x τ] e)
+         (rec [x τ] e)
+         (if0 e e e) 
+         (o e e)
          x n)
   (τ ::= (τ → τ) 
          num)
-  (Γ ::= (x τ Γ) •)
   (n ::= number)
+  (o ::= + -)
   (x ::= variable-not-otherwise-mentioned))
 
 (define-extended-language STLC STLC-min
-  (e ::= ....
-         (if0 e e e) 
-         (+ e e))
-  (v ::= (λ (x τ) e) n)
-  (E ::= (E e) (v E) (+ E e) (+ v E) 
+  (v ::= (λ [x τ] e) n)
+  (Γ ::= (x τ Γ) •)
+  (E ::= (E e) (v E) (o E e) (o v E) 
          (if0 E e e) hole))
 
-(define STLC-red
-  (reduction-relation STLC
-   (--> (in-hole E ((λ (x τ) e) v))
-        (in-hole E (subst e x v))
+(define STLC-red-one
+  (reduction-relation
+   STLC
+   (--> ((λ [x τ] e) v)
+        (subst e x v)
         β)
-   (--> (in-hole E (if0 0 e_1 e_2))
-        (in-hole E e_1)
+   (--> (rec [x τ] e)
+        (subst e x (rec [x τ] e))
+        μ)
+   (--> (if0 0 e_1 e_2)
+        e_1
         if-0)
-   (--> (in-hole E (if0 n e_1 e_2))
-        (in-hole E e_2)
+   (--> (if0 n e_1 e_2)
+        e_2
         (side-condition (term (different n 0)))
         if-n)
-   (--> (in-hole E (+ n_1 n_2))
-        (in-hole E (sum n_1 n_2))
-        plus)))
+   (--> (o n_1 n_2)
+        (δ n_1 o n_2)
+        δ)))
+
+(define STLC-red
+  (context-closure STLC-red-one STLC E))
 
 (define-judgment-form STLC
   #:mode (tc I I O)
@@ -52,7 +61,10 @@
    (tc Γ x τ)]
   [(tc (x τ_x Γ) e τ_e)
    ---------------------------------
-   (tc Γ (λ (x τ_x) e) (τ_x → τ_e))]
+   (tc Γ (λ [x τ_x] e) (τ_x → τ_e))]
+  [(tc (x τ Γ) e τ)
+   ----------------------
+   (tc Γ (rec [x τ] e) τ)]
   [(tc Γ e_1 (τ_2 → τ)) (tc Γ e_2 τ_2)
    -----------------------------------
    (tc Γ (e_1 e_2) τ)]
@@ -62,7 +74,7 @@
    (tc Γ (if0 e_0 e_1 e_2) τ)]
   [(tc Γ e_0 num) (tc Γ e_1 num)
    -----------------------------
-   (tc Γ (+ e_0 e_1) num)])
+   (tc Γ (o e_0 e_1) num)])
 
 (define-metafunction STLC
   [(lookup (x τ Γ) x)
@@ -73,30 +85,45 @@
    #f])
 
 (define-metafunction STLC
-  [(sum n_1 n_2)
-   ,(+ (term n_1) (term n_2))])
+  [(δ n_1 + n_2)
+   ,(+ (term n_1) (term n_2))]
+  [(δ n_1 - n_2)
+   ,(- (term n_1) (term n_2))])
 
 (define-metafunction STLC
   [(different v v) #f]
   [(different v_1 v_2) #t])
 
 (define-metafunction STLC
-  [(subst e x v)
-   ,(subst/proc x? (term (x)) (term (v)) (term e))])
+  [(subst e x e_2)
+   ,(subst/proc x? (term (x)) (term (e_2)) (term e))])
 
 (define-metafunction STLC
+  Eval : e -> n or function
   [(Eval e)
    n
    (judgment-holds (refl-trans e n))]
   [(Eval e)
    function
-   (judgment-holds (refl-trans e e_2))
-   (where (λ (x τ) e_3) e_2)])
+   (judgment-holds (refl-trans e v))
+   (where (λ (x τ) e_3) v)])
 
 (define-judgment-form STLC
   #:mode (refl-trans I O)
   [(refl-trans e_1 e_2)
    (where e_2 ,(car (apply-reduction-relation* STLC-red (term e_1))))])
+
+;; just for typesetting the contextual closure:
+(define-judgment-form STLC
+  #:mode (==>b I I)
+  [-----------------
+   (==>b e_1 e_2)])
+  
+(define-judgment-form STLC
+  #:mode (==>a I I)
+  [(==>b e_1 e_2)
+   --------------------------------------
+   (==>a (in-hole E e_1) (in-hole E e_2))])
 
 (define (x? e)
   (redex-match STLC x e))
@@ -105,6 +132,16 @@
   (match lws
     [(list _ _ Γ e τ _)
      (list "" Γ " ⊢ " e " : " τ "")]))
+
+(define (==>a-rewriter lws)
+  (match lws
+    [(list _ _ e1 e2 _)
+     (list "" e1 (arrow->pict ':-->) e2)]))
+
+(define (==>b-rewriter lws)
+  (match lws
+    [(list _ _ e1 e2 _)
+     (list "" e1 (arrow->pict '-->) e2)]))
 
 (define (lookup-rewriter lws)
   (match lws
@@ -121,15 +158,20 @@
     [(list _ _ a b _)
      (list "" a " ≠ " b "")]))
 
-(define (sum-rewriter lws)
+(define (δ-rewriter lws)
   (match lws
-    [(list _ _ a b _)
-     (list "" "\u2308" a " + " b "\u2309")]))
+    [(list _ _ a o b _)
+     (list "\u2308" a " " o " " b "\u2309")]))
+
+(define refl-trans-arrow
+  (hbl-append (arrow->pict ':-->)
+              (parameterize ([literal-style (non-terminal-style)])
+                (render-term STLC *))))
 
 (define (refl-trans-rewriter lws)
   (match lws
     [(list _ _ e_1 e_2 _)
-     (list "" e_1 (arrow->pict '-->) "* " e_2 "")]))
+     (list "" e_1 " " refl-trans-arrow (just-before " " e_2) e_2 "")]))
 
 
 (define-syntax-rule (with-rewriters e)
@@ -138,8 +180,10 @@
     ;['lookup lookup-rewriter]
     ['subst subst-rewriter]
     ['different different-rewriter]
-    ['sum sum-rewriter]
-    ['refl-trans refl-trans-rewriter])
+    ['δ δ-rewriter]
+    ['refl-trans refl-trans-rewriter]
+    ['==>a ==>a-rewriter]
+    ['==>b ==>b-rewriter])
    e))
 
 (define old-style (rule-pict-style))
@@ -178,7 +222,8 @@
                  [metafunction-pict-style
                   'left-right/beside-side-conditions])
     (with-rewriters
-     (render-metafunction Eval))))
+     (render-metafunction Eval
+                          #:contract? #true))))
 
 (define (big-stlc-pict)
   (vc-append 10
@@ -199,7 +244,7 @@
 (define (stlc-min-lang-types)
   (with-rewriters
    (hc-append 30
-              (render-language STLC-min #:nts '(e τ Γ))
+              (render-language STLC #:nts '(e τ Γ))
               (stlc-type-by-2s))))
 
 
@@ -210,7 +255,7 @@
   (redex-match STLC n e))
 
 (define (constant-func? e)
-  (redex-match STLC (λ (x τ) n) e))
+  (redex-match STLC (λ(x τ) n) e))
 
 (define (typed-and-interesting? e)
   (and (well-typed? e)
@@ -260,3 +305,40 @@
          to-check))
   (for/list ([(k v) (in-hash stats)])
     (cons k (exact->inexact (/ v trials)))))
+
+(define (fibn n)
+    `((rec [fib (num → num)]
+        (λ [x num]
+             (if0 x
+                  1
+                  (if0 (- x 1)
+                       1
+                       (+ (fib (- x 1))
+                          (fib (- x 2)))))))
+      ,n))
+
+(define (sumto n)
+  `((rec [sumto (num → num)]
+      (λ [x num]
+        [if0 x
+             0
+             (+ x (sumto (- x 1)))]))
+    ,n))
+
+(define (make-rec-pp)
+  (define step 0)
+  (λ (term)
+    (begin0
+      (pretty-format
+       (cond
+         [(= step 0)
+          term]
+         [else
+          (let rec ([t term])
+            (match t
+              [(cons 'rec b)
+               `(rec <omitted>)]
+              [(cons a b)
+               (cons (rec a) (rec b))]
+              [else t]))]))
+      (set! step (add1 step)))))

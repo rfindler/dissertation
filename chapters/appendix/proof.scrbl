@@ -26,14 +26,16 @@ themselves express an idempotent substitution that makes the equations identical
 i.e. @ct[{(x := p) ...}], so the equations are immediately satisfiable.
 
 Finally, @ct[C] = @ct[(∧ (∧ (x = p) ...) (∧ δ ...))] is in canonical form if
-the equations are in canonical form, and for each @ct[δ] =
-@ct[(∀ (x_δ ...) (∨ (p_l ≠ p_r) ...))], there exists @ct[p_l] = @ct[x_p], and
-@ct[x_p] ∩ @ct[{x ... x_δ ...}] = ∅, and @ct[p_r] ∩ @ct[{x_δ ...}] = ∅, i.e.
+the equations are in canonical form, and if @tx["\\alpha"] is the substitution
+expressed by the equations (as above), @tx["\\alpha"]@ct[(δ ...)] = @ct[(δ ...)],
+and for each @ct[δ] = @ct[(∀ (x_δ ...) (∨ (p_l ≠ p_r) ...))],
+there exists @ct[p_l] = @ct[x_p], and
+@ct[x_p] ∩ @ct[{x_δ ...}] = ∅, and @ct[p_r] ∩ @ct[{x_δ ...}] = ∅, i.e.
 at least one of the inequations in the disjunction has a left hand side
 that is a variable which is not in the domain of the mgu expressed by the
 equations and is not universally quantified, and a right hand side that
-is not a universally quantified variable. If the @tx["\\alpha"] is the mgu,
-we have @tx["\\alpha"]@ct[x_p] = @ct[x_p], and we can choose @tx["\\beta"] such that there
+is not a universally quantified variable. As above, we have
+@tx["\\alpha"]@ct[x_p] = @ct[x_p], and we can choose @tx["\\beta"] such that there
 is no substitution @tx["\\gamma"] where @tx["\\gamma\\beta\\alpha"]@ct[x_p] and
 @tx["\\gamma\\beta\\alpha"]@ct[p_r] are identical.
 (If @ct[p_r] is a variable, it is unconstrained, otherwise it is a constructor,
