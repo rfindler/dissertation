@@ -22,8 +22,10 @@
 
 (define (plus-pict)
   (parameterize ([render-reduction-relation-rules '(δ)])
-    (with-rewriters
-     (reduction-relation->pict STLC-red-one))))
+    (with-compound-rewriters
+     (['o o-rewriter])
+     (with-rewriters
+      (reduction-relation->pict STLC-red-one)))))
 
 (define (make-red-example t)
   (define t2 (car (apply-reduction-relation STLC-red-one t)))
@@ -45,8 +47,10 @@
   (make-red-example (term ((λ [x num] (+ 1 x)) 2))))
 
 (define (red-one-pict)
-  (with-rewriters
-   (reduction-relation->pict STLC-red-one)))
+  (with-compound-rewriters
+   (['o o-rewriter])
+   (with-rewriters
+    (reduction-relation->pict STLC-red-one))))
 
 (define (context-pict)
   (with-rewriters

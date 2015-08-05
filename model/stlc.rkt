@@ -173,6 +173,12 @@
     [(list _ _ e_1 e_2 _)
      (list "" e_1 " " refl-trans-arrow (just-before " " e_2) e_2 "")]))
 
+(define (o-rewriter lws)
+  (match lws
+    [(list l o n_1 n_2 r)
+     (list l "o \u2308" n_1 "\u2309 \u2308" n_2 "\u2309" r)]))
+
+
 
 (define-syntax-rule (with-rewriters e)
   (with-compound-rewriters

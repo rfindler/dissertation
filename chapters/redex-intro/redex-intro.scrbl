@@ -116,4 +116,51 @@ argument to two reduces as follows:
         @(centered (red-one-pict))]
 
 The complete set of reductions adds rules for @et[if0] and @et[rec]
-and is shown in @figure-ref["fig:one-step"].
+and is shown in @figure-ref["fig:one-step"]. The @et[if0] rule reduces
+to the second or third argument, depending on the value of the
+first, and the @et[rec] rule just unfolds a recursive binding
+once, substituting it for itself it its body.
+
+The set of reductions shown in @figure-ref["fig:one-step"] are correct,
+but they aren't enough to build an evaluator for all programs, because
+they only apply at the top level of a term. For example, the term
+@et[(+ 1 (+ 2 3))] can't be reduced using the @et[δ] rule, because
+at the top level, the second expression is not a number.
+
+To create a relation upon which we can base an evaluator, we need to
+extend the set of reductions to apply deeper inside of terms. One
+way to do this is to take the @emph{compatible closure} of the
+reductions over expressions, which constructs a relation that
+allows the reductions to be applied anywhere inside a term. This
+is useful as the basis for an equational calculus, but it is
+less useful in building an evaluator because a given term can
+be reduced many different ways.
+
+Instead we can construct a relation that relates each term
+that can take a step to exactly one term. To do this we use
+an @emph{evaluation context}, a nonterminal that includes
+a ``hole'', denoted by @et[[]]. This allows a term to
+be decomposed into a context and (in the hole) a reducible
+expression (redex). The contractum of the redex can be
+plugged back into the hole, expressing a single step of
+computation. The evalutation contexts for our language are
+denoted by the @et[E] non-terminal:
+
+@(centered (context-pict))
+
+The first two productions allow reductions to apply on the left-hand side
+of an application, and on the right right-hand-side of an application if the
+left-hand-side is a value. The contexts for binary operations are analagous
+to those for applications, the second to last production allows computation
+in the condition position of @et[if0] expression, and the last is the
+hole, which may contain any term.
+
+To construct a standard reduction, we construct the
+@emph{contextual closure} of the notions of reduction over @et[e].
+
+@(centered (context-closure-pict))
+
+Meaning that if a term can take a step according to the notions
+of reduction, then a context with that same term in its hole can
+take a step to a term where the corresponding contractum is
+plugged back into the context.
