@@ -35,7 +35,7 @@
 
 @(stlc-eval '(pretty-print-columns 60))
 
-@title[#:tag "sec:semantics-intro"]{Semantics Engineering: An Example}
+@title[#:tag "sec:semantics-intro"]{Operational Semantics: An Example}
 
 This section works through the development of a semantics for a
 simple functional language to illustrate the process of semantics
@@ -47,7 +47,8 @@ that Redex is designed to most easily take advantage of.
         @(centered (exp-pict))]
 
 @Figure-ref["fig:stlc-exps"] shows the grammar for the language
-we'll be modeling in this section. It is a language of numbers and
+we'll be modeling in this section. It is a parenthesized,
+prefix-notation language of numbers and
 functions, with two binary operations on numbers, addition (@et[+])
 and subtraction (@et[-]), along with a conditional (@et[if0]) that
 dispatches on whether or not its first argument evaluates to @et[0]
@@ -90,8 +91,10 @@ looks like:
 Meaning that when a binary operation is applied to two numbers
 in an expression, we can relate that expression to the number
 that is the result of the corresponding operation on numbers. This
-allows us to ``reduce'' such a binary operation to a value. A
-simple example is:
+allows us to ``reduce'' such a binary operation to a value. The
+expression on the left is called the reducible expression or redex,
+and the expression on the right is called the contractum.
+A simple example is:
 
 @(centered (plus-example))
 
@@ -104,24 +107,28 @@ function's body @et[e]:
 @(centered (beta-pict))
 
 Where the notation @(subst-in-e-pict) means to perform
-@emph{capture-avoiding} substitution of @et[e] for @et[x] in
-@et[v]. 
+capture-avoiding substitution@note{Capture-avoiding substitution
+ avoids unintentional variable bindings (captures) that can occur
+ when substituting underneath binders by renaming variables appropriately.}
+of @et[e] for @et[x] in @et[v]. 
 For example, the application of a function that adds one to its
 argument to two reduces as follows:
 
 @(centered (beta-example))
 
 @figure["fig:one-step" 
-        "The complete set of reductions for this language."
+        "Single step reduction, the union
+        of all the notions of reduction for this language."
         @(centered (red-one-pict))]
 
 The complete set of reductions adds rules for @et[if0] and @et[rec]
 and is shown in @figure-ref["fig:one-step"]. The @et[if0] rule reduces
 to the second or third argument, depending on the value of the
 first, and the @et[rec] rule just unfolds a recursive binding
-once, substituting it for itself it its body.
+once, substituting the entire expression in the body.
 
-The set of reductions shown in @figure-ref["fig:one-step"] are correct,
+The set of reductions shown in @figure-ref["fig:one-step"] capture
+the notions of computation we intend for our language,
 but they aren't enough to build an evaluator for all programs, because
 they only apply at the top level of a term. For example, the term
 @et[(+ 1 (+ 2 3))] can't be reduced using the @et[δ] rule, because
@@ -140,8 +147,8 @@ Instead we can construct a relation that relates each term
 that can take a step to exactly one term. To do this we use
 an @emph{evaluation context}, a nonterminal that includes
 a ``hole'', denoted by @et[[]]. This allows a term to
-be decomposed into a context and (in the hole) a reducible
-expression (redex). The contractum of the redex can be
+be decomposed into a context and, in the hole of the context,
+a redex. The contractum of the redex can be
 plugged back into the hole, expressing a single step of
 computation. The evalutation contexts for our language are
 denoted by the @et[E] non-terminal:
@@ -155,12 +162,96 @@ to those for applications, the second to last production allows computation
 in the condition position of @et[if0] expression, and the last is the
 hole, which may contain any term.
 
-To construct a standard reduction, we construct the
-@emph{contextual closure} of the notions of reduction over @et[e].
+To construct a standard reduction relation, which we denote with
+@(std-red-arrow), we take the @emph{contextual closure} of the
+the one-step reduction over @et[E]:
 
 @(centered (context-closure-pict))
 
-Meaning that if a term can take a step according to the notions
-of reduction, then a context with that same term in its hole can
+Meaning that if a term can take a step according to the one-step
+reduction, then a context with that same term in its hole can
 take a step to a term where the corresponding contractum is
-plugged back into the context.
+plugged back into the context at the same position the redex occupied.
+The intention of the standard reduction is to allow each program
+to take a step of computation in exactly one way.
+
+Now the idea of evaluating a program @et[e] corresponds to the reflexive
+transitive closure of the standard reduction, denoted by @(std-refl-trans).
+We can define an evaluator in terms of this relation, as follows:
+
+@(centered (eval-pict))
+
+The idea behind @et[Eval] is to reduce a program over and over
+according to the standard reduction until it becomes a value.
+If the value is a number, we consider that to be an answer. If it is
+syntax for an unapplied function, we return @et[function], since
+that syntax really represents an internal state of the
+evaluator and isn't useful.
+
+Note, however, that @et[Eval] is not a total function, for several
+reasons. First, not all programs terminate. (Equivalently,
+the transitive-reflexive closure of the standard reduction doesn't
+relate them to values.) Second, some programs may get ``stuck'',
+or terminate in expressions that are not values and cannot
+take another step.@note{Another issue sidestepped here
+ that comes up in all real programming languages is that some
+ primitives, such as division, are partial functions.}
+We can't avoid the first issue without seriously handicapping
+our language, but we can tackle the second with a type system,
+which allows us to separate programs that will get stuck
+from those that won't.
+
+The type system accomplishes this by categorizing expressions
+according to what sort of values they will evaluate to. To start,
+we need a language of types, denoted by @et[τ]:
+
+@(centered (τ-pict))
+
+Expressing that we expect two types of values, numbers (@et[num]),
+and functions from one type of value to another, represented
+by arrows. We can already see that the type system excludes some
+programs that may not get stuck, namely functions that may
+return more that one type depending on their input. We could
+capture functions like this by extending our language of types, but in
+general the type system must be conservative, excluding some ``good''
+programs in order to exclude all ``bad'' ones.
+
+We construct the type system using a set inference rules called
+a typing judgment that defines
+a relation between a type environments (@et[Γ], to be defined
+briefly), expressions, and types. As an example, the rule for
+binary operations is:
+
+@(centered (binop-rule))
+
+Expressing that two expressions that evaluate to numbers
+can be combined using a binary operation, and the resulting
+expression will evaluate to a number. The relation is defined
+recursively. To deal with substitutions that occur during
+evaluation, the type judgment uses the type environment @et[Γ],
+an accumulator to keep track of the types assigned to
+variables:
+
+@(centered (Γ-pict))
+
+The rule for function definition says that if the
+body of the function has some type with respect to the environment
+extended with the type of the parameter, then the
+function itself is a function from the type of the parameter
+to the type of the body, in the original environment:
+
+@(centered (abstraction-rule))
+
+@figure["fig:type-judgment"
+        "The definition of the typing judgment."
+        @(centered stlc-type-pict-horiz)]
+
+The corresponding rule for typing a variable just looks
+for the type in the environment. The complete definition of
+the typing judgment is shown in @figure-ref["fig:type-judgment"].
+These particular rules can be easily used to derive a
+type checking algorithm. Treating the first two positions of
+the relation as inputs and the last as an output leads
+directly to the definition of a recursive function for
+type-checking. Inductively defined relations that allow
+this are said to have a consistent mode.

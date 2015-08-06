@@ -7,7 +7,9 @@
 
 ;; Godel brackets on rhs of reduction
 
-(provide (all-defined-out))
+(provide (all-defined-out)
+         eval-pict
+         stlc-type-pict-horiz)
 
 (define-syntax-rule (et t)
   (render-term STLC t))
@@ -95,3 +97,25 @@
 
 (define (not-stuck-typed-pict)
   (term->pict STLC ,not-stuck-typed))
+
+(define (std-red-arrow)
+  (arrow->pict ':-->))
+
+(define (std-refl-trans)
+  (hbl-append (std-red-arrow)
+              (parameterize ([literal-style (non-terminal-style)])
+                (render-term STLC *))))
+
+(define (τ-pict)
+  (language->pict STLC-min #:nts '(τ)))
+
+(define (binop-rule)
+  (parameterize ([judgment-form-cases '(6)])
+    (with-rewriters (judgment-form->pict tc))))
+
+(define (Γ-pict)
+  (language->pict STLC-min #:nts '(τ)))
+
+(define (abstraction-rule)
+  (parameterize ([judgment-form-cases '(2)])
+    (with-rewriters (judgment-form->pict tc))))
