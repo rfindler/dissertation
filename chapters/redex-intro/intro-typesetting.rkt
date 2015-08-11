@@ -114,8 +114,12 @@
     (with-rewriters (judgment-form->pict tc))))
 
 (define (Γ-pict)
-  (language->pict STLC-min #:nts '(τ)))
+  (language->pict STLC #:nts '(Γ)))
 
 (define (abstraction-rule)
   (parameterize ([judgment-form-cases '(2)])
     (with-rewriters (judgment-form->pict tc))))
+
+(define (is-typed-pict)
+  (with-rewriters
+   (term->pict STLC (tc • e τ))))
