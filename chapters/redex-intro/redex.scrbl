@@ -9,23 +9,8 @@
           racket/path
           "../../model/stlc.rkt"
           "../common.rkt"
+          "code-utils.rkt"
           (for-syntax racket/syntax))
-
-@(define stlc-rel-path-string
-   (path->string
-    (find-relative-path (current-directory)
-                        (simplify-path (build-path common-path 'up "model" "stlc.rkt")))))
-
-@(define stlc-stxobjs
-   (parameterize ([port-count-lines-enabled #t])
-     (call-with-input-file (build-path common-path 'up "model" "stlc.rkt")
-       (λ (in)
-         (read-line in)
-         (let loop ([ds '()])
-           (define next (read-syntax in in))
-           (if (eof-object? next)
-               ds
-               (loop (cons next ds))))))))
 
 @(define stlc-eval (make-base-eval))
 
@@ -45,6 +30,8 @@ in Redex as they existed prior to the present work, contrasting
 their demonstrated effectiveness and their shortcomings.
 
 @include-section["redex-intro.scrbl"]
+
+@include-section["using-redex.scrbl"]
 
 @section{Overview of PLT Redex and Reduction Semantics}
 
@@ -96,14 +83,6 @@ they are lambda expressions (functions), or @italic{n}'s. Here @italic{n} is use
 a shorthand for numbers, and @italic{x} as a shorthand for variables. The @italic{E} 
 non-terminal describes contexts, used in the reduction relation, and @italic{τ}
 and @italic{Γ} respectively describe types and the type environment, used in the type judgment.
-
-
-@(define lang-stxobj
-   (findf (λ (stx)
-            (match (syntax->datum stx)
-              [`(define-language STLC ,stuff ...) #t]
-              [_ #f]))
-          stlc-stxobjs))
 
 The grammar of @figure-ref["fig:stlc-model-big"]
 can be expressed in Redex as:@note{In 
@@ -210,13 +189,6 @@ The reduction of a term according to this relation describes computation in this
 and the interaction of the structure of the context and the form of the reduction relation
 together determine the order of reduction and computation.
 
-@(define red-stxobj
-   (findf (λ (stx)
-            (match (syntax->datum stx)
-              [`(define STLC-red (reduction-relation ,stuff ...)) #t]
-              [_ #f]))
-          stlc-stxobjs))
-
 The reduction relation can be formalized in Redex as:
 
 @racketblock[#,red-stxobj]
@@ -316,17 +288,6 @@ A ``well-typed'' expression is precisely that, one that satisfies the type judgm
 in an empty environment, i.e. the expression @italic{e} is well-typed if @italic{• ⊢ e : τ},
 for some @italic{τ}.
 
-@(define type-stxobj
-   (findf (λ (stx)
-            (match (syntax->datum stx)
-              [`(define-judgment-form
-                  STLC
-                  #:mode (tc ,modes ...)
-                  ,cases ...) 
-               #t]
-              [_ #f]))
-          stlc-stxobjs))
-
 Type judgments and other judgment-forms are expressed in Redex using the
 @code{define-judgment-form} form. The following code, for example, implements
 the type system from @figure-ref["fig:stlc-model-big"]:
@@ -369,16 +330,6 @@ the input term is mapped to the right hand side of the first successful match.@n
       clause an error.}
 The pattern matching and term construction processes are similar to the reduction relation.
 Metafunctions are expressed in Redex using the @code{define-metafunction} form:
-
-@(define lookup-stxobj
-   (findf (λ (stx)
-            (match (syntax->datum stx)
-              [`(define-metafunction
-                  STLC
-                  [(lookup ,rhs ...) ,lhs ...] ...)
-               #t]
-              [_ #f]))
-          stlc-stxobjs))
 
 @racketblock[#,lookup-stxobj]
 

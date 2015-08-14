@@ -18,6 +18,10 @@
   (with-rewriters
    (language->pict STLC-min #:nts '(e x o n))))
 
+(define (full-exp-pict)
+  (with-rewriters
+   (language->pict STLC-min)))
+
 (define (v-pict)
   (with-rewriters
    (language->pict STLC #:nts '(v))))
