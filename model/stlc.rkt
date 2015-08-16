@@ -3,6 +3,7 @@
 (require racket/match
          racket/list
          racket/pretty
+         unstable/pretty
          slideshow/pict
          redex/reduction-semantics
          redex/pict
@@ -95,10 +96,6 @@
   [(different v_1 v_2) #t])
 
 (define-metafunction STLC
-  [(subst e x e_2)
-   ,(subst/proc x? (term (x)) (term (e_2)) (term e))])
-
-(define-metafunction STLC
   Eval : e -> n or function
   [(Eval e)
    n
@@ -111,7 +108,8 @@
 (define-judgment-form STLC
   #:mode (refl-trans I O)
   [(refl-trans e_1 e_2)
-   (where e_2 ,(car (apply-reduction-relation* STLC-red (term e_1))))])
+   (where e_2 ,(last (apply-reduction-relation* STLC-red (term e_1)
+                                               #:all? #t)))])
 
 ;; just for typesetting the contextual closure:
 (define-judgment-form STLC
@@ -324,18 +322,18 @@
       ,n))
 
 (define (sumto n)
-  `((rec [sumto (num → num)]
-      (λ [x num]
-        [if0 x
-             0
-             (+ x (sumto (- x 1)))]))
-    ,n))
+  (term ((rec [sumto (num → num)]
+           (λ [x num]
+             (if0 x
+                  0
+                  (+ x (sumto (- x 1))))))
+         ,n)))
 
 (define (make-rec-pp)
   (define step 0)
   (λ (term)
     (begin0
-      (pretty-format
+      (pretty-format/write
        (cond
          [(= step 0)
           term]
@@ -348,3 +346,57 @@
                (cons (rec a) (rec b))]
               [else t]))]))
       (set! step (add1 step)))))
+
+
+(define-metafunction STLC
+  subst : e x e -> e
+  [(subst x x e)
+   e]
+  [(subst x x_1 e)
+   x]
+  [(subst n x e)
+   n]
+  [(subst (e_1 e_2) x e)
+   ((subst e_1 x e) (subst e_2 x e))]
+  [(subst (o e_1 e_2) x e)
+   (o (subst e_1 x e) (subst e_2 x e))]
+  [(subst (if0 e_1 e_2 e_3) x e)
+   (if0 (subst e_1 x e) (subst e_2 x e) (subst e_3 x e))]
+  [(subst (λ [x τ] e_1) x e)
+   (λ [x τ] e_1)]
+  [(subst (λ [x_1 τ] e_1) x e)
+   (λ [x_2 τ] (subst e_2 x e))
+   (where x_2 ,(variable-not-in (term e) (term x_1)))
+   (where e_2 (replace-free e_1 x_1 x_2))]
+  [(subst (rec [x τ] e_1) x e)
+   (rec [x τ] e_1)]
+  [(subst (rec [x_1 τ] e_1) x e)
+   (rec [x_2 τ] (subst e_2 x e))
+   (where x_2 ,(variable-not-in (term e) (term x_1)))
+   (where e_2 (replace-free e_1 x_1 x_2))])
+
+(define-metafunction STLC
+  replace-free : e x x -> e
+  [(replace-free x x x_1)
+   x_1]
+  [(replace-free x x_1 x_2)
+   x]
+  [(replace-free n x x_1)
+   n]
+  [(replace-free (e_1 e_2) x x_1)
+   ((replace-free e_1 x x_1) (replace-free e_2 x x_1))]
+  [(replace-free (o e_1 e_2) x x_1)
+   (o (replace-free e_1 x x_1) (replace-free e_2 x x_1))]
+  [(replace-free (if0 e_1 e_2 e_3) x x_1)
+   (if0 (replace-free e_1 x x_1)
+        (replace-free e_2 x x_1)
+        (replace-free e_3 x x_1))]
+  [(replace-free (λ [x τ] e_1) x x_1)
+   (λ [x τ] e_1)]
+  [(replace-free (λ [x_0 τ] e_1) x x_1)
+   (λ [x_0 τ] (replace-free e_1 x x_1))]
+  [(replace-free (rec [x τ] e_1) x e)
+   (rec [x τ] e_1)]
+  [(replace-free (rec [x_0 τ] e_1) x x_1)
+   (rec [x_0 τ] (replace-free e_1 x x_1))])
+  
