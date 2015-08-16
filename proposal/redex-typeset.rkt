@@ -17,18 +17,18 @@
          get-zoomy
          get-zoomy-again
          with-rewriters
-         freeze
          add-white
          tc-jdg-pict
          e-pict
-         t-pict)
+         t-pict
+         my-freeze)
 
 (literal-style '(bold . modern))
 (paren-style '(bold . modern))
 (default-style 'modern) ;; just to space things out a bit more
 ;(non-terminal-style '(italic . modern))
 
-(define freeze
+(define my-freeze
   (case-lambda
     [(p l t r b)
      (define insetted (inset p l t r b))
@@ -39,7 +39,7 @@
      (draw-pict insetted bdc 0 0)
      (send bdc set-bitmap #f)
      (inset (bitmap bmp) (- l) (- t) (- r) (- b))]
-    [(p) (freeze p 0 0 0 0)]))
+    [(p) (my-freeze p 0 0 0 0)]))
 
 (define (tc-rewriter lws)
   (match lws
@@ -265,7 +265,7 @@
    (- 1024 margin margin)
    (- 768 margin margin)))
 
-(define frozen-bkg (freeze scaled-bkg 0 0 0 0))
+(define frozen-bkg (my-freeze scaled-bkg 0 0 0 0))
 (define base
   (apply 
    lc-superimpose
