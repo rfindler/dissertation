@@ -9,6 +9,7 @@
           racket/path
           "intro-typesetting.rkt"
           "../common.rkt"
+          "../util.rkt"
           "code-utils.rkt")
 
 @(define stlc-eval (make-base-eval))
@@ -71,23 +72,99 @@ follow those in the source code very closely. Finally, both the
 typeset version and the Redex source conform closely to commonly
 accepted ways of writing down a grammar. What is shown here is
 the raw automatic typesetting; Redex also provides hooks
-for customization, such as replacing @et[variable-not-otherwise-mentioned]
-with something more familiar. Similar correspondence between
+for customization, such as replacing @et[variable-not-otherwise-mentioned],
+ a special Redex pattern
+that matches anything that is not a literal in the language,
+with something more familiar.
+Similar correspondence between
 Redex source, Redex typesetting, and commonly accepted usage exists
 for all the Redex forms defining semantic elements.
 
-After defining a language in Redex, it is easy to parse concrete
-syntax (in the form of s-expressions) according to that grammar.
-For example, the following interaction uses the @code{redex-match}
-form to parse the term @et[((λ (x num) x) 5)] as an application
-of one expression in this language to another, returning a
-representation of the bindings from the
-two expressions to the relevant subterms:
+After defining a language in Redex, it is straightforward to parse concrete
+syntax (in the form of s-expressions) according to the grammar.
+For example, the following interaction@note{Inlined interactions
+ that appear in this section are actual transcripts of the Racket
+ REPL with the Redex module describing the language in the previous
+ section loaded.} uses the @code{redex-match} form 
+to parse the term @et[((λ (x num) x) 5)] as an application
+of one expression, @code{e_1}, in this language to another, @code{e_2},
+where the @code{e}'s refer to the nonterminal of the language
+@code{STLC-min} from @figure-ref["fig:side-by-side"]. The result is
+a representation of bindings from the patterns' two expressions to
+the relevant subterms for the one possible match in this case:
 @interaction[#:eval stlc-eval
              (redex-match STLC-min (e_1 e_2)
                           (term ((λ (x num) x) 5)))]
 Trying to parse @et[((λ 4) 2)], however, fails, since the first
-expression no longer conforms to the grammar:
+subterm no longer conforms to the @et[e] nonterminal, and is
+not a valid expression in this langauge:
 @interaction[#:eval stlc-eval
              (redex-match STLC-min (e_1 e_2)
                           (term ((λ 4) 2)))]
+
+@italic{TODO}
+stuff
+Need to talk about reduction-relations vs. metafunctions
+AND judgment-holds argh
+stuff
+
+Finally, we can define an @code{Eval} metafunction in Redex that
+corresponds exactly to the code from the previous section:
+@racketblock[#,eval-stxobj]
+The first line specifies that this definition is relative to
+the @code{STLC} language and the second specifies @code{Eval}'s
+contract. Two clauses follow, which are made up of, in order,
+a pattern, a result term, and side-conditions, which is where
+all the work of reducing the term is happening in this case.
+Clauses are tried in order, returning the result from the
+first clause with a pattern matching the argument and
+side-conditions that succeed.
+As before, @code{Eval} applies the reflexive-transitive closure
+of the standard reduction (here called @code{refl-trans}) to
+its argument and dispatches on the result. (Note that the
+side-conditions of the clauses differ in whether the
+result is an @code{n} or a @code{v}.) Metafunctions
+like @code{Eval} are applied as if they were functions in the
+object language, from within @code{term}. We can now evaluate
+programs using Redex, for example, applying the function
+that adds @code{1} to @code{1}:
+@interaction[#:eval stlc-eval
+                    (term (Eval ((λ [x num] (+ x 1)) 1)))]
+
+A more interesting example is:
+@racketblock[#,sumto-stxobj]
+which defines a whole class of programs that calculate
+arithmetic series, sums of @code{1} through @code{n}. This
+definition takes advantage of Redex's status as an embedded
+language, defining a Racket function that returns a Redex
+@code{term}. The comma in the last line escapes to Racket,
+allowing the appropriate number to be inserted in the term.
+
+Now we can try a slightly more interesting calculation,
+the value of the arithmetic series of @code{100}.
+@interaction[#:eval stlc-eval
+                    (term (Eval ,(sumto 100)))]
+which returns the answer we would expect.
+
+Redex also allows us to observe the steps of a calculation
+with a reduction graph, where each two terms related by
+the reduction relation are nodes in the graph, and the
+edges are labeled with the rule that connects them. The
+above calculation actually has hundreds of steps, making
+its reduction graph too large for visual inspection.
+@Figure-ref["fig:sumto-red"], however, shows the reduction
+graph of an analagous program for the
+arithmetic series of @code{2}, showing each step from the
+initial program generated by @code{(sumto 2)} to the final
+value of @code{3}. The fact that there is a single path
+in this graph is a feature of this reduction relation;
+other reduction relations may give rise to many possible paths.
+
+@figure["fig:sumto-red"
+        @list{An example reduction graph. Since @et[μ] reductions
+              substitute the entire @et[rec] expression in the body, the
+              bodies of duplicate such expressions are omitted, but are
+              all the same as the initial @et[rec].}
+        @raw-latex{\includegraphics[scale=0.85]{sumto.pdf}}]
+
+@italic{TODO}

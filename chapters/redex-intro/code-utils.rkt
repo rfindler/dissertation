@@ -2,6 +2,7 @@
 
 (require pict
          pict/code
+         "../code-utils.rkt"
          "../common.rkt"
          "intro-typesetting.rkt")
 
@@ -12,38 +13,26 @@
     (find-relative-path (current-directory)
                         (simplify-path (build-path common-path 'up "model" "stlc.rkt")))))
 
-(define stlc-stxobjs
-   (parameterize ([port-count-lines-enabled #t])
-     (call-with-input-file (build-path common-path 'up "model" "stlc.rkt")
-       (λ (in)
-         (read-line in)
-         (let loop ([ds '()])
-           (define next (read-syntax in in))
-           (if (eof-object? next)
-               ds
-               (loop (cons next ds))))))))
-
-(define-syntax-rule (extract-def the-match)
-  (findf (λ (stx)
-           (match (syntax->datum stx)
-             [the-match #t]
-             [_ #f]))
-         stlc-stxobjs))
+(define stlc-stxobjs (read-stxobjs (build-path common-path 'up "model" "stlc.rkt")))
 
 (define lang-stxobj
-   (extract-def `(define-language STLC-min ,stuff ...)))
+   (extract-def stlc-stxobjs
+                `(define-language STLC-min ,stuff ...)))
 
 (define red-stxobj
-   (extract-def `(define STLC-red-one (reduction-relation ,stuff ...))))
+   (extract-def stlc-stxobjs
+                `(define STLC-red-one (reduction-relation ,stuff ...))))
 
 (define type-stxobj
-   (extract-def `(define-judgment-form
+   (extract-def stlc-stxobjs
+                `(define-judgment-form
                   STLC
                   #:mode (tc ,modes ...)
                   ,cases ...)))
 
 (define lookup-stxobj
-   (extract-def `(define-metafunction
+   (extract-def stlc-stxobjs
+                `(define-metafunction
                   STLC
                   [(lookup ,rhs ...) ,lhs ...] ...)))
 
@@ -51,3 +40,13 @@
   (hb-append 20
    (code #,lang-stxobj)
    (full-exp-pict)))
+
+(define eval-stxobj
+  (extract-def stlc-stxobjs
+                `(define-metafunction
+                  STLC
+                  Eval ,rest ...)))
+
+(define sumto-stxobj
+  (extract-def stlc-stxobjs
+                `(define (sumto n) ,rest ...)))

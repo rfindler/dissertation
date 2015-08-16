@@ -174,7 +174,11 @@ reduction, then a context with that same term in its hole can
 take a step to a term where the corresponding contractum is
 plugged back into the context at the same position the redex occupied.
 The intention of the standard reduction is to allow each program
-to take a step of computation in exactly one way.
+to take a step of computation in exactly one way. It may not
+be immediately obvious from the structure of evaluation contexts
+that we have this property, so we might wish to both test it,
+and, later, prove it. (I address how to do the former in Redex
+in the next section.)
 
 Now the idea of evaluating a program @et[e] corresponds to the reflexive
 transitive closure of the standard reduction, denoted by @(std-refl-trans).
@@ -256,8 +260,8 @@ programs to those that satisfy the judgment:
 @(centered (is-typed-pict))
 selecting those expressions that have some type with
 respect to the empty type environment, or are ``well-typed''.
-The validity of this step is based on the truth of the property: if a
-program is well-typed, then either it evaluates to a value
+The validity of this restriction is based on the truth of the property:
+if a program is well-typed, then either it evaluates to a value
 or it does not terminate. Ideally, we should 
 formally prove this property, but first it may be helpful to
 thoroughly test it. Modeling in Redex and testing properties
