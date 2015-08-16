@@ -2,8 +2,11 @@
 
 (require redex/reduction-semantics
          redex/pict
+         pict
          data/enumerate
          data/enumerate/lib)
+
+(provide (all-defined-out))
 
 (define-language arith
   (e ::= (o e e)
@@ -18,8 +21,6 @@
   (define next-fuel (- fuel 1))
   (case non-terminal
     [(e)
-     ;; only choose the recursive production if
-     ;; there is fuel
      (define choice (if (> fuel 0) (random 2) 1))
      (if (= choice 0)
          (list (generate-arith 'o next-fuel)
@@ -38,3 +39,22 @@
            [o/e (fin/e '+ '- '* '/)]
            [n/e (below/e 100)])
     e/e))
+
+(define ap ((curry term->pict/pretty-write) arith))
+
+(define (arith-gen-example-pict)
+  (define arr (arrow->pict '-->))
+  (hbl-append 5
+   (ap 'e)
+   arr
+   (ap '(o e e))
+   arr 
+   (ap '(+ e e))
+   arr 
+   (ap '(+ n e))
+   arr
+   (ap '(+ 5 e))
+   arr
+   (ap '(+ 5 n))
+   arr
+   (ap '(+ 5 8))))

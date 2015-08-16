@@ -1,8 +1,11 @@
 #lang racket
 
-(require "../code-utils.rkt")
+(require "../common.rkt"
+         "../code-utils.rkt")
 
-(define examples-stxobjs (read-stxobjs "examples.rkt"))
+(provide (all-defined-out))
+
+(define examples-stxobjs (read-stxobjs (build-path common-path "grammar" "examples.rkt")))
 
 (define generate-arith-stxobj
   (extract-def examples-stxobjs

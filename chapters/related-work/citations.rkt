@@ -72,6 +72,7 @@
 (define josc "Journal of Symbolic Computation")
 (define fgcs (string-append International Conference "Fifth Generation Computing Systems"))
 (define aplas (string-append "Asian" Conference "Programming Languages and Systems"))
+(define ase (string-append International Conference "Automated Software Engineering"))
 
 (define ibm-sys "IBM Systems Journal")
 (define jfp (string-append Journal "Functional Programming"))
@@ -853,3 +854,10 @@
    #:author (authors "Colin Runciman" "Matthew Naylor" "Fredrik Lindblad")
    #:location (proceedings-location haskell)
    #:date 2008))
+
+(define clp-language-fuzzing
+  (make-bib
+   #:title "Language Fuzzing Using Constraint Logic Programming"
+   #:author (authors "Kyle Dewey" "Jared Roesch" "Ben Hardekpf")
+   #:location (proceedings-location ase)
+   #:date 2014))
