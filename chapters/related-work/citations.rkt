@@ -73,6 +73,7 @@
 (define fgcs (string-append International Conference "Fifth Generation Computing Systems"))
 (define aplas (string-append "Asian" Conference "Programming Languages and Systems"))
 (define ase (string-append International Conference "Automated Software Engineering"))
+(define tools (string-append International Conference "Objects, Models, Components, Patterns"))
 
 (define ibm-sys "IBM Systems Journal")
 (define jfp (string-append Journal "Functional Programming"))
@@ -861,3 +862,24 @@
    #:author (authors "Kyle Dewey" "Jared Roesch" "Ben Hardekpf")
    #:location (proceedings-location ase)
    #:date 2014))
+
+(define dart
+  (make-bib 
+   #:title "DART: Directed Automated Random Testing"
+   #:author (authors "Patrice Godefroid" "Nils Klarlund" "Koushik Sen")
+   #:date 2005
+   #:location (proceedings-location pldi)))
+
+(define contract-driven-testing-of-javascript-code
+  (make-bib
+   #:title "Contract-Driven Testing of JavaScript Code"
+   #:author (authors "Phillip Heidegger" "Peter Thiemann")
+   #:location (proceedings-location tools)
+   #:date 2010))
+
+(define redex-enum
+  (make-bib
+   #:title "Fair Enumeration Combinators"
+   #:author (authors "Max S. New" "Burke Fetscher" "Jay McCarthy" "Robert Bruce Findler")
+   #:location "To Appear"
+   #:date 2015))

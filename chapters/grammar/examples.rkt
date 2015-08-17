@@ -14,10 +14,16 @@
   (o ::= + - * /)
   (n ::= number))
 
+(define (arith? t) 
+  (or (redex-match arith e t)
+      (redex-match arith o t)
+      (redex-match arith n t)))
+
 (define (arith-pict)
   (language->pict arith))
 
-(define (generate-arith non-terminal fuel)
+(define/contract (generate-arith non-terminal fuel)
+  (-> symbol? natural-number/c arith?)
   (define next-fuel (- fuel 1))
   (case non-terminal
     [(e)
