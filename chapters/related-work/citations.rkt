@@ -883,3 +883,10 @@
    #:author (authors "Max S. New" "Burke Fetscher" "Jay McCarthy" "Robert Bruce Findler")
    #:location "To Appear"
    #:date 2015))
+
+(define data-enumerate
+  (make-bib
+   #:author "Max S. New"
+   #:title "Enumerations"
+   #:date 2014
+   #:url "docs.racket-lang.org/data/Enumerations.html"))

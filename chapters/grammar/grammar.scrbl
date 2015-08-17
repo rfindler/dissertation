@@ -14,8 +14,8 @@ to random generation.
 
 In this section I discuss two grammar-based approaches to random
 expression generation. First, I explain the ``obvious'' approach
-based on recursively unfolding productions. Following that I
-address a more refined method based on forming enumerations
+based on recursively unfolding non-terminals. Following that I
+address a newer method based on forming enumerations
 of the set of terms conforming to the grammar. Both approaches
 can be applied in general to any specification using abstract
 data types or regular grammars, although the discussion here

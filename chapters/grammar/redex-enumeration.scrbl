@@ -1,15 +1,143 @@
 #lang scribble/base
-@(require "../common.rkt"
-          "../util.rkt"
-          "enum-util.rkt"
-          racket/pretty
-          racket/pretty
+
+@(require racket/pretty
           racket/contract
           scribble/manual
           scribble/core
           scriblib/figure
+          scribble/eval
           redex/reduction-semantics
-          data/enumerate/lib)
+          data/enumerate/lib
+          "../common.rkt"
+          "../util.rkt"
+          "enum-util.rkt"
+          "code.rkt"
+          "examples.rkt")
+
+@(define enum-eval (make-base-eval))
+
+@(enum-eval `(require data/enumerate
+                      data/enumerate/lib))
+
+@title[#:tag "sec:enum"]{Grammar-based Enumerations}
+
+Another way of generating terms from a grammar is to construct
+an @italic{enumeration} of the set of terms conforming to the
+grammar, a bijection between that set and the natural numbers.
+With an enumeration in hand, we can either generate terms in
+order or, if the enumeration is efficient, chose random
+natural numbers and decode them into the appropriate terms.
+Enumerations have been applied to property-based testing in
+a number of recent research efforts, notably
+Lazy Small Check@~cite[small-check] and FEAT@~cite[feat].
+Here I discuss their application to grammars in Redex.
+
+Redex enumerations are constructed using Racket's @code{data/enumerate}
+library@~cite[data-enumerate], which provides a rich set of
+combinators for constructing enumerations that are both efficient
+and fair. Efficiency means roughly that very large natural numbers
+can be decoded without too much computational cost.
+(In this case, it is usually linear in the size of the number in bits.)
+Fairness means that when combining different enumerations, such
+as when constructing an enumeration of an @italic{n}-tuple out of
+@italic{n} enumerations,
+the constituent enumerations are indexed into approximately evenly.
+Here I won't discuss the
+details of @code{data/enumerate}'s implementation, those
+are presented in @citet[redex-enum] along with a formal semantics
+of the library and a introduction to and proof of fairness.
+Instead I focus on its application in Redex,
+presenting enough of the API to support a description of
+how grammars are used to generate enumerations.
+
+An enumeration in @code{data/enumerate} consists of a @code{to-nat}
+function that maps enumerated objects into the natural numbers,
+a @code{from-nat} function that maps the naturals into the
+enumerated objects, a size (the number of enumerated elements,
+possibly infinite), and a contract describing the enumerated
+elements. 
+The simplest enumeration is the enumeration of natural
+numbers, where the bijection is just the identity. This
+is provided from @code{data/enumerate} as @code{natural/e},
+and we can both decode and encode with it as follows:
+@interaction[#:eval enum-eval
+                    (to-nat natural/e 42)
+                    (from-nat natural/e 42)]
+Similarly, we can also construct enumerations of subsets
+of the naturals using @code{below/e}, which takes a number
+as its argument and returns a finite enumeration of the naturals
+up to less than the number.
+
+Given some finite number of elements, we can construct
+an enumeration of them directly, using @code{fin/e}:
+@interaction[#:eval enum-eval
+                    (define abc/e (fin/e 'a 'b 'c 'd 'e 'f 'g))
+                    (to-nat abc/e 'c)
+                    (from-nat abc/e 5)]
+
+Given two enumerations, we can combine them with @code{or/e},
+which takes some number of enumerations as its arguments
+and returns their disjoint union. For example, we could
+form the combinations of the natural numbers and the enumeration
+above: @code{(or/e natural/e abc/e)}. The first 18 elements in
+that enumeration are:
+@enum-example[(or/e natural/e (fin/e 'a 'b 'c 'd 'e 'f 'g))
+              18]
+Note that we were able to combine finite and infinte
+enumerations in this example with no trouble, a necessary feature to
+build enumerations of Redex grammars.
+
+Enumerations of tuples can be formed with @code{list/e}, which
+takes @italic{n} enumerations as its arguments and returns the
+enumeration of the corresponding @italic{n}-tuple. For example,
+the first 12 elements in the enumeration
+@code{(list/e natural/e natural/e natural/e)} are:
+@enum-example[(list/e natural/e
+                      natural/e natural/e)
+              12]
+
+Only one more ingredient is necessary to be able to enumerate
+a simple grammar: @code{delay/e}, which enables the construction
+of fixed-points for recursively defined enumerations. To see how
+it works, we will build an enumeration for the same example grammar
+from the previous section:
+@(centered (arith-pict))
+We can define an enumeration for this grammar as follows:
+@racketblock[#,arith-enum-stxobj]
+constructing an enumerator for each non-terminal in a mutually
+recursive manner. Enumerators for non-terminals that are
+self-recursive, such as @code{e/e}, are where @code{delay/e}
+is put to use, enabling the evaluation of the body to be
+delayed and unfolded as necessary.
+
+Now we can construct the first few elements in the enumeration
+of the grammar:
+@enum-example[arith-e/e
+              12]
+Or we can index more deeply into it:
+@(enum-eval `(require ,examples-rel-path-string))
+@interaction[#:eval enum-eval
+                    (from-nat arith-e/e 12345678987654321)]
+The efficiency of the enumeration combinators ensures that
+the above example completes almost instantaneously, as do
+even larger indices.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @(define (paralabel . args)
    (elem #:style (style "paragraph" '()) args))
@@ -26,14 +154,6 @@
    (τ ::= ℕ (τ → τ))
    (x ::= variable))
 
-@title[#:tag "sec:redex-enum"]{Enumerating Redex Patterns}
-
-The inspiration for our enumeration library is bringing the success of
-Lazy Small Check@~cite[small-check] and FEAT@~cite[feat], 
-to property-based testing for Redex programs. This section
-gives an informal overview of how Redex programs are compiled
-into calls to the enumeration library in preparation for
-the evaluation in @secref["sec:evaluation"].
 
 @;{
 @(compound-paragraph (style "wrapfigure" '())
@@ -54,10 +174,9 @@ the evaluation in @secref["sec:evaluation"].
                                      (x ::= variable))]
                       #;
                       (paragraph (style "vspace*" '()) 
-                                 (list (element (style #f '(exact-chars)) '("-.5in"))))))
-}
+                                 (list (element (style #f '(exact-chars)) '("-.5in"))))))}
 
-@figure["fig:redex-example" "Simply-Typed λ-Calculus"]{
+@;{@figure["fig:redex-example" "Simply-Typed λ-Calculus"]{
  @centered{
  @racketblock[(define-language L
                 (e ::= 
@@ -68,8 +187,8 @@ the evaluation in @secref["sec:evaluation"].
                    natural)
                 (τ ::= ℕ (τ → τ))
                 (x ::= variable))]
-}}
-
+}}}
+@;{
 Redex programmers write down a high-level specification of a grammar, reduction
 rules, type system, etc., and properties that should hold for
 programs in these languages that relate, say, the reduction
@@ -95,20 +214,22 @@ or the @(add-commas example-term-index)th term:
           (for/list ([line (in-lines (open-input-string
                                       (get-output-string sp)))])
             (string-append (regexp-replace #rx"\u0012" line "r") "\n"))))
-which takes only 10 or 20 milliseconds to compute.
+which takes only 10 or 20 milliseconds to compute.}
 
-Our extensions to Redex map each different pattern that can appear
-in a grammar definition into an enumeration. At a high-level, the correspondence
-between Redex patterns and our combinators is clear, namely recursive non-terminals map
-into uses of @racket[dep/e], alternatives map into @racket[or/e] and 
-sequences map into @racket[list/e]. We also take care to exploit
-our library's fairness. In particular, when enumerating the pattern, 
-@racket[(λ (x : τ) e)], we do not generate list and pair patterns
-following the precise structure, which would lead to an unfair nesting.
-Instead, we generate the pattern @racket[(list/e x/e τ/e e/e)], where
+As with the ad-hoc grammar generator, given appropriate
+enumeration combinators, generating an enumeration from a grammar
+is for the most part straightforward.
+Each different pattern that can appear in a grammar
+definition is mapped into an enumeration. At a high-level, the correspondence
+between Redex patterns and the combinators is clear. Recursive non-terminals map
+into uses of @racket[delay/e], alternatives map into @racket[or/e] and 
+sequences map into @racket[list/e]. Some care is also taken to exploit
+fairness. In particular, when enumerating the pattern, 
+@racket[(λ (x : τ) e)], instead of generating list and pair patterns
+following the precise structure, which would lead to an unfair nesting,
+the pattern @racket[(list/e x/e τ/e e/e)] is generated, where
 @racket[x/e], @racket[τ/e] and @racket[e/e] correspond to the enumerations
-for those non-terminals, and use @racket[map/e] to construct the
-actual term.
+for those non-terminals, from which the appropriate term is constructed.
 
 Redex's pattern language is more general, however, and there are four
 issues in Redex patterns that require special care when enumerating.
@@ -137,7 +258,7 @@ also ensures that we generate a fair enumeration of each pattern, rather
 than introducing unwanted nesting.
 
 @paralabel{Patterns with inequalities}
-Second, in addition to patterns that insists on duplicate terms,
+In addition to patterns that insists on duplicate terms,
 Redex also has a facility for insisting that two terms are
 different from each other. For example, if we write a subscript
 with @racket[__!_] in it, like this:
@@ -248,35 +369,3 @@ determine that a pattern is unambiguous and it is combined with a
 @racket[__!_] pattern, Redex will signal an error instead of enumerating
 the pattern.
 
-@section{Fairness and Redex}
-
-Fair combinators give us predictability for programs that
-use our enumerations. In Redex, our main application of
-enumeration combinators, fairness ensures that when a Redex
-programmer makes an innocuous change to the grammar of
-the language (e.g. changing the relative order of two
-subexpressions in an expression form) the enumeration
-quality is not significantly affected. For example, consider
-an application expression. From the perspective of the
-enumeration, an application expression looks just like a list
-of expressions. An unfair enumeration might cause our
-bug-finding search to spend a lot of time generating
-different argument expressions and always using similar
-(simple, boring) function expressions. 
-
-Of course, the flip-side of this coin is that using unfair
-combinators can improve the quality of the search in
-some cases, even over fair enumeration. For example, when we
-are enumerating expressions that consist of a choice between
-variables and other kinds of expressions, we do not want to
-spend lots of time trying out different variables because most
-models are sensitive only to when variables differ from 
-each other, not their exact spelling. Accordingly unfairly
-biasing our enumerations away from different variables 
-can be a win for finding bugs. Overall, however, it is important
-that we do have a fair set of combinators that correspond
-to the way that Redex programs are constructed and then when
-Redex programs are compiled into the combinators, the compilation
-can use domain knowledge about Redex patterns to selectively
-choose targeted unfairness, but still use fair combinators when it
-has no special knowledge.

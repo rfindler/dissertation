@@ -38,7 +38,7 @@
     [(n)
      (random 100)]))
 
-(define arith-e-enum
+(define arith-e/e
   (letrec ([e/e (delay/e 
                  (or/e n/e
                        (list/e o/e e/e e/e)))]

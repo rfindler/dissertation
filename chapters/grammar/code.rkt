@@ -19,5 +19,5 @@
 
 (define arith-enum-stxobj
   (extract-def examples-stxobjs
-               `(define arith-e-enum
+               `(define arith-e/e
                  ,rest ...)))

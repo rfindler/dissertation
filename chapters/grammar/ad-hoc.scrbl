@@ -84,10 +84,11 @@ naive critiques of random test-case generators.
 @citet[contract-driven-testing-of-javascript-code],
 and a refutation using Redex and Quickcheck in
 @citet[redex-enum].)
-Redex's grammar generator does all of these things
-and has been tuned over the years in many such ways to be an
-effective test-case generator, which is why I refer
-to it as a ``ad-hoc.''
+Redex's grammar generator contains many such heuristics
+that have been tuned over years to make it more
+effective for random testing, which is why I refer
+to it as ``ad-hoc.'' (See @citet[sfp2009-kf] for a
+discussion of some of these heuristics.)
 
 Another concern about the testing effectiveness of
 generators of this type is that many properties that
