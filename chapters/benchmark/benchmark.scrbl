@@ -11,7 +11,9 @@
           racket/function
           (only-in pict scale))
 
-@title[#:tag "sec:benchmark"]{The Benchmark Models}
+@title[#:tag "sec:benchmark"]{The Redex Benchmark}
+
+@section[#:tag "sec:benchmark-models"]{The Benchmark Models}
 
 The programs in our benchmark come from two sources:
 synthetic examples based on our experience with Redex over

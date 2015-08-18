@@ -84,6 +84,7 @@
 (define tocl (string-append ACM Transactions Computational "Logic"))
 (define iac "Information and Computation")
 (define aisc (string-append International Conference "Artificial Intelligence, Automated Reasoning, and Symbolic Computation"))
+(define plilp (string-append International Symposium "Programming Language Implementation and Logic Programming"))
 
 ;; ----------------------------------------
 
@@ -890,3 +891,26 @@
    #:title "Enumerations"
    #:date 2014
    #:url "docs.racket-lang.org/data/Enumerations.html"))
+
+(define nu-prolog
+  (make-bib
+   #:author "Lee Naish"
+   #:title "Adding Equations to NU-Prolog"
+   #:date 1991
+   #:location (proceedings-location plilp)))
+
+(define flattening
+  (make-bib
+   #:author "Celine Rouveirol"
+   #:title "Flattening and Saturation: Two Representation Changes for Generalization"
+   #:date 1994
+   #:location (journal-location "Machine Learning")))
+
+(define bulwahn-phd
+  (make-bib
+   #:author "Lukas Bulwahn"
+   #:title "Counterexample Generation for Higher-Order Logic Using Functional and Logic Programming"
+   #:date 2013
+   #:location (dissertation-location
+               #:institution "Technische Univeristat Munchen"
+               #:degree "PdD")))

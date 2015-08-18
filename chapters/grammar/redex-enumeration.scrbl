@@ -233,6 +233,7 @@ for those non-terminals, from which the appropriate term is constructed.
 
 Redex's pattern language is more general, however, and there are four
 issues in Redex patterns that require special care when enumerating.
+We enumerate them below and discuss how Redex constructs enumerations for them.
 
 @bold{Patterns with repeated names.} If the same meta-variable is used twice
 when defining a metafunction, reduction relation, or judgment form in Redex,
@@ -273,9 +274,17 @@ all different. Then, during the final phase that replaces the placeholders
 with the actual terms, each placeholder gets a different element of
 the list.
 
-Generating a list without duplicates requires the @racket[dep/e] combinator
-and the @racket[except/e] combinator. For example, to generate lists of distinct naturals, 
-we first define a helper function that takes as an argument a list of numbers to exclude
+Generating a list without duplicates requires the use of two
+combinators that we haven't seen yet. The first, @racket[dep/e],
+takes a number and a function and produces an enumeration of
+the a pair such that the enumeration of teh second element may
+depend on the value of the first. The second, @racket[except/e],
+takes an enumeration and a sequence of values in the enumeration
+and returns and enumeration like the argument except with the values
+removed from the set of enumerated elements.
+ For example, to generate lists of distinct naturals, 
+we can first define a helper function that takes as an argument
+a list of numbers to exclude
 @racketblock/define[(define (no-dups-without eles)
                       (or/e (fin/e null)
                             (dep/e 
@@ -290,10 +299,6 @@ its input list. We can then define @racket[(define no-dups/e (no-dups-without '(
 Here are the first @racket[12] elements of
 the @racket[no-dups/e] enumeration:
 @enum-example[no-dups/e 12]
-This is the only place where dependent enumeration is used in the
-Redex enumeration library, and the patterns used
-are almost always infinite, so we have not encountered degenerate performance
-with dependent generation in practice.
 
 @bold{List patterns with length constraints.}
 The third complex aspect of Redex patterns is Redex's variation on Kleene star that
@@ -338,34 +343,33 @@ and then the remainder in a second part (just
 @racket[(λ e)] in our example), then the enumeration can handle
 these two parts with the ordinary pairing operator and, once
 we have the term, we can rearrange it to match the original
-pattern. 
-
-This is the strategy that our enumeration implementation uses. Of course,
+pattern.  This is the strategy that the enumeration implementation
+in Redex uses. Of course,
 ellipses can be nested, so the full implementation is more complex,
 but rearrangement is the key idea.
 
 @bold{Ambiguous patterns.}
-And finally, there is one relatively uncommon use of Redex's patterns 
-that we cannot enumerate. It is a bit technical and explaining it requires
+Finally, there is one relatively uncommon use of Redex's patterns 
+that currently cannot be enumerated. Explaining it requires
 first explaining ambiguity in matching Redex patterns. There are
 several different ways that a Redex grammar definition can be ambiguous.
 The simplest one is when a single non-terminal has overlapping productions,
 but it can occur due to multiple uses of ellipses in a single sequence or
-when matching @racket[in-hole]. Because of the way our enumeration compilation 
-works, we are not technically building a bijection between the naturals
-and terms in a Redex pattern; it is more accurate to say we are building
+when matching @racket[in-hole]. Because of the way enumeration compilation 
+works, it doesn't result in a bijection between the naturals
+and terms in a Redex pattern; it is more accurate to say it is
 a bijection between the naturals and the ways one might parse a Redex pattern.
-In our implementation, of course, we construct a concrete term from the
+In the implementation a concrete term is constructed from the
 parse, but when a pattern is ambiguous there may be a single term
-that corresponds to multiple parses and thus our enumeration is not bijective.
-Usually, this is not a problem, as we ultimately need only the mapping
-from naturals to Redex patterns, not the inverse. There is one situation,
-however, where we need the inverse, namely to handle patterns with 
+that corresponds to multiple parses and thus the enumeration is not bijective.
+Usually, this is not a problem, as only the mapping
+from naturals to Redex patterns is necessary, not the inverse. There is one situation,
+however, where inverse is necessary, namely to handle patterns with 
 inequalities, as discussed above. Determining if a pattern is ambiguous
-in the general case is a computationally difficult task, so we approximate
-it in a way that works well for Redex models we encounter in practice 
-(since few Redex languages are intentionally ambiguous), but if we cannot
-determine that a pattern is unambiguous and it is combined with a
+in the general case is a computationally difficult task, so it is approximated
+it in a way that works well for Redex models encountered in practice 
+(since few Redex languages are intentionally ambiguous), but if it cannot be
+determined that a pattern is unambiguous and it is combined with a
 @racket[__!_] pattern, Redex will signal an error instead of enumerating
 the pattern.
 

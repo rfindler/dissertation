@@ -87,11 +87,13 @@ such applications are allowed inside @code{term}.
 The metafunctions for function compilation are shown in @figure-ref["fig:mf-compile"].
 The top-level metafunction, @pt[compile], first calls @pt[compile-M] with
 every function in the program until there are none, and then calls
-@pt[extract-apps] with every definition @pt[D] on the program.
+@pt[extract-apps-D] with every definition @pt[D] on the program.
 The metafunction for compiling an individual function, @pt[compile-M],
-essentially maps prefixes of the list of clauses to rules @pt[r], doing nothing
-with the prefix containing only one clause, and in every other case
-creating a rule based on the last clause in the prefix, adding in
+processes each prefix of the list of clauses individually,
+mapping each to a rules @pt[r]. It does nothing special
+with the prefix containing only one clause, other than
+returning the equivalent rules,but in every other case
+it creates a rule based on the last clause in the prefix, adding in
 constraints excluding every other clause in the prefix.
 
 @figure["fig:extraction-pict"
@@ -111,4 +113,15 @@ to premises is performed by @pt[extract-apps-p], while the
 other metafunctions shown in @figure-ref["fig:extraction-pict"] lift the
 premises to the rule level along with the appropriate bookkeeping.
 
-@italic{TODO flattening discussion, references}
+The technique of converting functions into relations for use in
+a logic-programming setting is usually referred to as @italic{flattening}
+and is not new, see for example @citet[nu-prolog]
+and @citet[flattening]. However, the addition of disequations as part of the
+process has not previously been applied and it allows a broader
+set of function definitions to be flattened, since otherwise, as
+noted by @citet[nu-prolog], one has to require that all left-hand sides
+be mutually non-unifiable. Further, and more importantly for Redex, it
+allows the rules of the resulting relation to be tried in any order.
+More recently, flattening has been applied to support test-case generation
+by @citet[bulwahn-phd] for the purpose of inverting functions.
+
