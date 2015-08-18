@@ -41,6 +41,11 @@
    (code #,lang-stxobj)
    (full-exp-pict)))
 
+(define (reduction-types-pict)
+  (ht-append 40
+             (code #,red-stxobj)
+             (code #,type-stxobj)))
+
 (define eval-stxobj
   (extract-def stlc-stxobjs
                 `(define-metafunction

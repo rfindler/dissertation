@@ -7,6 +7,8 @@
           racket/match
           racket/sandbox
           racket/path
+          redex/pict
+          "../../model/stlc.rkt"
           "intro-typesetting.rkt"
           "../common.rkt"
           "../util.rkt"
@@ -94,14 +96,66 @@ a representation of bindings from the patterns' two expressions to
 the relevant subterms for the one possible match in this case:
 @interaction[#:eval stlc-eval
              (redex-match STLC-min (e_1 e_2)
-                          (term ((λ (x num) x) 5)))]
+                                   (term ((λ (x num) x) 5)))]
+The @code{redex-match} syntactic form takes to a language defined
+as in @figure-ref["fig:side-by-side"], a patterned defined
+in reference to that language (in the above, for example
+the @code{e}'s refer to the non-terminal of the language),
+and a concrete term. It then attempts to parse to term
+according to the patter.
 Trying to parse @et[((λ 4) 2)], however, fails, since the first
 subterm no longer conforms to the @et[e] nonterminal, and is
 not a valid expression in this langauge:
 @interaction[#:eval stlc-eval
              (redex-match STLC-min (e_1 e_2)
-                          (term ((λ 4) 2)))]
+                                   (term ((λ 4) 2)))]
 
+Contexts are a native feature of patterns in Redex, and allow
+terms to be decomposed into a context with a hole and
+the content of the hole. For example:
+@interaction[#:eval stlc-eval
+             (redex-match STLC (in-hole E n)
+                               (term ((λ [x num] x) 5)))]
+Here @code{in-hole} is Redex's notation for the application
+of a context, so @code{(in-hole E n)} is equivalent to
+@(term->pict STLC (in-hole E n)) in the notation from
+@secref["sec:semantics-intro"]. (@code{STLC} is an
+extension of @code{STLC-min} that adds contexts.)
+The result tells us that
+there is exactly one way to decompose the term such
+that a number is in the hole, @(term->pict STLC ((λ [x num] x) hole))
+and @(term->pict STLC 5).
+
+Redex patterns also feature ellipses, which are analagous to
+the Kleene star and allow matching repetitions. A simple
+use case allows us to match a list of numbers of any length:
+@interaction[#:eval stlc-eval
+             (redex-match STLC (n ...)
+                               (term (1 2 3 4 5)))]
+A slightly more interesting example is to match a list
+of pairs of variables and numbers, a possible representation
+for an environment:
+@interaction[#:eval stlc-eval
+             (redex-match STLC ((x n) ...)
+                               (term ((a 1) (b 2) (c 3) (d 4) (e 5))))]
+As a result we get back bindings for the variables @code{x},
+a list of variables, and @code{n}, a list of numbers.
+Ellipses are a powerful feature of Redex's pattern matcher
+but cause problems for some types of random generation,
+an issue I will return to later on.
+
+Reduction relations are define using the @code{reduction-relation}
+form as a union of rules, the syntax of which is very close
+to that of @figure-ref["fig:one-step"]. The definition of
+the reduction is shown on the left of @figure-ref["fig:red-types"].
+Each rule is parenthesized, and defined with the @code{-->} operator.
+
+@figure["fig:red-types"
+        "Reduction-relation (left) and typing judgment definitions in Redex."
+        (reduction-types-pict)]
+
+@;{TODO - lightweightness...discuss, should this model
+   be an appendix?}
 @italic{TODO}
 stuff
 Need to talk about reduction-relations vs. metafunctions
