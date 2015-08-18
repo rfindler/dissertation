@@ -28,11 +28,11 @@
   (id variable-not-otherwise-mentioned))
 
 (define-extended-language pats/mf pats
+  (P (G ...))
+  (G D M)
+  (M (c ...))
   (p ....
      (f p))
-  (D ....
-     M)
-  (M (c ...))
   (c ((f p) = p))
   (f id))
 

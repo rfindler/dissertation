@@ -1,6 +1,6 @@
  
 TEXFLAGS= --prefix prefix.tex ++style racket-ss.sty ++extra nuthesis.cls ++extra tocstyle.sty \
-	++extra semantics/graph.pdf ++extra redex-intro/sumto.pdf
+	++extra semantics/graph2.pdf ++extra redex-intro/sumto.pdf
 DOCNAME=main
 
 all: main.scrbl

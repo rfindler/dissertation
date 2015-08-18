@@ -124,56 +124,9 @@ equations and disequations.
 and @secref["sec:pats"] describes how our implementation
 scales up to support features in Redex that are not covered in this model.
 
-@section[#:tag "sec:exmampe-red"]{An Example Reduction}
+@include-section["example.scrbl"]
 
-@figure["fig:red-graph"
-        @list{Reduction graph for example generator program}
-        @raw-latex{\includegraphics[scale=0.75]{graph.pdf}}]
-
-@section[#:tag "sec:mf-semantics"]{Compiling Metafunctions}
-
-The primary difference between a metafunction, as written in Redex,
-and a set of @clpt[((d p) ← a ...)] clauses from @figure-ref["fig:clp-grammar"]
-is sensitivity to the ordering of clauses. 
-Specifically, when the second clause in a metafunction fires,
-then the pattern in the first clause must not match, in contrast to
-the rules in the model, which fire regardless of their relative order. Accordingly,
-the compilation process that translates metafunctions into the model must
-insert disequational constraints to capture the ordering of the cases.
-
-As an example, consider the
-metafunction definition of @clpt[g] on the left and some example applications on the right:
-@centered{@(f-ex-pict)}
-The first clause matches any two-element list, and the second clause matches
-any pattern at all. Since the clauses apply in order, an application where the
-argument is a two-element list will reduce to @clpt[2] and an argument of any
-other form will reduce to @clpt[1]. To generate conclusions of the judgment
-corresponding to the second clause, we have to be careful not to generate
-anything that matches the first.
-
-Applying the same idea as @clpt[lookup] in @secref["sec:deriv"], 
-we reach this incorrect translation:
-@centered{@(incorrect-g-jdg-pict)}
-This is wrong because it would let us derive
-@(hbl-append 2 @g-of-12 @clpt[=] @clpt[1]), 
-using @clpt[3] for @clpt[p_1] and
-@clpt[4] for @clpt[p_2] in the premise of the right-hand rule.
-The problem is that we need to disallow all possible instantiations
-of @clpt[p_1] and @clpt[p_2], but the variables 
-can be filled in with just specific values to satisfy the premise.
-
-The correct translation, then, universally quantifies the variables
-@clpt[p_1] and @clpt[p_2]:
-@centered{@(g-jdg-pict)}
-Thus, when we choose the second rule,
-we know that the argument will never be able to match the first clause.
-
-In general, when compiling a metafunction clause, we add a disequational
-constraint for each previous clause in the metafunction definition.
-Each disequality is between the left-hand side patterns of one of the previous
-clauses and the left-hand side of the current clause, and it is quantified 
-over all variables in the previous clause's left-hand side.
-
+@include-section["metafunctions.scrbl"]
 
 @section[#:tag "sec:solve"]{The Constraint Solver}
 

@@ -234,7 +234,7 @@ for those non-terminals, from which the appropriate term is constructed.
 Redex's pattern language is more general, however, and there are four
 issues in Redex patterns that require special care when enumerating.
 
-@paralabel{Patterns with repeated names} If the same meta-variable is used twice
+@bold{Patterns with repeated names.} If the same meta-variable is used twice
 when defining a metafunction, reduction relation, or judgment form in Redex,
 then the same term must appear in both places. For example, a substitution
 function will have a case with a pattern like this:
@@ -257,7 +257,7 @@ the placeholders with the appropriate entry in the environment. This strategy
 also ensures that we generate a fair enumeration of each pattern, rather
 than introducing unwanted nesting.
 
-@paralabel{Patterns with inequalities}
+@bold{Patterns with inequalities.}
 In addition to patterns that insists on duplicate terms,
 Redex also has a facility for insisting that two terms are
 different from each other. For example, if we write a subscript
@@ -295,7 +295,7 @@ Redex enumeration library, and the patterns used
 are almost always infinite, so we have not encountered degenerate performance
 with dependent generation in practice.
 
-@paralabel{List patterns with length constraints}
+@bold{List patterns with length constraints.}
 The third complex aspect of Redex patterns is Redex's variation on Kleene star that
 requires that two distinct sub-sequences in a term have the same length. 
 
@@ -344,7 +344,7 @@ This is the strategy that our enumeration implementation uses. Of course,
 ellipses can be nested, so the full implementation is more complex,
 but rearrangement is the key idea.
 
-@paralabel{Ambiguous patterns}
+@bold{Ambiguous patterns.}
 And finally, there is one relatively uncommon use of Redex's patterns 
 that we cannot enumerate. It is a bit technical and explaining it requires
 first explaining ambiguity in matching Redex patterns. There are

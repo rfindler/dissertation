@@ -9,10 +9,10 @@
 
 (define-metafunction program
   compile : P -> (D ...)
-  [(compile ((r ...) ...))
-   ((extract-apps-D (r ...)) ...)]
-  [(compile (D_0 ... M D_1 ...))
-   (compile (D_0 ... (compile-M (freshen-cases M)) D_1 ...))])
+  [(compile (D ...))
+   ((extract-apps-D D) ...)]
+  [(compile (D ... M G ...))
+   (compile (D ... (compile-M (freshen-cases M)) G ...))])
 
 (define-metafunction program
   compile-M : M -> D
@@ -101,7 +101,7 @@
   extract-apps-p : p -> (p (a ...))
   [(extract-apps-p (f p_0))
    (x ((f (lst p x)) (f_1 p_1) ...))
-   (where x (fresh-var x))
+   (where x (fresh-var y))
    (where (p ((f_1 p_1) ...)) (extract-apps-p p_0))]
   [(extract-apps-p (lst p ...))
    ((lst p_1 ...) ((f_2 p_2) ... ...))

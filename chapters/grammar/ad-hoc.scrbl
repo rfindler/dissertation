@@ -44,13 +44,15 @@ productions too often. We can deal with this by adding
 a ``fuel'' parameter that is decremented on recursive
 calls and only allows choosing recursive productions if
 it is positive, thus placing a limit on the depth of
-the generated term. One way of writing such a function
-is as follows:
+the generated term. Here is one implementation, as a
+function that takes a symbol indicating a non-terminal,
+a natural number indicating ``fuel'', and returns an
+appropriate random term:
 @(racketblock #,generate-arith-stxobj)
 (The predicate @code{arith?} appearing in the contract
 on the second line just checks that the result does
 indeed conform to a non-terminal of the grammar above.)
-Then, to generate a random expression, we can call
+So, to generate a random expression, we can call
 @code{generate-arith} with @code{'e} and a depth limit
 of @code{3}, for a medium-sized term:
 @(adhoc-eval '(random-seed 9))
@@ -67,7 +69,8 @@ example, the method used is fundamentally the same.
 Even in our simple example, however, we have made
 choices that can significantly affect the quality of
 our generator in testing. Most significantly, we
-have chosen to sample our numbers uniformly from
+have chosen to sample our numbers for the @code{n}
+non-terminal uniformly from
 integers in the interval between 0 and 100. This
 was done here for the sake of simplicity, and a
 little thought reveals it to be a very poor choice in general.
@@ -107,7 +110,7 @@ replacing them with closed subterms.
 In spite of the issues with recursive grammar generation,
 it has been used many times over the years to great
 effect, starting with the landmark study of
-@citet[Hanford]. In fact, is referred to as ``the
+@citet[Hanford]. In fact, it is referred to as ``the
 predominant generation strategy for language fuzzing''
 as recently as @citet[clp-language-fuzzing].
 It has been the default strategy in Redex since

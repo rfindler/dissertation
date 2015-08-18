@@ -21,6 +21,9 @@
   (with-all-rewriters
    (clpt t)))
 
+(define-syntax-rule (pt t)
+  (term->pict pats/mf t))
+
 (define (init-lang)
   (with-atomic-rewriter 
    'number "Constant"
@@ -72,7 +75,8 @@
 
 (define (compile-M-pict)
   (with-rewriters/params
-   (render-metafunction compile-M #:contract? #t)))
+   (parameterize ([metafunction-pict-style 'up-down])
+     (render-metafunction compile-M #:contract? #t))))
 
 (define (extract-apps-J-pict)
   (with-rewriters/params
@@ -178,3 +182,27 @@
              (disunify-pict)
              (check-pict)
              (param-elim-pict)))
+
+(define (pmf-lang-pict)
+  (language->pict pats/mf))
+
+(define (two-compile-pict)
+  (vl-append 15
+             (compile-pict)
+             (compile-M-pict)))
+
+(define (extraction-pict)
+  (vl-append 15
+             (extract-apps-J-pict)
+             (extract-apps-r-pict)
+             (extract-apps-a-pict)
+             (extract-apps-p-pict)))
+
+(define (all-compile-pict)
+  (vc-append 
+   40
+   (pmf-lang-pict)
+   (vl-append 40
+              (two-compile-pict)
+              (extraction-pict))))
+
