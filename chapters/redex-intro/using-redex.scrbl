@@ -110,7 +110,8 @@ not a valid expression in this langauge:
              (redex-match STLC-min (e_1 e_2)
                                    (term ((λ 4) 2)))]
 
-Contexts are a native feature of patterns in Redex, and allow
+Contexts, as introduced in @secref["sec:semantics-intro"],
+are a native feature of patterns in Redex, and allow
 terms to be decomposed into a context with a hole and
 the content of the hole. For example:
 @interaction[#:eval stlc-eval
@@ -148,36 +149,59 @@ Reduction relations are define using the @code{reduction-relation}
 form as a union of rules, the syntax of which is very close
 to that of @figure-ref["fig:one-step"]. The definition of
 the reduction is shown on the left of @figure-ref["fig:red-types"].
-Each rule is parenthesized, and defined with the @code{-->} operator.
+Each rule is parenthesized, and defined with the @code{-->} operator,
+which takes a left-hand-side pattern, and resulting term, a
+sequence of side conditions, and a rule name as its arguments.
 
 @figure["fig:red-types"
         "Reduction-relation (left) and typing judgment definitions in Redex."
         (reduction-types-pict)]
 
+The typing judgment, shown on the right on @figure-ref["fig:red-types"],
+is also defined in a manner designed to follow the common
+syntax of @figure-ref["fig:type-judgment"]. Instead of the
+designating the typing relation with the infix syntax @et[(tc Γ e τ)],
+judgments in Redex code use parenthesized prefix-notation, in
+this case @code{(tc Γ e τ)}. Each rule is bracketed, and
+the conclusion appears below a horizontal line of dashes,
+the premises (and side-conditions) above. The only other
+significant addition is the mode annotation in the second
+line, which designates which positions of the relation are
+considered inputs and which are considered outputs.
+Redex requires this to ensure the judgment is executable
+without search, although it constrains the relations
+that can be expressed with @code{define-judgment-form}.
+
+Judgments can be applied through the @code{judgment-holds}
+form. For example, we can verify that the type of
+@code{(+ 1 (- 2 3))} is a @code{num} as follows:
+@interaction[#:eval stlc-eval
+             (judgment-holds (tc • (+ 1 (- 2 3)) num))]
+(Recall that @code{•} indicates the empty type environment.)
+Or, we can ask Redex to compute the type of a slightly
+more complicated term:
+@interaction[#:eval stlc-eval
+             (judgment-holds (tc • (λ [x num] (λ [y num] x)) τ) τ)]
 @;{TODO - lightweightness...discuss, should this model
    be an appendix?}
-@italic{TODO}
-stuff
-Need to talk about reduction-relations vs. metafunctions
-AND judgment-holds argh
-stuff
 
-Finally, we can define an @code{Eval} metafunction in Redex that
-corresponds exactly to the code from the previous section:
+Finally, to complete the Redex model of this language,
+we can define an @code{Eval} metafunction in Redex that
+corresponds exactly to the @et[Eval] from @secref["sec:semantics-intro"]].
 @racketblock[#,eval-stxobj]
 The first line specifies that this definition is relative to
 the @code{STLC} language and the second specifies @code{Eval}'s
 contract. Two clauses follow, which are made up of, in order,
 a pattern, a result term, and side-conditions, which is where
 all the work of reducing the term is happening in this case.
-Clauses are tried in order, returning the result from the
-first clause with a pattern matching the argument and
+Clauses are tried in order, and the result is the right-hand side
+of the first clause that has pattern matching the argument and
 side-conditions that succeed.
 As before, @code{Eval} applies the reflexive-transitive closure
-of the standard reduction (here called @code{refl-trans}) to
+of the standard reduction (the judgment form @code{refl-trans}) to
 its argument and dispatches on the result. (Note that the
 side-conditions of the clauses differ in whether the
-result is an @code{n} or a @code{v}.) Metafunctions
+result is an @code{n} or a @code{λ}-espression.) Metafunctions
 like @code{Eval} are applied as if they were functions in the
 object language, from within @code{term}. We can now evaluate
 programs using Redex, for example, applying the function
@@ -200,6 +224,13 @@ the value of the arithmetic series of @code{100}.
                     (term (Eval ,(sumto 100)))]
 which returns the answer we would expect.
 
+@figure["fig:sumto-red"
+        @list{An example reduction graph. Since @et[μ] reductions
+              substitute the entire @et[rec] expression in the body, the
+              bodies of duplicate such expressions are omitted, but are
+              all the same as the initial @et[rec].}
+        @raw-latex{\includegraphics[scale=0.85]{sumto.pdf}}]
+
 Redex also allows us to observe the steps of a calculation
 with a reduction graph, where each two terms related by
 the reduction relation are nodes in the graph, and the
@@ -215,12 +246,5 @@ Redex is again a one-liner given the appropriate definitions:
 @code{(traces STLC-red (sumto 2))}. The fact that there is a
 single path in the graph is a feature of this reduction relation;
 other reduction relations may give rise to many possible paths.
-
-@figure["fig:sumto-red"
-        @list{An example reduction graph. Since @et[μ] reductions
-              substitute the entire @et[rec] expression in the body, the
-              bodies of duplicate such expressions are omitted, but are
-              all the same as the initial @et[rec].}
-        @raw-latex{\includegraphics[scale=0.85]{sumto.pdf}}]
 
 @italic{TODO}

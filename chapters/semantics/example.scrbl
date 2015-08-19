@@ -62,8 +62,9 @@ Note that sequence patterns all now have explicit @clpt[lst]
 constructors, corresponding to patterns @clpt[p] of the model,
 so that @lt[(s (s z))] becomes @clpt[(lst s (lst s z))]. Also,
 the parameters of the judgment have been combined into
-an @clpt[lst] sequence as well, since in the model rules
-have only a single pattern in their conclusion.
+an @clpt[lst] sequence as well, since in the model rules all
+judgments are unary, so we just combine the parameters of
+any @italic{n}-ary judgment into a tuple.
 
 To generate a reduction graph for this program we need an
 appropriate initial goal, for which we can chose
@@ -77,7 +78,8 @@ for the reduction relation of @figure-ref["fig:clp-red"].
 The resulting reduction graph is shown in @figure-ref["fig:red-graph"].
 
 @figure["fig:red-graph"
-        @list{Reduction graph for example generator program}
+        @list{Reduction graph for example generator program. The
+              program is abbreviated as @code{P}.}
         @raw-latex{\includegraphics[scale=0.75]{graph2.pdf}}]
 
 The first thing to notice about the reduction graph is that

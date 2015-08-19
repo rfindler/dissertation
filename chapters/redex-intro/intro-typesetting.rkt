@@ -12,7 +12,8 @@
          stlc-type-pict-horiz)
 
 (define-syntax-rule (et t)
-  (render-term STLC t))
+  (with-rewriters
+   (render-term STLC t)))
 
 (define (exp-pict)
   (with-rewriters
