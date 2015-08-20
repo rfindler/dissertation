@@ -22,7 +22,7 @@
 
 @(stlc-eval '(pretty-print-columns 60))
 
-@title{Modeling and testing semantics in Redex}
+@title[#:tag "sec:redex-modeling"]{Modeling Semantics in Redex}
 
 The entire development of the previous section can be translated
 almost directly into Redex. In fact, all of the typesetting for
@@ -157,6 +157,16 @@ sequence of side conditions, and a rule name as its arguments.
         "Reduction-relation (left) and typing judgment definitions in Redex."
         (reduction-types-pict)]
 
+To seen a reduction relation at work, we can use the
+@code{apply-reduction-relation} form, which takes a relation and
+a term to reduce one step:
+@interaction[#:eval stlc-eval
+             (apply-reduction-relation STLC-red-one
+                                       (term ((λ [x num] (+ x 2)) 1)))]
+A list containing one term is returned, since in this case there
+is only one possible reduction step, but depending on how
+the relation is defined, there could be more.
+
 The typing judgment, shown on the right on @figure-ref["fig:red-types"],
 is also defined in a manner designed to follow the common
 syntax of @figure-ref["fig:type-judgment"]. Instead of the
@@ -187,7 +197,7 @@ more complicated term:
 
 Finally, to complete the Redex model of this language,
 we can define an @code{Eval} metafunction in Redex that
-corresponds exactly to the @et[Eval] from @secref["sec:semantics-intro"]].
+corresponds exactly to @et[Eval] from @secref["sec:semantics-intro"].
 @racketblock[#,eval-stxobj]
 The first line specifies that this definition is relative to
 the @code{STLC} language and the second specifies @code{Eval}'s
@@ -195,19 +205,21 @@ contract. Two clauses follow, which are made up of, in order,
 a pattern, a result term, and side-conditions, which is where
 all the work of reducing the term is happening in this case.
 Clauses are tried in order, and the result is the right-hand side
-of the first clause that has pattern matching the argument and
+of the first clause that has both s pattern matching the argument and
 side-conditions that succeed.
-As before, @code{Eval} applies the reflexive-transitive closure
+As before, the @code{judgment-holds} side-conditions in
+@code{Eval} apply the reflexive-transitive closure
 of the standard reduction (the judgment form @code{refl-trans}) to
-its argument and dispatches on the result. (Note that the
+its argument and dispatch on the result. (Note that the
 side-conditions of the clauses differ in whether the
 result is an @code{n} or a @code{λ}-espression.) Metafunctions
 like @code{Eval} are applied as if they were functions in the
 object language, from within @code{term}. We can now evaluate
-programs using Redex, for example, applying the function
-that adds @code{1} to @code{1}:
+programs using Redex. For example, to evaluate the application
+of the function that adds @code{1} to @code{1}:
 @interaction[#:eval stlc-eval
                     (term (Eval ((λ [x num] (+ x 1)) 1)))]
+The unsurprising result is @code{2}.
 
 A more interesting example is:
 @racketblock[#,sumto-stxobj]

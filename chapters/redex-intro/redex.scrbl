@@ -12,14 +12,15 @@
           "code-utils.rkt"
           (for-syntax racket/syntax))
 
-@(define stlc-eval (make-base-eval))
+@title[#:tag "sec:semred"]{Operational Semantics and PLT Redex}
 
-@(stlc-eval `(require redex/reduction-semantics
-                      racket/pretty
-                      ,stlc-rel-path-string))
+@include-section["redex-intro.scrbl"]
 
-@(stlc-eval '(pretty-print-columns 60))
+@include-section["using-redex.scrbl"]
 
+@include-section["testing.scrbl"]
+
+@;{
 @title[#:tag "sec:Intro"]{Random Testing in PLT Redex}
 
 We begin with brief tour of the basics of Redex and the approach 
@@ -29,9 +30,6 @@ Section 2.2 describes the facilities available for random testing
 in Redex as they existed prior to the present work, contrasting
 their demonstrated effectiveness and their shortcomings.
 
-@include-section["redex-intro.scrbl"]
-
-@include-section["using-redex.scrbl"]
 
 @section{Overview of PLT Redex and Reduction Semantics}
 
@@ -536,3 +534,4 @@ metafunctions, since those terms will in many cases inherently
 have desirable properties from a testing standpoint. We then attempt
 to compare the effectiveness of this strategy to the one
 explained in this section.
+}

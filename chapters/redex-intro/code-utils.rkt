@@ -55,3 +55,8 @@
 (define sumto-stxobj
   (extract-def stlc-stxobjs
                 `(define (sumto n) ,rest ...)))
+
+(define check-pp-stxobj
+  (extract-def stlc-stxobjs
+               `(define (check-progress/preservation ,args ...)
+                  ,body ...)))

@@ -35,7 +35,7 @@
 
 @(stlc-eval '(pretty-print-columns 60))
 
-@title[#:tag "sec:semantics-intro"]{Operational Semantics: An Example}
+@title[#:tag "sec:semantics-intro"]{Operational Semantics by Example}
 
 This section works through the development of a semantics for a
 simple functional language to illustrate the process of semantics

@@ -3,6 +3,7 @@
 (require racket/match
          racket/list
          racket/pretty
+         racket/bool
          unstable/pretty
          slideshow/pict
          redex/reduction-semantics
@@ -283,12 +284,14 @@
 
 (define (uses-reduction? name)
   (λ (exp)
-    (let loop ([e exp])
-      (match (apply-reduction-relation/tag-with-names STLC-red e)
-        ['() #f]
-        [`((,red-name ,next))
-         (or (equal? red-name name)
-             (loop next))]))))
+    (let loop ([e exp] [n 0])
+      (if (> n 5)
+          #f
+          (match (apply-reduction-relation/tag-with-names STLC-red e)
+            ['() #f]
+            [`((,red-name ,next))
+             (or (equal? red-name name)
+                 (loop next (add1 n)))])))))
 
 (define (gather-stats trials [depth 5])
   (define to-check
@@ -297,8 +300,9 @@
           (cons 'at-least-1-red (at-least-n-steps? 1))
           (cons 'at-least-2-red (at-least-n-steps? 2))
           (cons 'at-least-3-red (at-least-n-steps? 3))
+          (cons 'uses-μ (uses-reduction? "μ"))
           (cons 'uses-β (uses-reduction? "β"))
-          (cons 'uses-plus (uses-reduction? "plus"))
+          (cons 'uses-δ (uses-reduction? "δ"))
           (cons 'uses-if-0 (uses-reduction? "if-0"))
           (cons 'uses-if-else (uses-reduction? "if-n"))
           (cons 'typed-and-reduces (λ (e)
@@ -334,6 +338,22 @@
                   0
                   (+ x (sumto (- x 1))))))
          ,n)))
+
+(define (check-progress/preservation e)
+  (define type-or-empty (judgment-holds (tc • ,e τ) τ))
+  (define step-or-empty (apply-reduction-relation STLC-red e))
+  (implies (not (empty? type-or-empty))
+           (or (redex-match? STLC v e)
+               (and (equal? 1 (length step-or-empty))
+                    (equal? type-or-empty
+                            (judgment-holds (tc • ,(car step-or-empty) τ)
+                                            τ))))))
+
+(module+ test
+  (redex-check STLC #:satisfying
+               (tc • e τ)
+               (check-progress/preservation (term e))
+               #:attempts 50))
 
 (define (make-rec-pp)
   (define step 0)
@@ -405,4 +425,17 @@
    (rec [x τ] e_1)]
   [(replace-free (rec [x_0 τ] e_1) x x_1)
    (rec [x_0 τ] (replace-free e_1 x x_1))])
-  
+
+(define (closed-term? t)
+  (let recur ([t t]
+              [vars '()])
+    (match t
+      [`(λ [,x ,t] ,b)
+       (recur b (cons x vars))]
+      [(? symbol? x)
+       (or (member x '(rec if0 + -))
+           (member x vars))]
+      [(? number?) #t]
+      [(list ts ...)
+       (for/and ([t ts])
+                (recur t vars))])))

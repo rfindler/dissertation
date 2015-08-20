@@ -1,1 +1,1 @@
-100000((typed-and-reduces . 0.00255) (well-typed? . 0.11357) (at-least-2-red . 0.00691) (uses-if-0 . 0.02877) (uses-plus . 0.00701) (typed-and-interesting? . 0.00512) (at-least-1-red . 0.07027) (uses-β . 0.00945) (at-least-3-red . 0.00072) (uses-if-else . 0.03032))
+100000((uses-μ . 0.29958) (at-least-1-red . 0.34818) (uses-if-0 . 0.04281) (uses-if-else . 0.04416) (typed-and-interesting? . 0.02446) (uses-β . 0.02308) (well-typed? . 0.18628) (typed-and-reduces . 0.01765) (at-least-2-red . 0.1316) (at-least-3-red . 0.04877) (uses-δ . 0.02252))

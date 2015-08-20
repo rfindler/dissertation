@@ -85,6 +85,9 @@
 (define iac "Information and Computation")
 (define aisc (string-append International Conference "Artificial Intelligence, Automated Reasoning, and Symbolic Computation"))
 (define plilp (string-append International Symposium "Programming Language Implementation and Logic Programming"))
+(define foser (string-append Workshop "Future of Software Engineering Research"))
+(define dls "Dynamic Languages Symposium")
+(define ecoop (string-append European Conference "Object-Oriented Programming"))
 
 ;; ----------------------------------------
 
@@ -913,4 +916,34 @@
    #:date 2013
    #:location (dissertation-location
                #:institution "Technische Univeristat Munchen"
-               #:degree "PdD")))
+               #:degree "PhD")))
+
+(define full-monty
+  (make-bib
+   #:author (authors "Joe Gibbs Politz" "Alejandro Martinez" "Matthew Milano" "Sumner Warren"
+                     "Daniel Patterson" "Junsong Li" "Anand Chitipthu" "Shriram Krishnamuthi")
+   #:title "Python: The Full Monty, A Tested Semantics for the Python Programming Language"
+   #:date 2013
+   #:location (proceedings-location oopsla)))
+
+(define s5
+  (make-bib
+   #:author (authors "Joe Gibbs Politz" "Matthew J. Carroll" "Benjamin S. Lerner"
+                     "Justin Pombrio" "Shriram Krishnamurthi")
+   #:title "A Tested Semantics for Getters, Setters, and Eval in Javscript"
+   #:date 2012
+   #:location (proceedings-location dls)))
+
+(define lambda-js
+  (make-bib
+   #:author (authors "Arjun Guha" "Claudia Saftiou" "Shriram Krishnamurthi")
+   #:title "The Essence of JavaScript"
+   #:date 2010
+   #:location (proceedings-location ecoop)))
+
+(define minding-the-gap
+  (make-bib
+   #:author (authors "Arjun Guha" "Shriram Krishnamurthi")
+   #:title "Minding the Gap: Engineering Programming Language Theory"
+   #:date 2010
+   #:location (proceedings-location foser)))
