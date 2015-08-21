@@ -139,7 +139,7 @@ exercise the reduction, are even rarer, at 1.76% of all terms.
          'well-typed? "Well-typed"
          'typed-and-reduces "Well-typed, reduces once or more"
          'uses-β "Uses β rule"
-         'uses-μ "Uses β rule"
+         'uses-μ "Uses μ rule"
          'uses-δ "Uses δ rule"
          'at-least-3-red "Reduces three or more times"
          'uses-if-else "Uses if-else rule"

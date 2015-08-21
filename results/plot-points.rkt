@@ -20,25 +20,33 @@
 
 (define-runtime-path 1ht "1-hr-trial")
 (define-runtime-path 24hr "24-hr")
+(define-runtime-path 24hr-enum "24-hr-enum")
+(define-runtime-path 24hr-all "24-hr-all")
 
 (define (type->sym t)
   (hash-ref (hash 'search 'diamond
-                  'grammar 'circle)
+                  'grammar 'circle
+                  'ordered 'triangle
+                  'enum 'plus)
             t))
 
 (define (type->color t)
   (hash-ref (hash 'search 1
-                  'grammar 2)
+                  'grammar 2
+                  'ordered 3
+                  'enum 4)
             t))
 
 (define (type->name t)
   (hash-ref (hash 'search "Derivation Generation"
-                  'grammar "Ad Hoc Generation")
+                  'grammar "Ad Hoc Generation"
+                  'ordered "In-order Enumeration"
+                  'enum "Random Indexing")
             t))
 
 (define (plot-points data-directory)
-  (parameterize ([plot-width 435]
-                 [plot-height 275]
+  (parameterize ([plot-width 680]
+                 [plot-height 560]
                  [type-symbols type->sym]
                  [type-names type->name]
                  [type-colors type->color]

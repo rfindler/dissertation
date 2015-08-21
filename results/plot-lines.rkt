@@ -16,8 +16,8 @@
   (parameterize ([plot-x-transform log-transform]
                  [plot-x-label "Time in Seconds"]
                  [plot-y-label "Number of Bugs Found"]
-                 [plot-width 435] 
-                 [plot-height 200]
+                 [plot-width 580] 
+                 [plot-height 320]
                  [plot-x-ticks (log-ticks #:number 20 #:base 10)]
                  [type-symbols type->sym]
                  [type-names type->name]
@@ -45,6 +45,7 @@
                  (list a c) 
                  l))))
       (list type (reverse (cons (list max-t (/ (length pts) 2)) pts)))))
+  #|
   (unless (= 2 (length types+datas)) 
     (error 'plot-lines.rkt "ack: assuming that there are only two competitors"))
   (define-values (_ crossover-points)
@@ -76,6 +77,7 @@
                        crossover-points)]
                 [else
                  crossover-points]))))
+  |#
   (define (interval-line num-bugs)
     (define (find-envelope data)
       (let loop ([d data])

@@ -4,6 +4,7 @@
           scribble/manual
           scriblib/footnote
           slideshow/pict
+          racket/math
           "../common.rkt"
           "../../results/plot-points.rkt"
           "../../results/plot-lines.rkt"
@@ -17,9 +18,9 @@ benchmark suite. Second, we compare it against the best known
 hand-tuned typed term generator.
 
 @figure["fig:points"
-        @list{Performance results by individual bug on the Redex 
-              Benchmark.}
-        @(centered (plot-points 24hr))]
+        @list{Benchmark results for all generators on
+              all bugs. Error bars show 95% confidence intervals.}
+        @(rotate (plot-points 24hr-all) (- (/ pi 2)))]
 
 @section[#:tag "sec:benchmark-eval"]{The Redex Benchmark}
 
@@ -55,10 +56,14 @@ or until the uncertainty in the average interval
 between such counterexamples became acceptably small.
 
 @figure["fig:lines"
-        @list{Random testing performance of the derivation
-              generator vs. ad hoc random generation on
-              the Redex Benchmark.}
+        @list{Random testing performance of all four
+              generators, on models where all generators apply.}
         @(line-plot/directory 24hr)]
+
+@figure["fig:lines"
+        @list{Random testing performance on ad-hoc and
+              enumeration generators on all models.}
+        @(line-plot/directory 24hr-enum)]
 
 This study used 6 different models, each of which
 has between 3 and 9 different bugs introduced into it,
