@@ -947,3 +947,13 @@
    #:title "Minding the Gap: Engineering Programming Language Theory"
    #:date 2010
    #:location (proceedings-location foser)))
+
+
+(define isabelle-quickcheck-bulwahn
+  (make-bib
+   #:author "Lukas Bulwahn"
+   #:title (string-append "The New Quickcheck for Isabelle: "
+                          "Random, Exhaustive and Symbolic Testing "
+                          "under One Roof")
+   #:date 2012
+   #:location lncs))

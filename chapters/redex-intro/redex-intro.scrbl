@@ -97,7 +97,9 @@ looks like:
 @(centered (plus-pict))
 meaning that when a binary operation is applied to two numbers
 in an expression, we can relate that expression to the number
-that is the result of the corresponding operation on numbers. This
+that is the result of the corresponding operation on numbers.
+(The G@"\u00f6"del brackets @(brackets-pict) lift natural
+numbers into the syntax of the language.) This
 allows us to ``reduce'' such a binary operation to a value. The
 expression on the left is called the reducible expression or redex,
 and the expression on the right is called the contractum.
@@ -260,7 +262,7 @@ programs to those that satisfy the judgment:
 @(centered (is-typed-pict))
 selecting those expressions that have some type with
 respect to the empty type environment, or are ``well-typed''.
-The validity of this restriction is based on the truth of the property:
+By making this restriction, we assert our belief that
 if a program is well-typed, then either it evaluates to a value
 or it does not terminate. Ideally, we should 
 formally prove this property, but first it may be helpful to

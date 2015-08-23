@@ -60,7 +60,7 @@ between such counterexamples became acceptably small.
               generators, on models where all generators apply.}
         @(line-plot/directory 24hr)]
 
-@figure["fig:lines"
+@figure["fig:lines-enum"
         @list{Random testing performance on ad-hoc and
               enumeration generators on all models.}
         @(line-plot/directory 24hr-enum)]

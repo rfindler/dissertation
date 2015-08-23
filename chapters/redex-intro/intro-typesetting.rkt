@@ -128,3 +128,12 @@
 (define (is-typed-pict)
   (with-rewriters
    (term->pict STLC (tc • e τ))))
+
+(define (brackets-pict)
+  (hbl-append
+  (term->pict/pretty-write STLC
+   (string->symbol "\u2308"))
+  (term->pict/pretty-write STLC
+   '·)
+  (term->pict/pretty-write STLC
+   (string->symbol "\u2309"))))
