@@ -185,7 +185,7 @@
                     ("Redex non-poly (depth: 8)" "test38_2ex_redex_8_nopoly_2014-10-14.aggr"))))
 
 
-(define (hists-pict height width [font-size 12] [rect-style 'transparent] [show-cexps #f])
+(define (hists-pict height width [font-size 14] [rect-style 'transparent] [show-cexps #f])
   (define name/aggrs
     (for/list ([np (in-list (hists-cmp))])
       (list (first np) (parse-aggr (build-path data (second np))))))
