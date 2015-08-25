@@ -26,13 +26,13 @@
               @(init-lang)]
 
 
-This section describes a formal model of the derivation generator.
+This chapter describes a formal model of the derivation generator.
 The centerpiece of the model is a relation that rewrites programs consisting
 of metafunctions and judgment forms into the set of possible derivations 
-that they can generate. Our implementation has a structure similar to the
+that they can generate. The Redex implementation has a structure similar to the
 model, except that it uses randomness and heuristics to select just one
 of the possible derivations that the rewriting relation can produce.
-Our model is based on @citet[clp-semantics]'s constraint logic programming
+The model is based on @citet[clp-semantics]'s constraint logic programming
 semantics.
 
 @figure["fig:clp-red"
@@ -82,7 +82,7 @@ looks at the first entry in the goal stack and rewrites to another
 state based on its contents.
 In general, some reduction sequences are ultimately
 doomed, but may still reduce for a while before the constraint
-store becomes inconsistent. In our implementation,
+store becomes inconsistent. In the implementation,
 discovery of such doomed reduction sequences causes backtracking. Reduction
 sequences that lead to valid derivations
 always end with a state of the form @clpt[(P ⊢ () ∥ C)], and the derivation 
@@ -109,16 +109,18 @@ current constraint store and the disequation. If it returns a new constraint
 store, then the disequation is consistent and the new constraint store is
 used.
 
-The remainder of this section fills in the details in this model and
+The remainder of this chapter fills in the details in this model and
 discusses the correspondence between the model and the implementation
 in more detail.
-Metafunctions are added via a procedure generalizing the 
-process used for @clpt[lookup] in @secref["sec:deriv"], 
-which we explain in @secref["sec:mf-semantics"]. 
-@Secref["sec:solve"] describes how our solver handles
+First, an example Redex metafunction is translated into the model
+and used to generate a reduction graph in @secref["sec:example-red"].
+@Secref["sec:mf-semantics"] describes the compilation of metafunctions,
+generalizing the 
+process used for @clpt[lookup] in @secref["sec:deriv"].
+@Secref["sec:solve"] describes how the solver handles
 equations and disequations.
 @Secref["sec:search"] discusses the heuristics in our implementation
-and @secref["sec:pats"] describes how our implementation
+and @secref["sec:pats"] describes how the implementation
 scales up to support features in Redex that are not covered in this model.
 
 @include-section["example.scrbl"]
@@ -282,11 +284,9 @@ the universally quantified variables. This clause also must
 be dropped, according to the same reasoning (since @clpt[=] is symmetric).
 But, since variables on the right hand side of an equation may also appear elsewhere,
 some care must be taken here to avoid losing transitive inequalities.
-The function @clpt[elim-x] (not shown) handles this situation, constructing a new
+The function @clpt[elim-x]  handles this situation, constructing a new
 set of clauses without @clpt[x] but, in the case that we also have
-@clpt[(x_2 = x)], adds back the equation @clpt[(x_1 = x_2)]. For the
-full definition of @clpt[elim-x] and a proof that it works correctly,
-we refer the reader to the first author's masters dissertation@~cite[burke-masters].
+@clpt[(x_2 = x)], adds back the equation @clpt[(x_1 = x_2)]. 
 
 Finally, we return to @clpt[check], shown in @figure-ref["fig:dis-help"],
 which is passed the updated disequations after
@@ -297,15 +297,15 @@ It does this by applying @clpt[disunify] to any non-canonical disequations.
 
 @section[#:tag "sec:search"]{Search Heuristics}
 
-To pick a single derivation from the set of candidates, our
-implementation must make explicit choices when there are
+To pick a single derivation from the set of candidates,
+Redex must make explicit choices when there are
 differing states that a single reduction state
 reduces to. Such choices happen only in the
 @rule-name{reduce} rule, and only because there may be
 multiple different clauses, @clpt[((d p) ← a ...)], that could
 be used to generate the next reduction state.
 
-To make these choices, our implementation collects all of
+To make these choices, the implementation collects all of
 the candidate cases for the next definition to explore. It
 then randomly permutes the candidate rules and chooses the
 first one of the permuted rules, using it as the next piece
@@ -331,7 +331,7 @@ the derivation off quickly.
         @list{Density functions of the distributions used for the depth-dependent 
               rule ordering, where the depth limit is @(format "~a" max-depth)
               and there are @(format "~a" number-of-choices) rules.}
-        @(centered (d-plots 420))]
+        @(centered (d-plots 540))]
 
 The second refinement is the choice of how to randomly
 permute the list of candidate rules, and the generator uses
@@ -382,7 +382,7 @@ that bug finding is more effective when using larger terms.
 The other strategy avoids this problem, biasing the
 generation towards rules with more premises early on in the
 search and thus tending to produce larger terms.
-Unfortunately, our experience testing Redex program suggests
+Unfortunately, experience testing Redex program suggests
 that it is not uncommon for there to be rules with large
 number of premises that are completely unsatisfiable when
 they are used as the first rule in a derivation (when this
@@ -390,19 +390,19 @@ happens there are typically a few other, simpler rules that
 must be used first to populate an environment or a store
 before the interesting and complex rule can succeed). For
 such models, using all rules with equal probability still
-is less than ideal, but is overall more likely to produce
-terms at all. 
+is less than ideal, but is overall more likely to
+at least succeed.
 
 Since neither strategy for ordering rules is always
-better than the other, our implementation decides between
+better than the other, Redex decides between
 the two randomly at the beginning of the search
 process for a single term, and uses the same strategy
 throughout that entire search. This is the approach
-the generator we evaluate in @secref["sec:evaluation"]
+the generator evaluated in @secref["sec:evaluation"]
 uses.
 
-Finally, in all cases we terminate searches that appear to
-be stuck in unproductive or doomed parts of the search space
+Finally, in all cases searches that appear to be stuck in
+unproductive or doomed parts of the search space are terminated
 by placing limits on backtracking, search depth, and a
 secondary, hard bound on derivation size. When these limits
 are violated, the generator simply abandons the current
@@ -416,14 +416,15 @@ search and reports failure.
            @italic{c} represents any Racket constant.}
         @(centered(pats-supp-lang-pict))]
 
-The model we present in @secref["sec:semantics"] uses a much simpler pattern language 
+The model of @secref["sec:semantics"] uses a much simpler pattern language 
 than Redex itself. 
 The portion of Redex's internal pattern language supported by the generator@note{The 
    generator is not able to handle parts of the
    pattern language that deal with evaluation contexts or 
    ``repeat'' patterns (ellipses).} is shown in @figure-ref["fig:full-pats"].
-We now discuss briefly the interesting differences between this language and
-the language of our model and how we support them in Redex's implementation.
+Here the interesting differences between this language and
+the language of our model are discussed, along with how
+they are supported in Redex's implementation.
 
 Named patterns of the form @slpt[(:name s p)]
 correspond to variables @italic{x} in the simplified version of the pattern
@@ -465,16 +466,16 @@ To unify two such patterns, the intersection of two non-terminals should
 be computed, which reduces to the problem of computing the intersection 
 of tree automata, for which there is no efficient algorithm@~cite[tata].
 Instead a conservative check is used at the time of unification.
-When unifying a non-terminal with another pattern, we attempt
+When unifying a non-terminal with another pattern, an attempt is made
 to unify the pattern with each production of the non-terminal, 
 replacing any embedded non-terminal references with the pattern @slpt[:any]. 
 We require that at least one of the unifications succeeds.
-Because this is not a complete check for pattern intersection, we save the names
-of the non-terminals as extra information embedded in the constraint store
+Because this is not a complete check for pattern intersection, the names
+of the non-terminals are saved as extra information embedded in the constraint store
 until the entire generation process is complete.
-Then, once we generate a concrete term, we check to see if any of the
+Then, once a concrete term is generated, it is checked to see if any of the
 non-terminals would have been violated (using a matching algorithm). 
-This means that we can get failures at this stage of generation, but it
+This means that it is possible to get failures at this stage of generation, but it
 tends not to happen very often for practical Redex models.@note{To be more
   precise, on the Redex benchmark (see @secref["sec:benchmark"]) such failures
   occur on all ``delim-cont'' models 2.9±1.1% of the time, on all ``poly-stlc''

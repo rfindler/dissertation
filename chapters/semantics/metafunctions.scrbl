@@ -64,7 +64,7 @@ clauses and the left-hand side of the current clause, and it is quantified
 over all variables in the previous clause's left-hand side.
 
 @figure["fig:mf-lang"
-        @list{Extensions to the language of @figure-ref["fig:clp-grammar"] to add metafunctions}
+        @list{Extensions to the language of @figure-ref["fig:clp-grammar"] to add functions}
         (pmf-lang-pict)]
 
 To formalize this process as part of the model, we can first add (object-language)

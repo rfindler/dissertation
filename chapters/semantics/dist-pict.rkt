@@ -19,7 +19,7 @@
   (define pw (round (/ full-width (+ max-depth 1))))
   (apply hc-append
          (for/list ([depth (in-range (+ max-depth 1))])
-           (parameterize ([plot-font-size 12]
+           (parameterize ([plot-font-size 14]
                           [plot-y-ticks no-ticks]
                           [rectangle-line-width 1]
                           [plot-line-width 1])

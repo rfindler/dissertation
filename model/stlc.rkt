@@ -71,6 +71,7 @@
   [(tc (x τ Γ) e τ)
    ----------------------
    (tc Γ (rec [x τ] e) τ)]
+  
   [(tc Γ e_1 (τ_2 → τ)) (tc Γ e_2 τ_2)
    ------------------------------
    (tc Γ (e_1 e_2) τ)]
@@ -221,7 +222,7 @@
    (hb-append 20
               (parameterize ([judgment-form-cases '(0 2)])
                 (render-judgment-form tc))
-              (parameterize ([judgment-form-cases '(1 3)])
+              (parameterize ([judgment-form-cases '(1 4)])
                 (render-judgment-form tc)))))
 
 (define (lookup-pict) 
@@ -254,9 +255,7 @@
 
 (define (stlc-min-lang-types)
   (with-rewriters
-   (hc-append 30
-              (render-language STLC #:nts '(e τ Γ))
-              (stlc-type-by-2s))))
+   (stlc-type-by-2s)))
 
 
 (define (well-typed? e)

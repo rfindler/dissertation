@@ -16,17 +16,25 @@
    (centered (scale rule-pict w-f h-f)))
 
 @figure["fig:types"
-        @list{Grammar and type system for the simply-typed lambda calculus
-	      used in the example derivation.}
+        @list{Type system rules used in the example derivation.}
         @(center-rule (stlc-min-lang-types))]
 
 @title[#:tag "sec:deriv"]{Derivation Generation by Example} 
 
-This section gives an overview of our method for generating well-typed
+This chapter introduces an alternative method for generating
+test-cases from a Redex program. In this approach, random derivations
+are constructed that satisfy judgment forms (and metafunctions) in
+a Redex model. In actual Redex models, this approach can be used to
+generate terms that are well-typed or satisfy some similar static
+property. Since such properties are frequently the premise of a
+testable property, that makes the terms very useful as test cases.
+
+Here I present an overview of the method for generating well-typed
 terms by working through the generation of an example term.
-We will build a derivation satisfying the judgment form definition
-in @figure-ref["fig:types"], a typing judgment for simply-typed
-lambda calculus with a single base type of natural numbers.
+(@Secref["sec:semantics"] provides a in-depth, formal explanation.)
+We will build a derivation satisfying the rules
+in @figure-ref["fig:types"], a subset of the rules for the typing judgment
+from the model in @secref["sec:semantics-intro"].
 We begin with a goal pattern, which we will want the conclusion
 of the generated derivation to match.
 

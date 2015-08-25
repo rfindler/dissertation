@@ -19,8 +19,8 @@ it is ``notoriously difficult'' to evaluate the effectiveness
 of an approach to testing.
 Their paper provided strong @italic{anecdotal} evidence that
 QuickCheck was effective for a variety of users with a variety
-of different applications, but didn't attempt a study of its
-effectiveness in general. (A comparative study wasn't as easy
+of different applications, but didn't attempt a systematic study of its
+effectiveness. (A comparative study wasn't as easy
 to attempt at the time since their own tool was the first to popularize
 property-based testing for functional programmers.)
 In their case, the success of QuickCheck over the
@@ -81,18 +81,19 @@ need assistance uncovering.
 
 The models themselves represent a wider variety and a deeper
 complexity than those used in previous studies. As in both studies
-mentioned above, we include an implementation of functional data
-structure, namely red-black trees. The rest of the models are
-programming languages or virtual machines that typically have much
-richer properties to test, such as type-soundness. This targets
-the domain (PL semantics) we intend automated testing to applied to
-with Redex.
+mentioned above, we include an implementation of a functional data
+structure, namely red-black trees. The rest of the models, on the other
+hand, are programming languages or virtual machines that typically have much
+richer properties to test, such as type-soundness. This provides a broader
+range of models and properties to test and targets
+the domain (PL semantics) for which Redex's automated testing support
+is intended.
 
 We also test the models for much longer time periods, up to 24 hours
 or more for each generator/bug pair. This is intended to coincide
-more closely with actual use cases, where testing a test run may
-go over lunch, overnight, or over a weekend. It also exposes
-differences at larger time scales that can be exploited at smaller
-ones through optimization of the testing method or parallelism.
+more closely with actual use cases, where a test run may frequently
+extend over lunch, overnight, or a weekend. It also exposes
+differences at larger time scales that can be exploited
+through optimization of the testing method or parallelism.
 (Since test runs are totally independent, it is easy to take
 advantage of parallelism in this setting.)
