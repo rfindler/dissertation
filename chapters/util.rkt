@@ -10,6 +10,7 @@
 
 (provide raw-latex a-quote
          tx
+         tx-wide
          racketblock/define
          add-commas
          theorem
@@ -29,6 +30,9 @@
 
 (define (tx arg)
   (raw-latex (string-append "$" arg "$")))
+
+(define (tx-wide arg)
+  (raw-latex (string-append "$$" arg "$$")))
 
 (define (raw-latex . args)
   (element (style "relax" '(exact-chars))

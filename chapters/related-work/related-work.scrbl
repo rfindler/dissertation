@@ -126,3 +126,92 @@ constants and discuss its possible extension to even more challenging
 languages such as System-F. This method cannot be used for random generation
 because only bit-strings that have a prefix-closure property correspond
 to well-formed terms.
+
+@section[#:tag "sec:other"]{Other (To be organized)}
+
+Random program generation for testing a semantics or programming language
+implementation is certainly not a new idea, and goes back as least to
+the ``syntax machine'' of @citet[Hanford], a tool for producing random
+expressions from a grammar similar to the ad-hoc generation method of
+@secref["sec:ad-hoc"]. The tool was intended for compiler fuzzing, a common
+use for that type of random generation. Other applications of random testing to
+compilers throughout the years are discussed in the 1997 survey of
+@citet[compiler-testing].
+
+In the area of random testing for compilers, of special note is Csmith@~cite[csmith]
+a highly effective tool at generating C programs for compiler testing.
+Csmith generates C programs that avoid undefined or unspecified behavior.
+These programs are then used for differential testing, where the output of a
+given program is compared across several compilers and levels of optimization,
+so that if the results differ, at least one of test targets must contain a bug.
+Csmith represents a significant development effort at 40,000+ lines of C++
+and the programs it generates are finely tuned to be effective at finding
+bugs based on several years of experience. It has
+found over 300 bugs in mainstream C compilers as of 2011.q
+
+@citet[αProlog-test] design an automated model-checking framework for
+αProlog@~cite[αProlog], a programming language based on nominal logic,
+designed for modeling formal systems.
+They advocate automating mechanized checking for semantics in a manner
+similar to this work, although their approach is different,
+performing exhaustive checking up to some bound on model size.
+They conduct a study demonstrating their approach's ability to find bugs in
+both the substitution function and the typing judgment of a small
+lambda calculus modeled in αProlog. For comparison, the bugs they evaluate
+in the substitution function are very similar to @bold{stlc-sub} bugs
+1 and 2 from the Redex benchmark, and the type judgment bugs are
+very similar to @bold{stlc} or
+@bold{poly-stlc} bugs 3 and 9, all of which were found by most
+generators in this paper in interactive time periods as well.
+
+SmallCheck and Lazy SmallCheck@~cite[small-check] are Haskell libraries
+for property-based testing. They differ from QuickCheck in that they
+use exhaustive testing instead of random testing. Lazy SmallCheck is
+particularly successful, using partial evaluation to prune the space
+from which test cases are drawn based on the property under test.
+They also perform a comparative evaluation of SmallCheck, Lazy SmallCheck,
+and QuickCheck.
+
+Both exhaustive testing and model-checking methods of automated checking
+require imposing an arbitrary size or state space bound, justified by the ``small
+scope hypothesis''@~cite[jackson-book], which asserts that any fault can be
+exposed with a small counterexample. Of course, even random testing
+methods require the specification of some bound on counterexample size,
+but it can typically be much larger. Does the small scope hypothesis always apply?
+It seems that larger test cases have the potential to be more
+efficient at finding bugs by testing multiple aspects of a system at the
+same time, or exposing bugs that require interactions between subsystems
+that would be difficult to trigger with small bugs. Such concerns would seem
+to grow with the scale of the program under test. In fact, @citet[csmith]
+find that when testing production C compilers, which are quite large compared
+to examples such as red-black tree implementations used in many studies of this
+type of testing, extremely large tests cases are the most efficient.
+(Programs averaging around 81KB, or containing around 8K-16K tokens, maximized
+the rate at which they found counterexamples.)
+
+The idea of applying constraint logic programming to test programming
+language semantics and implementations seems to be surprisingly new.
+@citet[clp-language-fuzzing] conduct a study using CLP to generate
+Javascript programs with richer constraints than traditional grammar-based
+fuzzers, but less complex than full type soundness. They target specific
+variants of test cases, such as the use of prototype-based inheritance or
+combinations of @tt{with} statements with closures. They perform a comparison
+with a baseline stochastic grammar generator, making a convincing case
+that CLP is an improvement for this type of language fuzzing.
+A related study@~cite[clp-data-structures] demonstrates that CLP can be
+competitive with the most efficient known methods for generating
+data structures such as red-black trees, skip lists, and B-trees.
+
+Isabelle/HOL@~cite[isabelle] is a proof assistant equipped with a logic
+designed to support semantics modeling. Significant work has been done
+to equip Isabelle with automatic testing and checking capabilities similar
+to those in Redex, although in a proof-assistant as opposed to a
+lightweight modeling context. It has support for random testing via
+an implementation of QuickCheck@~cite[isabelle-quickcheck-orig] and two
+methods of model checking, Nitpick@~cite[nitpick] and Refute@~cite[weber-dissertation].
+Property-based testing in Isabelle has recently been extended to try a
+number of different strategies by @citet[isabelle-quickcheck-bulwahn], adding
+exhaustive testing, symbolic testing, and a narrowing-based strategy.
+@citet[isabelle-quickcheck-bulwahn] also conducts a study comparing the
+different methods of test-case generation, similar to that of this
+dissertation.

@@ -1,7 +1,7 @@
 #lang racket
 
 (require redex/pict
-         ;redex/reduction-semantics
+         redex/reduction-semantics
          slideshow/pict
          "pats.rkt"
          "program.rkt"
@@ -9,7 +9,9 @@
          "disunify.rkt"
          "du-typesetting.rkt")
 
-(provide (all-defined-out))
+(provide (all-defined-out)
+         unify
+         disunify)
 
 ;; TODO: fix layout
 
@@ -17,9 +19,13 @@
   (with-all-rewriters
    body))
 
+(define-extended-language subst-lang CLP
+  (α ::= variable)
+  (ω ::= variable))
+
 (define-syntax-rule (ct t)
   (with-all-rewriters
-   (clpt t)))
+   (render-term subst-lang t)))
 
 (define-syntax-rule (pt t)
   (term->pict pats/mf t))

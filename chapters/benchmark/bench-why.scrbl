@@ -97,3 +97,14 @@ differences at larger time scales that can be exploited
 through optimization of the testing method or parallelism.
 (Since test runs are totally independent, it is easy to take
 advantage of parallelism in this setting.)
+
+Finally, as a metric we choose only the (average) time to find a counterexample.
+This measures exactly the property we desire in a test generator. Other possibilities, such
+as the time to exhaust a finite space of possible test cases, or the
+ratio of attempts to counterexample, are also interesting, but are not as
+general. A smaller number of attempts per counterexample, for example, may be
+desirable, but not if the cost per attempt becomes too large. We regard
+such more specific properties as useful in diagnosing or improving the
+performance of a specific generator, but not for making
+the type of general comparisons we are interested in examining
+with the benchmark.

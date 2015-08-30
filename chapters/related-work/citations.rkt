@@ -956,4 +956,25 @@
                           "Random, Exhaustive and Symbolic Testing "
                           "under One Roof")
    #:date 2012
-   #:location lncs))
+   #:location (proceedings-location lncs)))
+
+(define clp-data-structures
+  (make-bib
+   #:author (authors "Kyle Dewey" "Lawton Nichols" "Ben Hardekopf")
+   #:title "Automated Data Structure Generation: Refuting Common Wisdom"
+   #:date 2015
+   #:location (proceedings-location icse)))
+
+(define jackson-book
+  (make-bib
+   #:author "Daniel Jackson"
+   #:title "Software Abstractions: logic, language, and analysis"
+   #:date 2006
+   #:location (book-location #:publisher "MIT Press")))
+
+(define isabelle-quickcheck-orig
+  (make-bib
+   #:author (authors "Stefan Berghofer" "Tobias Nipkow")
+   #:title "Random testing in isabelle/hol"
+   #:date 2004
+   #:location (proceedings-location sefm)))
