@@ -14,6 +14,7 @@ A disequational constraint @ct[δ] = @ct[(∀ (x ...) (∨ (p_l ≠ p_r) ...))] 
 if there is a substitution @tx["\\alpha"], with @tx["Vars(\\alpha)"] ∩ @ct[{x ...}] = ∅, such that
 for some @ct[p_l], @ct[p_r], there does not exist a substitution @tx["\\beta"] where
 @tx["\\beta\\alpha"]@ct[p_l] is identical to @tx["\\beta\\alpha"]@ct[p_r].
+(In this section substitutions are applied by prepending them to the term.)
 
 For some @ct[C] = @ct[(∧ (∧ e ...) (∧ δ ...))], @ct[C] is consistent if there is
 a substitution @tx["\\alpha"] that makes both sides of all equations @ct[e] identical,
@@ -33,7 +34,7 @@ and for each @ct[δ] = @ct[(∀ (x_δ ...) (∨ (p_l ≠ p_r) ...))],
 there exists @ct[p_l] = @ct[x_p], and
 @ct[x_p] ∩ @ct[{x_δ ...}] = ∅, and @ct[p_r] ∩ @ct[{x_δ ...}] = ∅, i.e.
 at least one of the inequations in the disjunction has a left hand side
-that is a variable which is not in the domain of the mgu expressed by the
+that is a variable which is not in the domain of the substitution expressed by the
 equations and is not universally quantified, and a right hand side that
 is not a universally quantified variable. As above, we have
 @tx["\\alpha"]@ct[x_p] = @ct[x_p], and we can choose @tx["\\beta"] such that there
@@ -50,6 +51,19 @@ This justifies the use of @ct[check] in @ct[solve], which simply
 verifies that the disequational part of @ct[C] is in canonical form.
 That the equational portion of @ct[C] is in canonical form is a
 property of @ct[unify].
+
+We also need a few definitions regarding substitutions.
+Two substitutions @tx{\alpha} and @tx{\beta} are equal @tx{\alpha = \beta}
+if for any any variable @tx{x}, @tx{\alpha x = \beta x}.
+A substitution @tx{\alpha} is more general than @tx{\beta}, written
+@tx{\alpha \leq \beta}, if there exists some substitution @tx{\gamma} such that
+@tx{\beta = \gamma \alpha}. A substitution @tx{\alpha} unifies two terms
+@tx{s} and @tx{t} if @tx{\alpha s = \alpha t} (where @tx{=} means they
+are syntactically identical). Finally, if @tx{\alpha} is a unifier of @tx{s}
+and @tx{t}, and for every unifier @tx{\beta} of @tx{s} and @tx{t},
+@tx{\alpha \leq \beta}, then @tx{\alpha} is a most general unifier (mgu)
+of @tx{s} and @tx{t}. The notions of unifier and mgu are extended naturally
+to sets of equations.
 
 A standard result regarding syntactic unification adapted to this setting
 (see, for example, @citet[baader-snyder]) is:
@@ -163,7 +177,7 @@ juxtaposition means union.
 @lemma{If @tx{\gamma = \{x_1 = x\}...\{x_n = x\}\gamma'}, where
        @tx{y_i \not\in X} and @tx{x \in X}, then @tx{\alpha}
        excludes @tx{\gamma} iff @tx{\alpha} excludes
-       @tx{\{y_i = y_j|1 \leq i, j \leq n\} \cup \gamma}.}
+       @tx{\{y_i = y_j|1 \leq i, j \leq n\} \cup \gamma'}.}
 
 @proof{It must be the case that @tx{\alpha} excludes at least one
       equation @tx{x_i = x_j} for some @tx{i,j}.
@@ -189,7 +203,7 @@ constraint @ct[δ].
 @proof{Every recursive call decreases the number of equations that
        have a left or right hand side that is a single parameter.
        (Parameters are the list of variables in @ct[param-elim]'s
-       second argument.}
+       second argument.)}
 
 The termination of all other functions in the constraint solver
 is obvious.
@@ -199,6 +213,8 @@ is obvious.
        @ct[δ] is always satisfiable; otherwise it terminates
        with a disequation in canonical form that is
        equivalent (satisfiable by the same substitutions) to @ct[δ].}
+ 
+@proof{Follows directly Lemmas 4, 5, 6, and 7.} 
 
 The correctness of the constraint solver follows directly from the
 correctness of @ct[unify], @ct[disunify], and @ct[check]:

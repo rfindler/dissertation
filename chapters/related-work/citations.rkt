@@ -978,3 +978,26 @@
    #:title "Random testing in isabelle/hol"
    #:date 2004
    #:location (proceedings-location sefm)))
+
+(define scife
+  (make-bib
+   #:author (authors "Ivan Kuraj" "Victor Kuncak")
+   #:title (string-append "Scife: Scala Framework for Efficient Enumeration of "
+                          "Data Structures with Invariants")
+   #:date 2014
+   #:location (proceedings-location "Scala Workshop"
+                                    #:pages '(45 49))))
+
+(define clp-test
+  (make-bib
+   #:author (authors "Valerio Senni" "Fabio Fioravanti")
+   #:title "Generation of test data structures using constraint logic programming"
+   #:date 2012
+   #:location (proceedings-location tap)))
+
+(define korat
+  (make-bib
+   #:author (authors "Chandrasekhar Boyapati" "Sarfraz Khursid" "Darko Marinov")
+   #:title "Korat: Automated Testing based on Java Predicates"
+   #:date 2002
+   #:location (proceedings-location issta)))

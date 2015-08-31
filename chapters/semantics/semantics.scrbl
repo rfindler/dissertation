@@ -295,6 +295,15 @@ It verifies the disequations and maintains
 their canonical form, once the new substitution has been applied.
 It does this by applying @clpt[disunify] to any non-canonical disequations.
 
+Clearly, the soundness of the derivation generation process
+depends critically on the correctness of the constraint solver
+defined by @clpt[solve] and @clpt[dissolve]. Appendix A
+provides a formal proof of the correctness of the constraint
+solver. In addition, since it is comparatively inexpensive to
+do so, Redex's implementation checks that generated terms satisfy
+the judgment form or metafunction whose definition was
+used to generate them.
+
 @section[#:tag "sec:search"]{Search Heuristics}
 
 To pick a single derivation from the set of candidates,
