@@ -7,6 +7,7 @@
          "related-work/citations.rkt")
 
 (provide abstract
+         thesis
          common-path
          (all-from-out "related-work/citations.rkt"))
 
@@ -21,4 +22,10 @@
 
 (define (abstract . text)
   (make-element "abstract" (decode-content text)))
+
+(define thesis
+  (string-append
+   "Lightweight mechanization and "
+   "automated property-based testing are "
+   "effective for semantics engineering."))
 

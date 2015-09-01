@@ -137,9 +137,8 @@ script typically runs each model/bug combination
 sequentially, although multiple different
 combinations are run in parallel and, for the bugs
 that ran for more than 24 hours, tests are in parallel. We
-used version 6.2.0.4 (from git on June 7, 2015) of Racket,
-of which Redex is a part. @italic{TODO}
-
+used version 6.2.900.4 (from git on August 15, 2015) of Racket,
+of which Redex is a part. 
 
 @figure["fig:points"
         @list{Benchmark results for all generators on

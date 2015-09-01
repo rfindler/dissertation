@@ -217,7 +217,7 @@ different methods of test-case generation, similar to that of this
 dissertation.
 
 SciFe@~cite[scife] is a Scala library providing combinators that enable
-the construction of enumerations similar to those of @secref["sec:eum"].
+the construction of enumerations similar to those of @secref["sec:enum"].
 @citet[scife] conduct a study comparing generation speed for 5 data structures
 with nontrivial invariants such a red-black trees or sorted lists. They compare
 their approach, the CLP approach described by @citet[clp-test], and
@@ -227,13 +227,13 @@ generating structures up to a given size.
 @citet[clp-test] study the application of CLP to the exhaustive generation
 of several different data structures, including red-black trees and
 sorted lists. They report on a comparison with Korat@~cite[korat], finding
-that their approach is faster than Korat at enumerating apply inhabitants
+that their approach is faster than Korat at enumerating all inhabitants
 of such constrained types below a given size bound. They also include an
 in-depth discussion of how to efficiently implement CLP generators, including
 the application of several optimization passes.
 
 Korat@~cite[korat] is an approach to exhaustive testing in Java that uses
-a form of state-space filtering to generate data types satisfying very general
+a form of state-space filtering to generate data types satisfying general
 structural invariants in Java. The authors perform a study comparing its
 performance at generating all valid types of a certain size with the Allow Analyzer,
 an auotmated analysis tool for a relational specification language. The comparison
