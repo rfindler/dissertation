@@ -8,10 +8,7 @@
 
 @title[#:tag "sec:related"]{Related Work}
 
-We first address work which our constraint solver draws
-on, and then related work in the field of random testing.
-
-@section[#:tag "sec:related-dqs"]{Disequations}
+@section[#:tag "sec:related-dqs"]{Disequational Constraints}
 
 @citet[colmerauer-inequations] is the first
 to introduce a method of solving disequational constraints of

@@ -25,7 +25,7 @@ powerful tools, in contrast, enable machine-checked proofs of
 soundness properties, but developing such proofs requires
 more work; writing down definitions is only the beginning of
 the process. (Although finding the right definitions may take
-some time.) Lightweight mechanization is not an end-to-end
+some time.) Lightweight mechanization is not necessarily an end-to-end
 solution, rather it is intended to complement other tools.
 Complete efforts at verification will usually
 require a proof assistant or equivalent tool in the end.
@@ -34,11 +34,11 @@ of a semantics engineering process.
 
 Lightweight mechanization allows a semantics to be engineered
 as software, providing the benefits of executability and
-testing with low investment. Low investment also means changes
+testing with low investment. Low investment means changes
 are low cost, so development can be incremental and iterative.
 PLT Redex, the framework for which the research in this
 dissertation was conducted,
-attempts to provide such benefits with minimal investment
+attempts to provide such benefits with minimal 
 by the user.
 
 In the end, testing and other forms of automated but
@@ -70,8 +70,8 @@ The thesis of this dissertation is:
 To support this thesis, I show how lightweight definitions for a
 semantics can be leveraged to automatically derive test-case
 generators that effectively expose counterexamples when
-applied to representative Redex models. I discuss three such
-ways to derive generators. To show that that property-based
+applied to representative Redex models. I discuss three
+ways to derive such generators. To show that that property-based
 testing using the generators is effective, I explain
 the development of an automated
 testing benchmark for semantics, consisting of representative

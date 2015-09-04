@@ -20,9 +20,8 @@ generating many test cases. In keeping with the lightweight
 approach, Redex generators are intended to be as
 ``push-button'' as possible, and are derived from Redex models 
 with little additional input from the user. First, I
-present a method for deriving enumerations from grammars, 
-leading to two new generators based on Redex languages.
-In addition, I present a generic method for randomly generating 
+present several methods for deriving generators,
+including a generic method for randomly generating 
 well-typed expressions, the main contribution of this work. 
 Starting from a specification of a typing judgment in 
 Redex, this method uses a specialized solver that employs 
@@ -30,7 +29,7 @@ randomness to find many different valid derivations of the
 judgment form.
 
 To evaluate the effectiveness of the different generators,
-I have developed a random testing benchmark of Redex
+I present a random testing benchmark of Redex
 models and bugs. I discuss the benchmark and the 
 performance of the different generators at bug-finding,
 along with an additional case study comparing the typed

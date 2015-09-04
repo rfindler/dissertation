@@ -15,6 +15,9 @@
        (port->string in))))
 
 @(abstract abstract-text)
+@acknowledgements{Thanks to everyone!
+                  
+                  To be completed.}
 
 @table-of-contents[]
 
