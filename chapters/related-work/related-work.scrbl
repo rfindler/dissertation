@@ -37,12 +37,6 @@ a subroutine.
 However, as far as we know, none of these systems supports
 the universally quantified constraints we require.
 
-We are currently investigating extending our solver to
-handle Redex's repeat patterns. 
-In this area, we note @citet[pattern-unification]'s work 
-on sequence unification, which handles patterns similar 
-to Redex's.
-
 @section[#:tag "sec:related-testing"]{Random Testing}
 
 The most closely related work to ours is @citet[uniform]'s
@@ -127,6 +121,18 @@ languages such as System-F. This method cannot be used for random generation
 because only bit-strings that have a prefix-closure property correspond
 to well-formed terms.
 
+@section[#:tag "sec:lightweight"]{Lightweight tools for semantics}
+
+K - @citet[k-overview]
+
+Maude - @citet[maude2]
+
+Ott - @citet[ott]
+
+Lem - @citet[lem]
+
+ASF+SDF - @citet[asf+sdf]
+
 @section[#:tag "sec:other"]{Other (To be organized)}
 
 Random program generation for testing a semantics or programming language
@@ -189,8 +195,8 @@ type of testing, extremely large tests cases are the most efficient.
 (Programs averaging around 81KB, or containing around 8K-16K tokens, maximized
 the rate at which they found counterexamples.)
 
-The idea of applying constraint logic programming to test programming
-language semantics and implementations seems to be surprisingly new.
+Other recent work also applies constraint logic programming to test programming
+language semantics and implementations.
 @citet[clp-language-fuzzing] conduct a study using CLP to generate
 Javascript programs with richer constraints than traditional grammar-based
 fuzzers, but less complex than full type soundness. They target specific

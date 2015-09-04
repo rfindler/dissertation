@@ -258,5 +258,3 @@ Redex is again a one-liner given the appropriate definitions:
 @code{(traces STLC-red (sumto 2))}. The fact that there is a
 single path in the graph is a feature of this reduction relation;
 other reduction relations may give rise to many possible paths.
-
-@italic{TODO}

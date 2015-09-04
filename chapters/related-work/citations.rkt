@@ -88,6 +88,8 @@
 (define foser (string-append Workshop "Future of Software Engineering Research"))
 (define dls "Dynamic Languages Symposium")
 (define ecoop (string-append European Conference "Object-Oriented Programming"))
+(define kwork (string-append International "K Workshop"))
+(define cc (string-append International Conference "Compiler Construction"))
 
 ;; ----------------------------------------
 
@@ -1001,3 +1003,33 @@
    #:title "Korat: Automated Testing based on Java Predicates"
    #:date 2002
    #:location (proceedings-location issta)))
+
+(define k-overview
+  (make-bib
+   #:author (authors "Grigore Rosu" "Traian Florin Serbanuta")
+   #:title "K Overview and SIMPLE Case Study"
+   #:date 2014
+   #:location (proceedings-location kwork
+                                    #:series "ENTCS"
+                                    #:pages '(3 56)
+                                    #:volume 304)))
+(define lem
+  (make-bib
+   #:author (authors "Dominic P. Mulligan" "Scott Owens"
+                     "Kathryn E. Gray" "Tom Ridge" "Peter Sewell")
+   #:title "Lem: reusable engineering of real-world semantics"
+   #:date 2014
+   #:location (proceedings-location icfp)))
+
+(define asf+sdf
+  (make-bib
+   #:author (authors "M.G.J. can den Brand" "A. van Deursen" "J. Heering"
+                     "H.A. de Jong" "M. de Jonge" "T. Kuipers"
+                     "P. Klint" "L. Moonen" "P.A. Olivier" "J. Scheerder"
+                     "J. J. Vinju" "E. Visser" "J. Visser")
+   #:title "The ASF+SDF meta-environment: A component-base language development environment"
+   #:date 2001
+   #:location (proceedings-location cc
+                                    #:series "LNCS"
+                                    #:volume 2027)))
+   
