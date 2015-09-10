@@ -37,9 +37,9 @@ as software, providing the benefits of executability and
 testing with low investment. Low investment means changes
 are low cost, so development can be incremental and iterative.
 PLT Redex, the framework for which the research in this
-dissertation was conducted,
-attempts to provide such benefits with minimal 
-by the user.
+dissertation was conducted, attempts to provide as many
+benefits of mechanization as possible while minimizing
+development effort.
 
 In the end, testing and other forms of automated but
 non-exhaustive checking may not be enough to provide full confidence

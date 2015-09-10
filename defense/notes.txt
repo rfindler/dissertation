@@ -1,0 +1,146 @@
+
+========================================
+Thesis
+========================================
+Automated property-based testing is
+effective tool support for lightweight 
+semantics engineering.
+
+========================================
+Robby meeting 5/13
+========================================
++ remove quotes in slide 126
++ enum: axe combinators, show mapping from grammar
+  show first few terms
++ make it clear when "constraint" gets added what happened
++ add num bugs to becnhmark table (298)
++ indentation + highlighting bug examples
++ move related work to after grid slide
++ fix example derivation font sizes
+
+========================================
+Robby Meeting 5/6
+========================================
++ remove SE from tree
++ swap tree and venn
++ operational ~> : state X state, f is ~>*
++ denotational [[ ]] : syntax -> c.p.o.
+* test/SE "TDD" "everything" "3/1 ratio of testers to developers"
+  maybe just Quickcheck to connect to Redex
+* frameworks slide: heavyweight -> checking -> 
+* intro slide to related work section
++ maybe add comparative testing studies for rel. work
+- todo slide related work "broader" "landscape" "exploration"
+  "read about broader research landscape"
+
+========================================
+Robby Meeting 4/30
+========================================
+- start by explaining semantics engineering
+- show 4 square plot proof/tst vs software/semantics engineering
+- add related work as a todo
+- do a proposed organization by chapter
+- a semantics "is a function from programs to answers"
+- go from that to Redex
+- slide on disseration by chapter
+- todo: concrete tasks in terms of months
+- CEK machine for benchmark?
+
+========================================
+Timeline
+========================================
+calculi -> models of PLs -> mechanized models/proofs
+- lambda calculus (formalization of computation)
+- ISWIM model real languages as calculi
+- SOS
+- ... stuff (what?)
+- SML standard
+- CompCert
+
+
+========================================
+Use Cases (modeling real langauges)
+========================================
++ Coq
+-- Compcert
++ ACL2
+-- AMD floating point
++ K
+-- C
+-- Java
++ Redex
+-- Javascript
+-- Python
+-- (Racket)
+-- R6RS
++ Ott/Lem
+-- OCaml light
+-- other stuff like memory models
+
+========================================
+Generic Tools for:
+========================================
+- specifying syntax
+- specifying execution
+- specifying static properties
+- testing <==========
+- but not formal analysis
+
+========================================
+Dissertation Chapter Idea
+========================================
+- extended example, specifying gramamr,
+  reduction, evaluator, type system of
+  a language in Redex, and then testing
+  it (and ideally trying different
+  methods of testing to motivate other
+  stuff)
+- already have the amb tutorial I guess
+
+========================================
+Random vs Other
+========================================
+- huge size of enumerable space for even
+  small systems
+- look at that smallcheck paper where
+  they constrain things somehow
+
+
+========================================
+Problem Areas in Mechanized Sematics
+========================================
+- scalability
+- expressiveness
+- correctness
+- modularity
+
+========================================
+Example using a constrained goal
+========================================
+- Larry's suggestion
+
+
+========================================
+-----Semantics
+What? Why?
+-----Mechanized Semantics
+-----Heavyweight Mechanized Semantics
+Coq, ACL2, Isabelle/HOL, Agda
+-----Lightweight Mechanized Semantics
+K, PLT Redex, Ott, Haskell
+-----Random Testing
+Quickcheck
+-----Property-Based Testing
+-----Automatic Property-Based Testing
+Smallcheck, Korat
+-----Automatic Test Case Generation
+Korat
+
+-----Other
+Model Checking
+
+
+-----
+* Focus on making dissertation useful to the n
+  people who ever actually read it...
+* n is at least 3
