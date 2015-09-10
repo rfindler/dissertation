@@ -37,14 +37,17 @@
                   [(lookup ,rhs ...) ,lhs ...] ...)))
 
 (define (grammar-side-by-side-pict)
-  (hb-append 20
-   (code #,lang-stxobj)
+  (hb-append
+   20
+   (parameterize ([code-scripts-enabled #f])
+     (code #,lang-stxobj))
    (full-exp-pict)))
 
 (define (reduction-types-pict)
-  (ht-append 40
-             (code #,red-stxobj)
-             (code #,type-stxobj)))
+  (parameterize ([code-scripts-enabled #f])
+    (ht-append 40
+               (code #,red-stxobj)
+               (code #,type-stxobj))))
 
 (define eval-stxobj
   (extract-def stlc-stxobjs
