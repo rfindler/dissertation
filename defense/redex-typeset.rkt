@@ -1,6 +1,8 @@
 #lang racket
 (require ;"util.rkt" 
          "examples/stlc.rkt"
+         "common.rkt"
+         "settings.rkt"
          redex
          slideshow
          slideshow/play
@@ -462,7 +464,7 @@
                 (vc-append 10
                  (text "Testing strategy:")
                  (hbl-append (text "Generate random ")
-                             (term->pict STLC e)
+                             e-pict
                              (text "'s"))
                  (text "Check:")
                  type-soundness-pict)
@@ -499,8 +501,7 @@
                 (vc-append 10
                  (text "Testing strategy:")
                  (text "Generate random ")
-                 (with-rewriters
-                  (term->pict STLC (tc • e τ)))
+                 tc-jdg-pict
                  (text "Check:")
                  type-soundness-pict)
                 (ghost g))))

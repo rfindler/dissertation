@@ -9,12 +9,14 @@
          "misc.rkt"
          "explain-sem.rkt"
          "related-work.rkt"
+         "slidy.rkt" ;; putting slidy after testing makes fonts sad
+         "metafunctions.rkt"
+         "cmp-eval.rkt"
          "testing.rkt"
          "evaluation.rkt"
          "bench.rkt"
          "trace-picts.rkt"
-         "intro.rkt"
-         "slidy.rkt")
+         "intro.rkt")
 
 
 (define (thesis-slide)
@@ -51,9 +53,13 @@
 
 (do-trace)
 
+(do-mf-slides)
+
 (do-benchmark)
 
 (do-eval)
+
+(do-handwritten-eval)
 
 (contents-table)
 

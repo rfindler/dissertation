@@ -133,9 +133,7 @@
               (loop (cdr d)))))
       (define y (+ num-bugs 0.5))
       (define gs-tds (filter (λ (td) (member (car td) '(grammar search))) types+datas))
-      (define pts (for/list ([td (in-list (let ([ans gs-tds])
-                                            (printf "~s\n~s\n" ans num-bugs)
-                                            ans))])
+      (define pts (for/list ([td (in-list gs-tds)])
                     (list (find-envelope (second td))
                           y)))
       (lines pts
