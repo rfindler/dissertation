@@ -44,7 +44,11 @@
                   quadrant x y
                   text)
   (define qdrnt-p (car (find-tag quad quadrant)))
-  (define to-pin (s-frame ((if (pict? text) values t/n) text)))
+  (define to-pin (s-frame ((if (pict? text)
+                               values
+                               (λ (txt)
+                                 (t/n txt #:v-combine vc-append)))
+                           text)))
   (pin-over quad
             qdrnt-p
             lt-find
@@ -67,28 +71,19 @@
   (map (λ (p)
          (slide
           (scale-to-fit p titleless-page)))
-       (make-pin-seq (quad/labels 400
+       (make-pin-seq (quad/labels 475
                                   "software\nengineering" "semantics\nengineering"
                                   "proof" "test")
-                     (list (list "TDD" 'lower-left 15 100)
-                           (list (hc-append
-                                  (vc-append (t "testers")
-                                             (colorize
-                                              (linewidth 4
-                                                         (hline (pict-width (t "developers")) 0))
-                                              colors:main-font-color)
-                                             (t "developers"))
-                                  (t " \u2248 1"))
-                                 'lower-left 25 225)
-                           (list "Quickcheck" 'lower-left 150 25)
-                           (list "ubiquitous" 'lower-left 150 125)
-                           (list "Hoare's\nGrand\nChallenge" 'upper-left 100 100)
+                     (list (list "unit testing" 'lower-left 75 25)
+                           (list "Quickcheck\n[Claessen & Hughes 2000]" 'lower-left 12 150)
+                           (list "Hoare's Grand\nChallenge\n[Hoare 2003]" 'upper-left 100 125)
                            (list "Coq" 'upper-right 50 25)
                            (list "ACL2" 'upper-right 200 75)
+                           (list "Isabelle/HOL\n[Nipkow et al 2011]" 'upper-right 50 375)
                            (list "large % of\nPL community" 'upper-right 100 200)
                            (list "Redex" 'lower-right 50 50)
-                           (list "K" 'lower-right 25 200)
-                           (list "Ott/Lem" 'lower-right 150 175)))))
+                           (list "K [Rosu & Serbanuta 2014]" 'lower-right 12 350)
+                           (list "Ott/Lem\n[Sewell et al 2010]" 'lower-right 125 175)))))
     
 
 

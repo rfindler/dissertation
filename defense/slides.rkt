@@ -13,7 +13,8 @@
          "evaluation.rkt"
          "bench.rkt"
          "trace-picts.rkt"
-         "intro.rkt")
+         "intro.rkt"
+         "slidy.rkt")
 
 
 (define (thesis-slide)
@@ -22,21 +23,23 @@
 
 (title)
 
+(show-venn)
+
 (thesis-slide)
 
+#;
 (slide #:title "Outline"
        (item-frame "What is lightweight mechanized semantics?"
                    "Related Work"
                    "Work/Results"
                    "Dissertation Plan"))
 
-(do-lse-tree)
-
-(show-venn)
 
 (do-quadrants)
 
 (do-related-work)
+
+(do-slidy)
 
 (do-redex-comp)
 
