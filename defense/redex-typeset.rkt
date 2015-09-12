@@ -1,8 +1,8 @@
 #lang racket
 (require ;"util.rkt" 
          "examples/stlc.rkt"
-         "common.rkt"
-         "settings.rkt"
+         ;"common.rkt"
+         ;"settings.rkt"
          redex
          slideshow
          slideshow/play

@@ -81,9 +81,9 @@
                            (list "ACL2" 'upper-right 200 75)
                            (list "Isabelle/HOL\n[Nipkow et al 2011]" 'upper-right 50 375)
                            (list "large % of\nPL community" 'upper-right 100 200)
-                           (list "Redex" 'lower-right 50 50)
                            (list "K [Rosu & Serbanuta 2014]" 'lower-right 12 350)
-                           (list "Ott/Lem\n[Sewell et al 2010]" 'lower-right 125 175)))))
+                           (list "Ott/Lem\n[Sewell et al 2010]" 'lower-right 125 175)
+                           (list "Redex" 'lower-right 50 50)))))
     
 
 

@@ -5,7 +5,9 @@
          pict/flash
          unstable/gui/pict
          "common.rkt"
-         "settings.rkt")
+         "settings.rkt"
+         "examples/stlc.rkt"
+         (only-in "redex-typeset.rkt" with-rewriters))
 
 (provide do-automated-testing
          explain-methods)
@@ -113,7 +115,8 @@
                 (sexp->pict (generate-term Λ e #:i-th (+ 3 (expt 10 8))))))))
 
 (define enum-methods-pict
-  (item-frame "choose a random index" 
+  (item-frame #:title "Two methods:"
+              "choose a random index" 
               "enumerate in order"))
 
 
@@ -138,7 +141,6 @@
     (apply cc-superimpose (map ghost seq-picts)))))
 
 
-(require (prefix-in rt: "redex-typeset.rkt"))
 
 (define dewey-quote2
   (vl-append (para (string-append "\"...declarative specifications to generate programs..."
@@ -146,12 +148,16 @@
                                   "[related] techniques for automatic data structure generation"))
              (t "[Dewey et al, ASE 2014]")))
 
+(define tc-jdg-pict (with-rewriters (term->pict STLC (tc • e τ))))
+(define e-pict (with-rewriters (term->pict STLC e)))
+(define t-pict (with-rewriters (term->pict STLC τ)))
+
 (define example-frame
   (s-frame (vc-append 5 
                        (t "Example:")
-                       (hbl-append (t "Make a random ") rt:e-pict (t " and ") rt:t-pict)
+                       (hbl-append (t "Make a random ") e-pict (t " and ") t-pict)
                        (t "such that:")
-                       rt:tc-jdg-pict)))
+                       tc-jdg-pict)))
 
 (define (clp-frame show-c?)
   (s-frame (vc-append 5

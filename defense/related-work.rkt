@@ -67,18 +67,6 @@
 
 (define (do-related-work)
   
-  
-  (slide #:title "Related work"
-         (s-frame (vc-append 20 (colorize
-                                 (parameterize ([current-main-font font:base-font])
-                                   (t "Most closely related, by category"))
-                                 colors:emph-dull)
-                             (vl-append 10
-                              (item "Semantics frameworks")
-                              (item "Well-typed term generation")
-                              (item "CLP for random generation")
-                              (item "Comparative automated testing studies")))))
-  
   (tools-slide)
   
   (parameterize ([lightweight-only #t])

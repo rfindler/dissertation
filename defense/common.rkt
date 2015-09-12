@@ -59,11 +59,18 @@
                 #:frame-color colors:shadow
                 #:frame-line-width 2))
 
-(define-syntax-rule (item-frame p ...)
-  (let* ([pps (list (t p) ...)]
-         [maxw (apply max (map pict-width pps))])
-    (s-frame (item (t p) #:width (* 1.25 maxw)) ...)))
-     
+(define-syntax (item-frame stx)
+  (syntax-case stx ()
+    [(item-frame title-kw title p ...)
+     (eq? (syntax-e #'title-kw) '#:title)
+     #'(let* ([pps (list (t p) ...)]
+            [maxw (apply max (map pict-width pps))])
+         (s-frame (t title) (item (t p) #:width (* 1.25 maxw)) ...))]
+    [(item-frame p ...)
+     #'(let* ([pps (list (t p) ...)]
+            [maxw (apply max (map pict-width pps))])
+         (s-frame (item (t p) #:width (* 1.25 maxw)) ...))]))
+
 (define (bubble str)
   (define txt-p (t str))
   (tag-pict

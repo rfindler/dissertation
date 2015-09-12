@@ -87,6 +87,31 @@
             ((subst M x M_x) (subst N x #,(code-emph M)))]
            ...))))
 
+(define ok-4
+  (s-frame
+   (code (define-judgment-form let-poly
+           ...
+           [(where N_2 (subst N x #,(code-emph v)))
+            (code:comment "y is a fresh variable")
+            (tc-down Γ ((λ y N_2) v) κ σ_2)
+            ---------------------------------
+            (tc-down Γ (let ([x v]) N) κ σ_2)]
+           ...
+           #,(code-emph [(where #t (not-v? M))
+            (tc-down Γ ((λ x N) M) κ σ_2)
+            ---------------------------------
+            (tc-down Γ (let ([x M]) N) κ σ_2)])
+           ...))))
+
+(define buggy-4
+  (s-frame
+   (code (define-judgment-form let-poly
+           [(where N_2 (subst N x #,(code-emph M)))
+            (code:comment "y is a fresh variable")
+            (tc-down Γ ((λ y N_2) M) κ σ_2)
+            ---------------------------------
+            (tc-down Γ (let ([x M]) N) κ σ_2)]))))
+         
 (define bench-title "Automated testing benchmark")
 
 (define (do-benchmark)
@@ -151,4 +176,18 @@
     client-w client-h)
    (t "")
    (t "Yet another bug")
-   (t "(stlc-7.rkt)")))
+   (t "(stlc-7.rkt)"))
+
+  (slide
+   #:title bench-title
+   (scale-to-fit
+    (hc-append 40
+               ok-4
+               (hc-append
+                (arrow 30 pi)
+                (arrow 30 0))
+               buggy-4)
+    client-w client-h)
+   (t "")
+   (t "A deep bug")
+   (t "(let-poly-2.rkt)")))

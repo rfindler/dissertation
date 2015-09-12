@@ -129,6 +129,10 @@
                               (rounded-rectangle (pict-width p)
                                      (pict-height p)
                                      20))))
+(define (pad p)
+  (cc-superimpose
+   (ghost (rectangle (* (pict-width p) 1.1) (* (pict-height p) 1.1)))
+   p))
 
 (define (layout-func-example bottom [bottom-super (blank 1 1)])
   (define (tscale p) (scale p 2.5))
@@ -139,10 +143,10 @@
   (define rec/4 (add-rr-border (ghost (rectangle w/2 h/2))))
   (define rech/2 (add-rr-border (ghost (rectangle w h/2))))
   (define ul
-    (lt-superimpose (t " Function Definition")
+    (lt-superimpose (pad (t " Function Definition"))
                     (cc-superimpose rec/4 (tscale f-pict))))
   (define ur
-    (lt-superimpose (t " Examples")
+    (lt-superimpose (pad (t " Examples"))
                     (cc-superimpose rec/4 (tscale f-ex-pict))))
   (define bot (refocus
                (cc-superimpose

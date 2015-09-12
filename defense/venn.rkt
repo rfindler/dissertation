@@ -9,6 +9,8 @@
 
 (provide show-venn)
 
+(define title-pict (bitmap "title.png"))
+
 (define (venn-2 rad c1 c2)
   (define dsk (disk rad))
   (panorama
@@ -54,7 +56,7 @@ tools"))
    (pict-height titleless-page)))
 
 (define arr-p
-  (colorize (vr-append (scale (rotate (scale (arrow 20 0) 2 1) (* (/ 3 4) pi)) 2)
+  (colorize (vr-append (scale (rotate (scale (arrow 15 0) 2 1) (* (/ 4 5) pi)) 2)
                        (parameterize ([current-main-font font:base-font])
                          (ghost (t "me"))))
             colors:note-color))
@@ -63,17 +65,21 @@ tools"))
   (cc-superimpose
    v2/text
    (hc-append
-    (blank 20 0)
+    #;(blank 20 0)
     (vc-append
      ((if show-dot? values ghost)
-      (let ([dsk (colorize (disk 5) colors:note-color)])
+      (let* ([dsk-temp (ghost (colorize (disk 15) colors:note-color))]
+             [dsk (refocus (cc-superimpose (scale-to-fit title-pict dsk-temp)
+                                           dsk-temp)
+                           dsk-temp)])
         (refocus
-         (hb-append
+         (hc-append
           (vl-append dsk
-                     (blank (pict-width dsk) (pict-height arr-p)))
+                     (blank 0
+                            (* (pict-height arr-p) 0.85)))
           ((if show-arr? values ghost) arr-p))
          dsk)))
-     (blank 0 40)))))
+     #;(blank 0 40)))))
 
 (define (rect-shadow p
                      #:factor [f 0.1]
@@ -114,24 +120,26 @@ tools"))
   (clip (scale-to rf (pict-width p) (pict-height p))))
 
 
+(define zoom-factor 25)
+
 (define (show-venn)
   (play #:title "Thesis"
         (λ (n)
           (rect-shadow #:grads 6
                        #:factor 0.025
                        #:cel-factor n
-                       (zoom (v2/text/dot    (not (= n 0))) (+ 1 (* n 3))))))
+                       (zoom (v2/text/dot (not (= n 0))) (+ 1 (* n (sub1 zoom-factor)))))))
   (slide #:title "Thesis"
          (rect-shadow #:grads 6
                        #:factor 0.025
                        #:cel-factor 1
-                       (zoom (v2/text/dot #t) 4)))
+                       (zoom (v2/text/dot #t) zoom-factor)))
   (play #:title "Thesis"
         (λ (n)
           (rect-shadow #:grads 6
                        #:factor 0.025
                        #:cel-factor (- 1 n)
-                       (zoom (v2/text/dot #t #t) (+ 1 (* (- 1 n) 3))))))
+                       (zoom (v2/text/dot #t #t) (+ 1 (* (- 1 n) (sub1 zoom-factor)))))))
   (slide #:title "Thesis"
          (v2/text/dot #t #t)))
 
