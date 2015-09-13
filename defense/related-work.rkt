@@ -5,7 +5,8 @@
          "common.rkt"
          "settings.rkt")
 
-(provide do-related-work)
+(provide do-related-work
+         rw-slide)
 
 (define show-maybes (make-parameter #f))
 (define lightweight-only (make-parameter #f))
@@ -46,7 +47,7 @@
           titleless-page)))
 
 (define (tools-slide)
-  (slide #:title "Related work"
+  (slide #:title "Mechanized Semantics Tools"
          (s-frame (vc-append 20 (vc-append (hbl-append 
                                             ((if (lightweight-only) values ghost)
                                              (colorize
@@ -74,23 +75,10 @@
     (parameterize ([show-maybes #t])
       (tools-slide)))
          
-  (rw-slide "Well-typed term generation"
-            (cite "Testing an optimising compiler by generating random lambda terms"
-                  "[Pałka, Claessen, Russo, Hughes, AST 2011]")
-            (cite "Generating Constrained Random Data with Uniform Distribution"
-                  "[Claessen, Duregård, Pałka, FLOPS 2014]")
-            (cite "Mechanized Metatheory Model Checking"
-                  "[Cheney, Momigliano, PPDP 2006]"))
-  
+ 
+  #;
   (rw-slide "CLP for random generation"
             (cite "Language Fuzzing Using Constraint Logic Programming"
                   "[Dewy, Roesch, Hardekopf, ASE 2014]")
             (cite "Automated Data Structure Generation: Refuting Common Wisdom"
-                  "[Dewey, Nichols, Hardekopf, ICSE 2014]"))
-  (rw-slide "Automated testing, comparative studies"
-            (cite "SmallCheck and Lazy SmallCheck: automatic exhaustive testing for small values"
-                  "[Runciman, Naylor, Lindblad, Haskell 2008]")
-            (cite "The New Quickcheck for Isabelle: Random, Exhaustive and Symbolic Testing under One Roof"
-                  "[Bulwahn, CPP 2012]")
-            #;(cite "An Empirical Comparison of Automated Generation and Classification Techniques for Object-Oriented Unit Testing"
-                  "[d'Amorim, Pacheco, Xie, Marinov, Ernst, ASE 2006]")))
+                  "[Dewey, Nichols, Hardekopf, ICSE 2014]")))

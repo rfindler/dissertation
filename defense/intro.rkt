@@ -26,9 +26,7 @@
     (vc-append 15
      (parameterize ([current-font-size
                       (* (current-font-size) 7/4)])
-       (t/n "Automated Testing\nfor Lightweight Semantics" #:v-combine vc-append))
-     (parameterize ([current-font-size (* (current-font-size) 5/4)])
-       (t "Dissertation Proposal"))))
+       (t/n "Automated Testing\nfor Lightweight Semantics" #:v-combine vc-append))))
   (define title-info
     (vc-append 40
                title

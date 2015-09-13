@@ -5,7 +5,8 @@
          pict/code
          "settings.rkt"
          "common.rkt"
-         "models.rkt")
+         "models.rkt"
+         "related-work.rkt")
 
 (provide do-benchmark)
 
@@ -116,6 +117,15 @@
 
 (define (do-benchmark)
   
+  (rw-slide "Automated testing, comparative studies"
+            (cite "SmallCheck and Lazy SmallCheck: automatic exhaustive testing for small values"
+                  "[Runciman, Naylor, Lindblad, Haskell 2008]")
+            (cite "The New Quickcheck for Isabelle: Random, Exhaustive and Symbolic Testing under One Roof"
+                  "[Bulwahn, CPP 2012]")
+            (cite "Mechanized Metatheory Model Checking"
+                  "[Cheney, Momigliano, PPDP 2006]")
+            #;(cite "An Empirical Comparison of Automated Generation and Classification Techniques for Object-Oriented Unit Testing"
+                  "[d'Amorim, Pacheco, Xie, Marinov, Ernst, ASE 2006]"))
   (slide 
    #:title bench-title 
    (item-frame

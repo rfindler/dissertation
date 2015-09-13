@@ -80,7 +80,7 @@
            #:delta 2
            #:grads 50)))
   
-  (define comp-title "Derivation vs. ad-hoc generation")
+  (define comp-title "All generators, testing performance")
          
   (slide #:title comp-title
          lp-pict)

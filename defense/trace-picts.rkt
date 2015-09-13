@@ -9,6 +9,7 @@
          "fades.rkt"
          "settings.rkt"
          "common.rkt"
+         "related-work.rkt"
          redex/private/pat-unify
          redex/private/search)
 
@@ -593,6 +594,17 @@
 
 
 (define (do-trace-slides)
+
+   (rw-slide "Well-typed term generation"
+            (cite "Testing an optimising compiler by generating random lambda terms"
+                  "[Pałka, Claessen, Russo, Hughes, AST 2011]")
+            (cite "Generating Constrained Random Data with Uniform Distribution"
+                  "[Claessen, Duregård, Pałka, FLOPS 2014]")
+            (cite "Mechanized Metatheory Model Checking"
+                  "[Cheney, Momigliano, PPDP 2006]")
+            (cite "Fuzzing the Rust Typechecker Using CLP"
+                  "[Dewey, Rosch, Hardekpof 2015"))
+  
   (play-n
    (λ (n)
      (first-arranger 
