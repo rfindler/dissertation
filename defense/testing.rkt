@@ -10,7 +10,9 @@
          (only-in "redex-typeset.rkt" with-rewriters))
 
 (provide do-automated-testing
-         explain-methods)
+         explain-methods
+         pb-pict-emph
+         sscale)
 
 (define pb-pict-base
   (hc-append 100
@@ -38,13 +40,17 @@
 
 (define (pb-pict-emph [show-flash? #f])
   (let* ([tc-bub (car (find-tag pb-pict '|Test Cases|))]
-         [tcw (* 1.5 (pict-width tc-bub))]
-         [tch (* 1.5 (pict-height tc-bub))]
-         [flash-p (colorize (filled-flash tcw tch)
-                       colors:emph-bright)]
+         [p-bub (car (find-tag pb-pict '|Property|))]
+         [f-bub (if (equal? show-flash? 1) tc-bub p-bub)]
+         [tcw (* 1.5 (pict-width f-bub))]
+         [tch (* 1.5 (pict-height f-bub))]
+         [flash-p (cellophane
+                   (colorize (filled-flash tcw tch)
+                            colors:emph-bright)
+                   0.5)]
          [anchor (blank 0 0)])
   (pin-under pb-pict
-             tc-bub
+             f-bub
              cc-find
              ((if show-flash? values ghost)
               (refocus
@@ -190,7 +196,6 @@
 (define prop-title "Property-based testing")
 
 (define (do-automated-testing)
-  (slide #:title prop-title (sscale (pb-pict-emph)))
   
   (slide #:title prop-title (sscale (pb-pict-emph #t)))
   

@@ -107,9 +107,12 @@
   (port-count-lines! the-port)
   (typeset-code (read-syntax "sexp->pict" the-port)))
 
-(define (cite title authors)
+(define (cite title authors [italic? #t])
   (vl-append
-   (parameterize ([current-main-font (cons 'italic (current-main-font))])
+   (parameterize ([current-main-font
+                   (if italic?
+                       (cons 'italic (current-main-font))
+                       (current-main-font))])
      (item title))
    ;(item (it title))
    (hbl-append (ghost (t "XXX"))

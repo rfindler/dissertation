@@ -45,8 +45,6 @@
 
 (do-automated-testing)
 
-(constructs-table)
-
 (explain-methods)
 
 (do-trace)

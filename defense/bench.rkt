@@ -6,7 +6,8 @@
          "settings.rkt"
          "common.rkt"
          "models.rkt"
-         "related-work.rkt")
+         "related-work.rkt"
+         "testing.rkt")
 
 (provide do-benchmark)
 
@@ -116,16 +117,26 @@
 (define bench-title "Automated testing benchmark")
 
 (define (do-benchmark)
+
+  (slide #:title "When is a generator \"effective\"?"
+         (sscale (vc-append 40
+                            (pb-pict-emph #f)
+                            (ghost (t "It finds bugs on many models & properties")))))
   
-  (rw-slide "Automated testing, comparative studies"
-            (cite "SmallCheck and Lazy SmallCheck: automatic exhaustive testing for small values"
-                  "[Runciman, Naylor, Lindblad, Haskell 2008]")
-            (cite "The New Quickcheck for Isabelle: Random, Exhaustive and Symbolic Testing under One Roof"
-                  "[Bulwahn, CPP 2012]")
-            (cite "Mechanized Metatheory Model Checking"
+  (slide #:title "When is a generator \"effective\"?"
+         (sscale (vc-append 40
+                            (pb-pict-emph 2)
+                            (t "It finds bugs on many models & properties"))))
+  
+  (rw-slide "Automated Testing Evaluations"
+            (cite "\"Notoriously difficult\" issue, anecdotal evidence"
+                  "[Claessen & Hughes 2000]")
+            (cite "Find a handful of bugs introduced into a simply-typed LC"
                   "[Cheney, Momigliano, PPDP 2006]")
-            #;(cite "An Empirical Comparison of Automated Generation and Classification Techniques for Object-Oriented Unit Testing"
-                  "[d'Amorim, Pacheco, Xie, Marinov, Ernst, ASE 2006]"))
+            (cite "Compared exhausting bounded spaces, found 2 counterexamples, data structures"
+                  "[Runciman, Naylor, Lindblad, Haskell 2008]")
+            (cite "200 Random mutations, typos in data structures, limit to 30 sec."
+                  "[Bulwahn, CPP 2012]"))
   (slide 
    #:title bench-title 
    (item-frame

@@ -122,6 +122,8 @@ tools"))
 
 (define zoom-factor 25)
 
+(define v-title "A very brief summary")
+
 (define (show-venn)
   (play #:title "Thesis"
         (λ (n)

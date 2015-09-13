@@ -11,11 +11,15 @@
          "overview-slides.rkt"
          "layout.rkt"
          "examples.rkt"
-         "fades.rkt")
+         "fades.rkt"
+         "testing.rkt")
 
 (provide do-slidy)
 
 (define (do-slidy)
+
+  (slide (sscale (pb-pict-emph #f)))
+  
   (get-zoomy)
   
   (sliding-grammar)
