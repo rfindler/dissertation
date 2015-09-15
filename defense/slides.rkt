@@ -16,6 +16,7 @@
          "bench.rkt"
          "trace-picts.rkt"
          "intro.rkt"
+         "conc.rkt"
          "testing.rkt")
 
 
@@ -25,7 +26,9 @@
 
 (title)
 
-(show-venn)
+;(show-venn)
+
+(do-slidy)
 
 (thesis-slide)
 
@@ -41,8 +44,6 @@
 
 (do-related-work)
 
-(do-slidy)
-
 (do-automated-testing)
 
 (explain-methods)
@@ -57,4 +58,4 @@
 
 (do-handwritten-eval)
 
-(thesis-slide)
+(do-conc-slides)

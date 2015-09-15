@@ -7,7 +7,7 @@
          "common.rkt"
          "models.rkt"
          "related-work.rkt"
-         "testing.rkt")
+         "pb-pict.rkt")
 
 (provide do-benchmark)
 
@@ -108,11 +108,13 @@
 (define buggy-4
   (s-frame
    (code (define-judgment-form let-poly
+           ...
            [(where N_2 (subst N x #,(code-emph M)))
             (code:comment "y is a fresh variable")
             (tc-down Γ ((λ y N_2) M) κ σ_2)
             ---------------------------------
-            (tc-down Γ (let ([x M]) N) κ σ_2)]))))
+            (tc-down Γ (let ([x M]) N) κ σ_2)]
+           ...))))
          
 (define bench-title "Automated testing benchmark")
 

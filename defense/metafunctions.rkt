@@ -3,6 +3,7 @@
 (require "metafunc-example.rkt"
          "common.rkt"
          "settings.rkt"
+         "related-work.rkt"
          redex/pict
          (only-in "../model/pats.rkt" pats base-pats)
          (only-in "redex-typeset.rkt" add-white))
@@ -98,5 +99,15 @@
   
   (slide
    (cstr-title
-    cl1-pict)))
+    cl1-pict))
+
+  (rw-slide "Well-typed term generation"
+            (cite "Testing an optimising compiler by generating random lambda terms"
+                  "[Pałka, Claessen, Russo, Hughes, AST 2011]")
+            (cite "Generating Constrained Random Data with Uniform Distribution"
+                  "[Claessen, Duregård, Pałka, FLOPS 2014]")
+            (cite "Mechanized Metatheory Model Checking"
+                  "[Cheney, Momigliano, PPDP 2006]")
+            (cite "Fuzzing the Rust Typechecker Using CLP"
+                  "[Dewey, Rosch, Hardekpof 2015")))
 
