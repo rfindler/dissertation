@@ -177,7 +177,7 @@
    (t "Another bug")
    (t "(stlc-sub-3.rkt)"))
 
-  
+  #;
   (slide
    #:title bench-title
    (scale-to-fit
