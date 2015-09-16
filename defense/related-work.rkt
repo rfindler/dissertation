@@ -36,8 +36,7 @@
 
 
 (define (rw-slide area . cites)
-  (slide ;#:title "Related work"
-         (scale-to-fit
+  (slide (scale-to-fit
           (s-frame
            (vc-append 20 (colorize
                           (parameterize ([current-main-font font:base-font])

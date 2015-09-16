@@ -129,16 +129,7 @@
          (sscale (vc-append 40
                             (pb-pict-emph 2)
                             (t "It finds bugs on many models & properties"))))
-  
-  (rw-slide "Automated Testing Evaluations"
-            (cite "\"Notoriously difficult\" issue, anecdotal evidence"
-                  "[Claessen & Hughes 2000]")
-            (cite "Find a handful of bugs introduced into a simply-typed LC"
-                  "[Cheney, Momigliano, PPDP 2006]")
-            (cite "Compared exhausting bounded spaces, found 2 counterexamples, data structures"
-                  "[Runciman, Naylor, Lindblad, Haskell 2008]")
-            (cite "200 Random mutations, typos in data structures, limit to 30 sec."
-                  "[Bulwahn, CPP 2012]"))
+
   (slide 
    #:title bench-title 
    (item-frame

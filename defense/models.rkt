@@ -7,7 +7,8 @@
          "table.rkt")
 
 (provide models-table
-         mod-data)
+         mod-data
+         frameworks-table)
 
 
 (define mod-data
@@ -22,13 +23,16 @@
     ("stlc-subst" #t #f 275 9)))
 
 
-(define models-list
-  (map
-   (match-lambda
+(define format-col
+  (match-lambda
     [(? string? str) (t str)]
     [(? number? n) (t (number->string n))]
     [#f (blank 0 0)]
-    [#t (colorize (disk 15) colors:emph-dull)])
+    [#t (colorize (disk 15) colors:emph-dull)]))
+
+(define models-list
+  (map
+   format-col
    (flatten mod-data)))
 
 (define mod-table
@@ -40,3 +44,32 @@
   (slide #:title "Benchmark models"
          (scale-to-fit (s-frame mod-table)
                        (inset titleless-page -20))))
+
+#;
+((tool "αML" #f #t)
+(tool "αProlog" " model checking" #t)
+(tool "Coq" #f #f)
+(tool "Isabelle/HOL" #f #f)
+(tool "K" " model checking" #t)
+(tool "Ott/Lem" #f #t)
+(tool "Ruler" #f #t))
+
+(define frameworks-data
+  '(("Framework" "lightweight" "automated checking")
+    ("αML" #t #f)
+    ("αProlog" #t "model checking")
+    ("Coq" #f #f)
+    ("Isabelle/HOL" #f #t)
+    ("K" #t "model checking")
+    ("Ott/Lem" #t #f)
+    ("Redex" #t #t)))
+
+(define f-table
+  (table/line 3 (map format-col (flatten frameworks-data))
+              cbl-superimpose cc-superimpose
+              50 10))
+
+(define (frameworks-table)
+        (slide #:title "Mechanized Semantics Tools"
+               (scale-to-fit (s-frame f-table)
+                             (inset titleless-page -20))))

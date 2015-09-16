@@ -42,7 +42,7 @@
   (vl-append 5
    (para (string-append "\"Current State of the Art. The predominant program generation strategy "
                         "for language fuzzing is based on stochastic context-free grammars.\""))
-   (t "[Dewey, Roesch, Hardekpof, ASE 2014]")))
+   (t "[Dewey, Roesch, Hardekopf, ASE 2014]")))
 
 (define hanford-cite (t "[Hanford 1970]"))
 
@@ -70,9 +70,9 @@
 
 (define big-enum-pict
   (s-frame
-   (hc-append (t "10^8 + 3\t")
+   (hc-append (t "2^65 + 7\t")
               (parameterize ([pretty-print-columns 30])
-                (sexp->pict (generate-term Λ e #:i-th (+ 3 (expt 10 8))))))))
+                (sexp->pict (generate-term Λ e #:i-th (+ (expt 2 65) 7)))))))
 
 (define enum-methods-pict
   (item-frame #:title "Two methods:"
@@ -81,21 +81,16 @@
 
 
 (define (enum-pict seq-num)
-  (define seq-picts (list first-enums-pict big-enum-pict enum-methods-pict))
+  (define seq-picts (list (hc-append 30
+                           (s-frame lambda-lang-pict)
+                           (arrow 50 0)
+                           first-enums-pict)
+                          big-enum-pict
+                          enum-methods-pict))
   (vc-append
-   (hc-append
-    (s-frame
-     (vl-append
-     (emph-line "enumerations:")
+   (s-frame
      (hbl-append (t "enum α : (α → ") nats-p
-                 (t ") ") prod-p (t " (") nats-p (t " → α)"))))
-    (s-frame
-     (hc-append 
-      10
-      e-pict
-      (arrow 50 0)
-      (hbl-append (t "enum ") (parameterize ([default-font-size (current-font-size)])
-                                (term->pict/pretty-write Λ 'e))))))
+                 (t ") ") prod-p (t " (") nats-p (t " → α)")))
    (cc-superimpose
     (list-ref seq-picts seq-num)
     (apply cc-superimpose (map ghost seq-picts)))))
@@ -121,18 +116,17 @@
 
 (define (clp-frame show-c?)
   (s-frame (vc-append 5
-                      (t "How it's done:")
-                      (t "randomized")
-                      (if show-c? 
-                          (colorize 
-                           (parameterize ([current-main-font font:base-font])
-                             (t "constraint"))
-                           colors:emph-dull)
-                          (blank 0 0))
-                      (t "logic programming engine")
-                      (if show-c? 
-                          (blank 0 0)
-                          (ghost (t "constraint"))))))
+                      (t "How it works:")
+                      (hc-append
+                       (t "randomized ")
+                       (if show-c?
+                           (colorize 
+                            (parameterize ([current-main-font font:base-font])
+                              (t "constraint "))
+                            colors:emph-dull)
+                           (blank 0 0))
+                       (t "logic programming engine"))
+                      (t "(Prolog)"))))
 
 (define (deriv-pict [seq-num 0])
   (define seq-picts (list example-frame (clp-frame #f) (clp-frame #t)))
@@ -155,7 +149,7 @@
   
   (slide #:title prop-title (sscale (pb-pict-emph 1)))
   
-  (slide #:title "Redex: \"push-button\" testing" (sscale def-to-tests-pict)))
+  (slide #:title "Redex: push-button testing" (sscale def-to-tests-pict)))
 
 (define (explain-methods)
   

@@ -4,7 +4,12 @@
          (only-in "cmp-eval.rkt" make-eval-pict)
          (only-in "plot-lines.rkt" line-plot-pict)
          (only-in "redex-typeset.rkt" my-freeze)
-         "fades.rkt")
+         "common.rkt"
+         "settings.rkt"
+         "fades.rkt"
+         "four-plot.rkt"
+         "models.rkt"
+         "related-work.rkt")
 
 (provide do-conc-slides)
 
@@ -25,6 +30,30 @@
   (slide #:title "Derivation Generator Performance"
          (scale-to-fit ep titleless-page))
 
+  (do-quadrants)
+  
+  (frameworks-table)
+  
+  (rw-slide "Well-typed term generation"
+            (cite "Testing an optimising compiler by generating random lambda terms"
+                  "[Pałka, Claessen, Russo, Hughes, AST 2011]")
+            (cite "Generating Constrained Random Data with Uniform Distribution"
+                  "[Claessen, Duregård, Pałka, FLOPS 2014]")
+            (cite "Mechanized Metatheory Model Checking"
+                  "[Cheney, Momigliano, PPDP 2006]")
+            (cite "Fuzzing the Rust Typechecker Using CLP"
+                  "[Dewey, Rosch, Hardekpof 2015"))
+  
+  (rw-slide "Automated Testing Evaluations"
+            (cite "\"Notoriously difficult\" issue, anecdotal evidence"
+                  "[Claessen & Hughes 2000]" #f)
+            (cite "handful of bugs, simply-typed λ-calculus"
+                  "[Cheney, Momigliano, PPDP 2006]" #f)
+            (cite "functional data structures, exhausting bounded spaces, 2 counterexamples,"
+                  "[Runciman, Naylor, Lindblad, Haskell 2008]" #f)
+            (cite "200 Random mutations, typos in data structures, limit to 30 sec."
+                  "[Bulwahn, CPP 2012]" #f))
+  
   (slide (scale-to-fit
           (vc-append 20
            (cc-superimpose
@@ -34,7 +63,8 @@
                         #:init 0.125
                         #:delta 2
                         #:grads 75)))
-           (t "Automated testing for semantics works"))
+           (vc-append (t "Automated testing for")
+                      (t "semantics works")))
           titleless-page))
 
   (slide (scale-to-fit
@@ -46,5 +76,6 @@
                         #:init 0.125
                         #:delta 2
                         #:grads 75))
-           (t "Automated testing for semantics works"))
+           (vc-append (t "Automated testing for")
+                      (t "semantics works")))
           titleless-page)))

@@ -3,12 +3,6 @@
 (require unstable/gui/pict
          "common.rkt"
          "settings.rkt"
-         "venn.rkt"
-         "table.rkt"
-         "four-plot.rkt"
-         "misc.rkt"
-         "explain-sem.rkt"
-         "related-work.rkt"
          "slidy.rkt" ;; putting slidy after testing makes fonts sad
          "metafunctions.rkt"
          "cmp-eval.rkt"
@@ -26,8 +20,6 @@
 
 (title)
 
-;(show-venn)
-
 (do-slidy)
 
 (thesis-slide)
@@ -39,10 +31,6 @@
                    "Work/Results"
                    "Dissertation Plan"))
 
-
-(do-quadrants)
-
-(do-related-work)
 
 (do-automated-testing)
 
