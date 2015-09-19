@@ -15,7 +15,7 @@
 (define background
   (cellophane (colorize
                (filled-rectangle client-w client-h)
-               colors:note-color)
+               colors:emph-dull)
               0.4))
    
 (define (tw str)

@@ -30,9 +30,6 @@
   (slide #:title "Derivation Generator Performance"
          (scale-to-fit ep titleless-page))
 
-  (do-quadrants)
-  
-  (frameworks-table)
   
   (rw-slide "Well-typed term generation"
             (cite "Testing an optimising compiler by generating random lambda terms"
@@ -64,7 +61,7 @@
                         #:delta 2
                         #:grads 75)))
            (vc-append (t "Automated testing for")
-                      (t "semantics works")))
+                      (t "semantics is effective")))
           titleless-page))
 
   (slide (scale-to-fit
@@ -77,5 +74,10 @@
                         #:delta 2
                         #:grads 75))
            (vc-append (t "Automated testing for")
-                      (t "semantics works")))
-          titleless-page)))
+                      (t "semantics is effective")))
+          titleless-page))
+
+   
+  (do-quadrants)
+  
+  (frameworks-table))

@@ -31,7 +31,6 @@
                    "Work/Results"
                    "Dissertation Plan"))
 
-
 (do-automated-testing)
 
 (explain-methods)

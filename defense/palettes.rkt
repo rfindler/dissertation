@@ -62,7 +62,7 @@
 (add-palette-mapping! inquiring-nature-iv 'background-color "nuanced smile")
 
 (define milky-way
-  (make-palette (list "cannibalism" 235 228 204
+  (make-palette (list "cannibalism" 224 217 191
                       "pale skin" 204 197 171
                       "JII" 15 43 69
                       "artemis" 70 128 115
@@ -70,8 +70,8 @@
 
 (add-palette-mapping! milky-way 'background-color "white")
 (add-palette-mapping! milky-way 'main-font-color "JII")
-(add-palette-mapping! milky-way 'note-color "cannibalism")
-(add-palette-mapping! milky-way 'shadow "pale skin")
+(add-palette-mapping! milky-way 'note-color "pale skin")
+(add-palette-mapping! milky-way 'shadow "artemis")
 (add-palette-mapping! milky-way 'emph-dull "artemis")
 (add-palette-mapping! milky-way 'emph-bright "teal green")
  
