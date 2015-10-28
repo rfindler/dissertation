@@ -9,10 +9,9 @@ Computer scientists have many tools for understanding programming
 languages, developed over years of research. Typically those tools
 were originally developed along with and applied to small language models,
 calculi that could fit on a few pages of paper or a whiteboard.
-Complete models of real programming languages, or even fragments
-of them, are frequently much larger. For this reason, tools for
-mechanizing language semantics, allowing researchers to develop
-larger models for real languages, have been a long-standing subject of research.
+Since the models themselves are written in a formal language,
+mechanized tools supporting semantics development are a natural
+next step, and have been a long-standing research goal.
 This dissertation investigates the combination of lightweight
 support for such mechanization with property-based testing, an
 approach to testing that proves to be particularly effective
@@ -20,20 +19,17 @@ for semantics engineering.
 
 Lightweight mechanization is distinguished by providing support
 for executable definitions, and perhaps associated tools, but
-requiring little effort further than defining a model. More
+requiring little effort beyond defining the model. More
 powerful tools, in contrast, enable machine-checked proofs of
 soundness properties, but developing such proofs requires
 more work; writing down definitions is only the beginning of
-the process. (Although finding the right definitions may take
-some time.) Lightweight mechanization is not necessarily an end-to-end
-solution, rather it is intended to complement other tools.
-Complete efforts at verification will usually
-require a proof assistant or equivalent tool in the end.
-However, lightweight tools are useful for many phases
-of a semantics engineering process.
+the process. 
 
-Lightweight mechanization allows a semantics to be engineered
-as software, providing the benefits of executability and
+Lightweight mechanization can be considered the ``scripting
+langauge'' approach to engineering a semantics, favoring rapid
+prototyping and testing as opposed to more powerful analysis
+or verification.
+It provides the benefits of executability and
 testing with low investment. Low investment means changes
 are low cost, so development can be incremental and iterative.
 PLT Redex, the framework for which the research in this
@@ -51,8 +47,8 @@ provide access to the benefits of executability early in the
 development process.
 
 Unit testing is already a valuable application of lightweight
-mechanization, but semantics turns out to be a particularly
-productive area to apply @italic{property-based} testing. In property-based
+mechanization, but an even more effective approach to semantics
+development is @italic{property-based} testing. In property-based
 testing, instead of defining inputs and expected results to
 a program, a tester formulates a property that should hold
 over a certain domain. Elements from the domain are then
@@ -66,7 +62,7 @@ generators can be automatically derived from lightweight
 semantics models.
 
 The thesis of this dissertation is:
-@centered[@bold[(list thesis)]]
+@centered[@bold[thesis]]
 To support this thesis, I show how lightweight definitions for a
 semantics can be leveraged to automatically derive test-case
 generators that effectively expose counterexamples when
@@ -75,11 +71,11 @@ ways to derive such generators. To show that that property-based
 testing using the generators is effective, I explain
 the development of an automated
 testing benchmark for semantics, consisting of representative
-and real-world Redex models and realistic bugs.
+Redex models and realistic bugs.
 I then report on the results of a careful comparison of all Redex's
 generation methods using the benchmark, as well as a comparison
 of its most successful method against the best-known, customized
-generator for a semantics.
+generator for well-typed term.
 
 To begin, 
 Chapter 2 introduces operational semantics and Redex

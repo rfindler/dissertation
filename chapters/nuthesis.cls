@@ -251,6 +251,7 @@ By\par
 
 \renewcommand{\abstract}{%
 \chapter*{\abstractname}
+\thispagestyle{empty}
 \bigskip
 \begin{center}
 \@title{}\par

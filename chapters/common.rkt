@@ -3,6 +3,7 @@
 (require racket/runtime-path
          redex/pict
          scribble/core
+         scribble/base
          scribble/decode
          "related-work/citations.rkt")
 
@@ -28,8 +29,8 @@
   (make-element "acknowledgements" (decode-content text)))
 
 (define thesis
-  (string-append
-   "Lightweight mechanization and "
-   "automated property-based testing are "
-   "effective for semantics engineering."))
+  (list
+   "Lightweight mechanization and automated property-based testing"
+   (linebreak)
+   "are effective for semantics engineering."))
 

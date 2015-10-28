@@ -2,24 +2,23 @@ Automatic Property-based Testing for Operational Semantics
 
 In this dissertation, I investigate the effectiveness of
 automatic property-based testing in a lightweight framework
-for semantics engineering. The lightweight approach is
-intended as a complement to more powerful formal modeling
-tools. By providing the benefits of execution, exploration, 
-and testing early in the development process, bugs can be
+for semantics engineering. The lightweight approach
+provides the benefits of execution, exploration, 
+and testing early in the development process, so bugs can be
 caught early, before significant effort is expended on 
 proofs of correctness. Specifically, I show how lightweight
 specifications can be leveraged to automatically
 derive effective test-case generators.
 
-This work develops several new approaches to test-case
-generation for PLT Redex, a lightweight semantics framework
+This work is done in the context of PLT Redex,
+a lightweight semantics framework
 embedded in Racket. Redex emphasizes property-based testing
 by allowing users to write predicates expressing desirable
 properties and attempting to falsify them by automatically 
-generating many test cases. In keeping with the lightweight
+generating test cases. In keeping with the lightweight
 approach, Redex generators are intended to be as
 ``push-button'' as possible, and are derived from Redex models 
-with little additional input from the user. First, I
+with little additional input from the user. I
 present several methods for deriving generators,
 including a generic method for randomly generating 
 well-typed expressions, the main contribution of this work. 
@@ -33,9 +32,9 @@ I present a random testing benchmark of Redex
 models and bugs. I discuss the benchmark and the 
 performance of the different generators at bug-finding,
 along with an additional case study comparing the typed
-generator against the best available custom well-typed
+generator against the best available, custom well-typed
 term generator.  The new generator is much more effective 
 than generation techniques that do not explicitly take types 
-into account and is competitive with the custom 
-generator, even though it is specialized to a particular
-type system and Redex's generator is generic.
+into account and is worse than, but competitive with the custom 
+generator, even though the custom generator is specialized to 
+a particular type system and Redex's generator is generic.
