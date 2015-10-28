@@ -40,7 +40,7 @@
 This section works through the development of a semantics for a
 simple functional language to illustrate the process of semantics
 engineering along with reduction semantics, the approach to modeling
-that Redex is designed to most easily take advantage of.
+that Redex is designed for.
 
 @figure["fig:stlc-exps" 
         "Grammar for expressions."
@@ -54,24 +54,20 @@ and subtraction (@et[-]), along with a conditional (@et[if0]) that
 dispatches on whether or not its first argument evaluates to @et[0]
 or not. Expressions beginning with @et[λ] construct functions of a
 single argument, which are applied via parenthesized juxtaposition
-as in Racket or other languages in the LISP family. Finally, @et[rec]
+as in Racket or other languages in the Lisp family. Finally, @et[rec]
 expressions support the construction of recursive bindings. Since
 this is a typed langauge, both of the bindings form also refer to
 types @et[τ], which are defined later in this section.
 
 A semantics for a programming language is a function from programs
-to answers. The type of function and what is meant by answers
+to answers. The way the function is defined 
 varies, depending on the intended use of the semantics. Here
 we will develop an operational semantics in the form of a
 syntactic machine that transforms programs until they become
 answers, meaning the domain and range of the function are 
 abstract syntax trees defined by the grammar in 
-@figure-ref["fig:stlc-exps"]. An example of another approach
-is denotational semantics, which maps syntax to a mathematical
-structure capturing the structure of computation in the 
-language.@note{One such semantics for this language maps base values 
- into elements of complete partial orders, and lambda expressions 
- into continuous functions over such orders.}
+@figure-ref["fig:stlc-exps"], and it is defined in terms of
+relations on syntax.
 
 To develop a semantics for this language, we start by identifying the
 answers, a subset of expressions that are @emph{values}, the results or
@@ -84,14 +80,13 @@ We expect that all valid programs (more will be said below about
 validity) either are a value, or will eventually evaluate
 to a value.
 
-To this end, we develop a set of rules known as notions of
-reduction. The rules are directed relations, pairing any
+To this end, we develop a set of relations, pairing any
 expression in the language that is not a value with another
 expression that is in some sense ``closer'' to being a value.
-(``Closer'' in this sense is usually fairly intuitive, but
-in the end it is necessary to prove that a semantics based on
-these rules does the right thing by eventually transforming
-all valid programs into values.)
+(``Closer'' in this sense is usually fairly intuitive to
+a programmer, but in the end it is necessary to prove that
+a semantics based on these rules does the right thing by
+eventually transforming valid and terminating programs into values.)
 For example, the notion of reduction for our binary operations
 looks like:
 @(centered (plus-pict))
@@ -114,12 +109,12 @@ instances of the variable @et[x] bound by the function in the
 function's body @et[e]:
 @(centered (beta-pict))
 where the notation @(subst-in-e-pict) means to perform
-capture-avoiding substitution@note{Capture-avoiding substitution
+capture-avoiding substitution@note{Capture-avoiding substitution@~cite[redex]
  avoids unintentional variable bindings (captures) that can occur
  when substituting underneath binders by renaming variables appropriately.}
 of @et[e] for @et[x] in @et[v]. 
 For example, the application of a function that adds one to its
-argument to two reduces as follows:
+argument to two takes a step as follows:
 
 @(centered (beta-example))
 
@@ -131,7 +126,7 @@ argument to two reduces as follows:
 The complete set of reductions adds rules for @et[if0] and @et[rec]
 and is shown in @figure-ref["fig:one-step"]. The @et[if0] rule reduces
 to the second or third argument, depending on the value of the
-first, and the @et[rec] rule just unfolds a recursive binding
+first, and the @et[rec] rule unfolds a recursive binding
 once, substituting the entire expression in the body.
 
 The set of reductions shown in @figure-ref["fig:one-step"] capture
@@ -147,12 +142,12 @@ way to do this is to take the @emph{compatible closure} of the
 reductions over expressions, which constructs a relation that
 allows the reductions to be applied anywhere inside a term. This
 is useful as the basis for an equational calculus, but it is
-less useful in building an evaluator because a given term can
-be reduced many different ways.
+not an evaluator because a given term can be reduced many different
+ways and evaluators have a fixed strategy.
 
 Instead we can construct a relation that relates each term
 that can take a step to exactly one term. To do this we use
-an @emph{evaluation context}, a nonterminal that includes
+an @emph{evaluation context}, an expression that includes
 a ``hole'', denoted by @et[[]]. This allows a term to
 be decomposed into a context and, in the hole of the context,
 a redex. The contractum of the redex can be
@@ -178,11 +173,11 @@ plugged back into the context at the same position the redex occupied.
 The intention of the standard reduction is to allow each program
 to take a step of computation in exactly one way. It may not
 be immediately obvious from the structure of evaluation contexts
-that we have this property, so we might wish to both test it,
-and, later, prove it. (I address how to do the former in Redex
+that we have this property, so we might wish to test it
+and, later, prove it. (I address how to test it in Redex
 in the next section.)
 
-Now the idea of evaluating a program @et[e] corresponds to the reflexive
+The idea of evaluating a program @et[e] corresponds to the reflexive
 transitive closure of the standard reduction, denoted by @(std-refl-trans).
 We can define an evaluator in terms of this relation, as follows:
 @(centered (eval-pict))
@@ -191,7 +186,7 @@ according to the standard reduction until it becomes a value.
 If the value is a number, we consider that to be an answer. If it is
 syntax for an unapplied function, we return @et[function], since
 that syntax really represents an internal state of the
-evaluator and isn't useful.
+evaluator and is not useful.
 
 Note, however, that @et[Eval] is not a total function, for several
 reasons. First, not all programs terminate. (Equivalently,
@@ -204,7 +199,7 @@ take another step.@note{Another issue sidestepped here
 We can't avoid the first issue without seriously handicapping
 our language, but we can tackle the second with a type system,
 which allows us to separate programs that will get stuck
-from those that won't.
+from those that will not.
 
 The type system accomplishes this by categorizing expressions
 according to what sort of values they will evaluate to. To start,
@@ -222,7 +217,7 @@ programs in order to exclude all ``bad'' ones.
 We construct the type system using a set inference rules called
 a typing judgment that defines
 a relation between a type environments (@et[Γ], to be defined
-briefly), expressions, and types. As an example, the rule for
+shortly), expressions, and types. As an example, the rule for
 binary operations is:
 @(centered (binop-rule))
 expressing that two expressions that evaluate to numbers
@@ -254,8 +249,7 @@ These particular rules can be easily used to derive a
 type checking algorithm. Treating the first two positions of
 the relation as inputs and the last as an output leads
 directly to the definition of a recursive function for
-type-checking. Inductively defined relations that allow
-this are said to have a consistent mode.
+type-checking. 
 
 Now the type system can be used to restrict the set of valid
 programs to those that satisfy the judgment:
@@ -265,6 +259,6 @@ respect to the empty type environment, or are ``well-typed''.
 By making this restriction, we assert our belief that
 if a program is well-typed, then either it evaluates to a value
 or it does not terminate. Ideally, we should 
-formally prove this property, but first it may be helpful to
-thoroughly test it. Modeling in Redex and testing properties
+formally prove this property, but first it is helpful to
+test it. Modeling in Redex and testing properties
 such as this are the subject of the next section.

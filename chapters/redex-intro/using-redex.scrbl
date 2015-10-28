@@ -48,7 +48,7 @@ language researchers have found to be commonly useful, such as grammars
 and reduction relations. Following this guideline makes designing useful
 abstractions simpler, as the choices have already been made by the
 community of intended users. It also has the potential to ease the
-learning curve and make adoption easier.
+learning curve of operational semantics.
 
 A similar principle is applied to the design of Redex's syntax, which
 attempts to be as close as possible to what a semantics engineer
@@ -56,7 +56,8 @@ would write down on the page or whiteboard. (Modulo some parentheses,
 the price of the embedding in Racket.) At the same time, automatic
 typesetting is provided that mimics what users see in the source
 as closely as possible, even preserving whitespace so that editing
-source code will directly affect typeset layouts.
+source code will directly affect typeset layouts, giving paper authors
+fine-grained control over layout.
 
 @figure["fig:side-by-side"
         "Definition of a grammar in Redex (left) and the automatically generated typesetting."
@@ -68,9 +69,9 @@ previous section in Redex with the typeset version. The Redex form
 for defining a grammar is @code{define-language}, whose first argument
 is the name of the language, followed by a sequence of non-terminal
 definitions. Generating the typeset version on the right requires
-only a single line of code: @code{(language->pict STLC-min)}. Note
+only a single line of code: @code{(render-language STLC-min)}. Note
 how the linebreaks and arrangement of productions on the right
-follow those in the source code very closely. Finally, both the
+follow those in the source code. Finally, both the
 typeset version and the Redex source conform closely to commonly
 accepted ways of writing down a grammar. What is shown here is
 the raw automatic typesetting; Redex also provides hooks
@@ -102,7 +103,7 @@ as in @figure-ref["fig:side-by-side"], a patterned defined
 in reference to that language (in the above, for example
 the @code{e}'s refer to the non-terminal of the language),
 and a concrete term. It then attempts to parse to term
-according to the patter.
+according to the pattern.
 Trying to parse @et[((λ 4) 2)], however, fails, since the first
 subterm no longer conforms to the @et[e] nonterminal, and is
 not a valid expression in this langauge:
@@ -116,7 +117,7 @@ terms to be decomposed into a context with a hole and
 the content of the hole. For example:
 @interaction[#:eval stlc-eval
              (redex-match STLC (in-hole E n)
-                               (term ((λ [x num] x) 5)))]
+                               (term ((λ [x num] 6) 5)))]
 Here @code{in-hole} is Redex's notation for the application
 of a context, so @code{(in-hole E n)} is equivalent to
 @(term->pict STLC (in-hole E n)) in the notation from
@@ -125,7 +126,9 @@ extension of @code{STLC-min} that adds contexts.)
 The result tells us that
 there is exactly one way to decompose the term such
 that a number is in the hole, @(term->pict STLC ((λ [x num] x) hole))
-and @(term->pict STLC 5).
+and @(term->pict STLC 5). The @code{6} cannot appear in the hole,
+since in a function application with value on the left, the
+hole must be on the right.
 
 Redex patterns also feature ellipses, which are analagous to
 the Kleene star and allow matching repetitions. A simple
@@ -145,7 +148,7 @@ Ellipses are a powerful feature of Redex's pattern matcher
 but cause problems for some types of random generation,
 an issue I will return to later on.
 
-Reduction relations are define using the @code{reduction-relation}
+Reduction relations are defined using the @code{reduction-relation}
 form as a union of rules, the syntax of which is very close
 to that of @figure-ref["fig:one-step"]. The definition of
 the reduction is shown on the left of @figure-ref["fig:red-types"].
@@ -192,8 +195,10 @@ Or, we can ask Redex to compute the type of a slightly
 more complicated term:
 @interaction[#:eval stlc-eval
              (judgment-holds (tc • (λ [x num] (λ [y num] x)) τ) τ)]
-@;{TODO - lightweightness...discuss, should this model
-   be an appendix?}
+And if we ask for the type of a term that is not well-typed, Redex
+returns @code{#f} to indicate the judgment does not hold:
+@interaction[#:eval stlc-eval
+             (judgment-holds (tc • (+ 7 (λ [y num] y)) τ) τ)]
 
 Finally, to complete the Redex model of this language,
 we can define an @code{Eval} metafunction in Redex that
@@ -202,7 +207,7 @@ corresponds exactly to @et[Eval] from @secref["sec:semantics-intro"].
 The first line specifies that this definition is relative to
 the @code{STLC} language and the second specifies @code{Eval}'s
 contract. Two clauses follow, which are made up of, in order,
-a pattern, a result term, and side-conditions, which is where
+a pattern, a result term, and a side-condition, which is where
 all the work of reducing the term is happening in this case.
 Clauses are tried in order, and the result is the right-hand side
 of the first clause that has both s pattern matching the argument and

@@ -22,13 +22,11 @@
 
 @title[#:tag "sec:redex-testing"]{Property-based Testing with Redex}
 
-Short path from sitting down to write the model to executability to testing
-
 Redex strives to miminize the amount of time between sitting down
 to write a Redex model and having an exectuable semantics to work
 with. Executability alone already provides a significant return on
 investment for the Redex user. Along with the tooling for interactive
-and graphical exploration of a model's dynamics, perhaps its greatest
+and graphical exploration of a model's dynamics, its greatest
 benefit is the ability to @italic{test} a semantics.
 
 An executable semantics can be equipped with a suite of tests. Unit tests
@@ -43,11 +41,8 @@ confidence that the behaviors of the model and the implementation agree.
 
 Unit tests, although unquestionably important for both software and
 semantics engineering, are fundamentally limited by the ingenuity of
-the writer of test cases. Experience shows that even when one makes
-every effort to cover all corner cases when writing tests it is still
-easy to miss things.
-
-Another approach that relies less on human efforts to cover the
+the writer of test cases. Another approach that relies
+less on human efforts to cover the
 space of possible tests is @italic{property-based testing}, where
 instead of writing individual test cases a programmer defines a
 property that should hold of their program and a domain over which
@@ -109,17 +104,16 @@ premise of the implication that we want to test, so it doesn't verify
 that a well-typed term takes a step, or that the type is preserved. To
 check this part of the property, we need a good portion of the test cases
 to be well-typed. Also, we would like to avoid having too many of the well-typed
-test cases be values, because they won't take any evlation steps.
+test cases be values, because they won't take any evaluation steps.
 We can generate a number of terms with @code{generate-term}
 and check to see how many of them are ``good'':
 @(stlc-eval '(random-seed 13))
 @interaction[#:eval stlc-eval
                     (length
-                     (filter (λ (e) (and
-                                     (judgment-holds (tc • ,e τ))
-                                     (not (redex-match STLC v e))))
+                     (filter (λ (e) (and (judgment-holds (tc • ,e τ))
+                                         (not (redex-match STLC v e))))
                              (for/list ([i 1000])
-                                       (generate-term STLC e 3))))]
+                               (generate-term STLC e 3))))]
 Here we generated 1000 random terms, and less than 2% of them are
 good test cases.
 

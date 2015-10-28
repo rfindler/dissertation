@@ -110,8 +110,7 @@
    (judgment-holds (refl-trans e n))]
   [(Eval e)
    function
-   (judgment-holds (refl-trans e v))
-   (where (λ (x τ) e_3) v)])
+   (judgment-holds (refl-trans e (λ (x τ) e_3)))])
 
 (define-judgment-form STLC
   #:mode (refl-trans I O)

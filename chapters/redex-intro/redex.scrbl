@@ -21,11 +21,11 @@ just enough to understand the rest of the dissertation and show
 how lightweight semantics engineering works. It begins with an
 introduction to reduction semantics, the type of operational
 semantics used by Redex, in @secref["sec:semantics-intro"],
-which attempts to show how reduction semantics works through
+by working through
 the step-by-step development of a semantics for a simple
 functional language. Then @secref["sec:redex-modeling"] shows
 how the same language can be coded and run as Redex model that
-is comparable in size and concision to the typewritten or pencil
+is comparable in size and concision to the pencil
 and paper semantics. Finally, @secref["sec:redex-testing"]
 demonstrates the application of Redex's property-based testing
 tools to the model.
