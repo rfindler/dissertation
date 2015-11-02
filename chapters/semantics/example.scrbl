@@ -46,7 +46,9 @@ Since there is no overlap between the left-hand sides of
 the first two clauses in @lt[e/o] the first two rules
 (reading left to right) have to additional premises.
 The third rule, however, has two premises to exclude
-both of the previous clauses.
+both of the previous clauses. The next section discusses in
+detail the form of such constraints and the need for
+universal quantification.
 
 @figure["fig:example-jdg"
         @list{The metafunction of @figure-ref["fig:example-mf"] as a judgment form.}
@@ -62,7 +64,7 @@ Note that sequence patterns all now have explicit @clpt[lst]
 constructors, corresponding to patterns @clpt[p] of the model,
 so that @lt[(s (s z))] becomes @clpt[(lst s (lst s z))]. Also,
 the parameters of the judgment have been combined into
-an @clpt[lst] sequence as well, since in the model rules all
+an @clpt[lst] sequence as well, since in the model all
 judgments are unary, so we just combine the parameters of
 any @italic{n}-ary judgment into a tuple.
 
@@ -70,7 +72,7 @@ To generate a reduction graph for this program we need an
 appropriate initial goal, for which we can chose
 @clpt[(e-or-o (list odd (lst s (lst s (list s z)))))],
 asserting that three is odd, or that @lt[odd] should
-be the result of calling @lt[e/o] woth @lt[3]. We then form a tuple from
+be the result of calling @lt[e/o] with @lt[3]. We then form a tuple from
 the program @clpt[P], the goal, and the empty set of
 constraints @clpt[(∧)] (the constraint set is shown as a
 single disjunction for simplicity), which we use as an input
@@ -92,8 +94,8 @@ The right hand reduction comes from the rule on the
 right (note the form of the added constraints) and is
 a stuck state. Because it has a disequation @clpt[δ] on
 the top of the goal stack, it could only take a step
-using the @rule-name{new constraint} rule. However a glance
-at the current set of constraints (the bottom or last element
+using the @rule-name{new constraint} rule. However, inspecting
+the current set of constraints (the bottom or last element
 of the state tuple) shows that it conflicts with the
 disequation at the top of the stack, so it isn't possible
 to take another step from this state.

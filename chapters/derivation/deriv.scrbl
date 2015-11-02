@@ -27,7 +27,7 @@ are constructed that satisfy judgment forms (and metafunctions) in
 a Redex model. In actual Redex models, this approach can be used to
 generate terms that are well-typed or satisfy some similar static
 property. Since such properties are frequently the premise of a
-testable property, that makes the terms very useful as test cases.
+testable property, that makes the terms useful as test cases.
 
 Here I present an overview of the method for generating well-typed
 terms by working through the generation of an example term.

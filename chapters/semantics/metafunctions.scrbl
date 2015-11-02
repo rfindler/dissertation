@@ -17,7 +17,7 @@
 
 @title[#:tag "sec:mf-semantics"]{Compiling Metafunctions}
 
-The examples of @secref["sec:deriv"] and @secref["sec:example-red"]
+The examples of chapter 4 and @secref["sec:example-red"]
 informally demonstrated how metafunctions can be converted into
 judgment forms. This section discusses how to generalize this process.
 
@@ -87,12 +87,12 @@ such applications are allowed inside @code{term}.
 The metafunctions for function compilation are shown in @figure-ref["fig:mf-compile"].
 The top-level metafunction, @pt[compile], first calls @pt[compile-M] with
 every function in the program until there are none, and then calls
-@pt[extract-apps-D] with every definition @pt[D] on the program.
+@pt[extract-apps-D] with every definition @pt[D] in the program.
 The metafunction for compiling an individual function, @pt[compile-M],
 processes each prefix of the list of clauses individually,
-mapping each to a rules @pt[r]. It does nothing special
+mapping each to a rule @pt[r]. It does nothing special
 with the prefix containing only one clause, other than
-returning the equivalent rules,but in every other case
+returning the equivalent rules, but in every other case
 it creates a rule based on the last clause in the prefix, adding in
 constraints excluding every other clause in the prefix.
 
@@ -104,7 +104,7 @@ Finally, the metafunctions shown in @figure-ref["fig:extraction-pict"] lift out
 function applications embedded in patterns. An application of the form
 @pt[(f p)] is replaced with some fresh variable @pt[x] representing
 its result. The application itself is transformed into a premise of
-the form @pt[(f p x)], since the function itself has been compiled into
+the form @pt[(f p x)], since the function has been compiled into
 a relation of that form. The pattern @pt[p] is in the input position
 and the variable @pt[x] is in the output position. The premise is then lifted
 to the top level of the surrounding rule @pt[r].

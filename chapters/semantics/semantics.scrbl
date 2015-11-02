@@ -43,10 +43,7 @@ semantics.
 The grammar in @figure-ref["fig:clp-grammar"] describes the language of the model.
 A program @clpt[P] consists of  definitions @clpt[D], which
 are sets of inference rules @clpt[((d p) ← a ...)], here written
-horizontally with the conclusion on the left and premises on the right. (Note that
-ellipses are used in a precise manner to indicate repetition of the immediately
-previous expression, in this case @clpt[a], following Scheme tradition. 
-They do not indicate elided text.)
+horizontally with the conclusion on the left and premises on the right.
 Definitions can express both judgment forms and metafunctions. They are a strict
 generalization of judgment forms, and metafunctions are compiled
 into them via a process we discuss in @secref["sec:mf-semantics"].
@@ -119,7 +116,7 @@ generalizing the
 process used for @clpt[lookup] in @secref["sec:deriv"].
 @Secref["sec:solve"] describes how the solver handles
 equations and disequations.
-@Secref["sec:search"] discusses the heuristics in our implementation
+@Secref["sec:search"] discusses the heuristics in the implementation
 and @secref["sec:pats"] describes how the implementation
 scales up to support features in Redex that are not covered in this model.
 
@@ -142,38 +139,6 @@ right-hand side. Whenever a new
 constraint is added, consistency is checked again
 and the new set is simplified to maintain the canonical
 form.
-
-@;{
-To better understand how the solver works, consider the following
-definition of evenness for Peano numbers, a series of @clpt[r]
-clauses at left compiled via the process of @secref["sec:mf-semantics"] from
-the somewhat awkward predicate defined at left:
-@table[(style #f (list (table-cells `((,(style #f '(bottom))
-                                       ,(style #f '(bottom))
-                                       ,(style #f '(bottom)))))))
-       (list
-        (list
-         (paragraph (style #f '())
-                    (list (vc-append (even?-pict)
-                                     (blank 25))))
-         (paragraph (style #f '()) (hspace 3))
-         (table (style #f (list (table-cells `((,(style #f '(top)))
-                                               (,(style #f '(vcenter)))
-                                               (,(style #f '(bottom)))))))
-                (parameterize ([pretty-print-columns 60])
-                  (list (list 
-                         (paragraph (style #f '()) 
-                                    (list @clpt/e[(list-ref awkward-even-rw 0)])))
-                        (list 
-                         (paragraph (style #f '()) 
-                                    (list @clpt/e[(list-ref awkward-even-rw 1)])))
-                        (list 
-                         (paragraph (style #f '()) 
-                                    (list (vc-append (blank 2)
-                                                     @clpt/e[(list-ref awkward-even-rw 2)])))))))
-         ))]
-As a running example to illustrate our solver, we'll follow a short reduction
-sequence based on a program @clpt[P] containing only the above definition.}
 
 
 @Figure-ref["fig:solve"] shows @clpt[solve], the entry point to the solver
@@ -257,7 +222,7 @@ disequation @clpt[(∀ (x) (x ≠ p))] is guaranteed to be false because
 every pattern admits at least one concrete term. This is where
 @clpt[param-elim] comes in. It cleans up the result of @clpt[unify]
 by eliminating all clauses that, when negated and placed back
-under the quantifier would be guaranteed false, so the reasoning
+under the quantifier, would be guaranteed false, so the reasoning
 in the previous paragraph holds and the second case of @clpt[disunify]
 behaves properly.
 
@@ -427,13 +392,14 @@ search and reports failure.
 
 The model of @secref["sec:semantics"] uses a much simpler pattern language 
 than Redex itself. 
-The portion of Redex's internal pattern language supported by the generator@note{The 
-   generator is not able to handle parts of the
-   pattern language that deal with evaluation contexts or 
-   ``repeat'' patterns (ellipses).} is shown in @figure-ref["fig:full-pats"].
-Here the interesting differences between this language and
-the language of our model are discussed, along with how
-they are supported in Redex's implementation.
+The portion of Redex's internal pattern language supported by the generator
+is shown in @figure-ref["fig:full-pats"].
+The generator is not currently able to handle parts of the
+pattern language that deal with evaluation contexts or 
+``repeat'' patterns (ellipses).
+This section discusses the interesting differences between this language and
+the language of the model, along with how
+they are supported in the implementation.
 
 Named patterns of the form @slpt[(:name s p)]
 correspond to variables @italic{x} in the simplified version of the pattern
@@ -457,7 +423,8 @@ for example unifying @slpt[:real] and @slpt[:natural] produces @slpt[:natural], 
 unifying @slpt[:real] and @slpt[:string] fails.
 
 The productions of @slpt[v] match Racket symbols in varying and commonly useful ways;
-@slpt[:variable-not-otherwise-mentioned], for example, matches any symbol that is not used
+for example,
+@slpt[:variable-not-otherwise-mentioned] matches any symbol that is not used
 as a literal elsewhere in the language. These are handled similarly to the patterns of
 the @slpt[b] non-terminal within the unifier.
 
@@ -485,9 +452,9 @@ until the entire generation process is complete.
 Then, once a concrete term is generated, it is checked to see if any of the
 non-terminals would have been violated (using a matching algorithm). 
 This means that it is possible to get failures at this stage of generation, but it
-tends not to happen very often for practical Redex models.@note{To be more
-  precise, on the Redex benchmark (see @secref["sec:benchmark"]) such failures
-  occur on all ``delim-cont'' models 2.9±1.1% of the time, on all ``poly-stlc''
-  models 3.3±0.3% of the time, on the ``rvm-6'' model 8.6±2.9% of the time,
-  and are not observed on the other models.}
+tends not to happen very often for practical Redex models.
+To be more  precise, on the Redex benchmark (see Chapter 6) such failures
+occur on all ``delim-cont'' models 2.9±1.1% of the time, on all ``poly-stlc''
+models 3.3±0.3% of the time, on the ``rvm-6'' model 8.6±2.9% of the time,
+and are not observed on the other models.
   

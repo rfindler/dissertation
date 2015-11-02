@@ -210,7 +210,7 @@
   (define (align p) 
     (lbl-superimpose p (ghost (render-term FexL | (a b c))|))))
   (hc-append 
-   40
+   70
    (render-metafunction g)
    (vl-append
     (hbl-append (render-term FexL (g (lst 1 2)))
