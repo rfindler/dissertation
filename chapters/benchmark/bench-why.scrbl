@@ -86,7 +86,7 @@ the domain (PL semantics) for which Redex's automated testing support
 is intended.
 
 We also test the models for much longer time periods, up to 24 hours
-(and more, in one case) for each generator/bug pair. This is intended to coincide
+(or more, if uncertainty remains large) for each generator/bug pair. This is intended to coincide
 more closely with actual use cases, where a test run may frequently
 extend over lunch, overnight, or a weekend. It also exposes
 differences at larger time scales that can be exploited
