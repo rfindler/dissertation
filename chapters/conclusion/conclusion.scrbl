@@ -14,16 +14,20 @@ consistency with actual implementations before attempting
 a formal proof of correctness.
 
 To support this approach to mechanization, this dissertation
-demonstrated  several different approaches to automatically
+introduced a new approach to automatically
 derive generators for property-based testing from lightweight definitions:
-ad-hoc recursive generators and two enumeration based generators
-derived from grammars, and derivation generators based on
+a derivation generator based on
 relation and function definitions.
-Evaluation of their bug-finding effectiveness
-shows that all of them effectively find counterexamples
+It also developed a benchmark suite to evaluate
+generator performance, and used that to learn about the
+relative strengths of four generators: ad-hoc recursive generators,
+two enumeration based generators
+derived from grammars, and the derivation generator.
+The evaluation shows that all of them effectively find counterexamples
 for realistic properties of real-world semantics models in
-reasonable time frames.
-The evidence shows
+reasonable time frames, and that generating well-typed
+terms is significantly more effective.
+Overall, the evidence shows
 that automated checking based on lightweight definitions
 is a productive avenue toward improved tools for semantics
 engineering.
