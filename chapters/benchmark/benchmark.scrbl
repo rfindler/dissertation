@@ -14,8 +14,7 @@
 @title[#:tag "sec:benchmark"]{The Redex Benchmark}
 
 This chapter introduces the Redex Benchmark, a suite of Redex
-models and bugs that were originally developed for the research
-of this dissertation. The benchmark is intended to
+models and bugs. The benchmark is intended to
 support the comparative evaluation of different methods of
 automated property-based testing. @Secref["sec:benchmark-why"]
 discusses the problem of evaluating test-case generators and

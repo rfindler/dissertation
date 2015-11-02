@@ -157,14 +157,14 @@ so it effectively means that each variable has the type of the nearest
 enclosing lambda expression.
 
 @section[#:tag "sec:b:poly-stlc"]{poly-stlc} 
-This is a polymorphic version of @secref["sec:b:stlc"], with
+This is a polymorphic version of the model in @secref["sec:b:stlc"], with
 a single numeric base type, polymorphic lists, and polymorphic 
 versions of the list constants. 
 No changes were made to the model except those necessary to 
 make the list operations polymorphic.
 There is no type inference in the model, so all polymorphic
 terms are required to be instantiated with the correct
-types in order for the function to type check. 
+types in order to type check. 
 Of course, this makes it much more difficult to automatically 
 generate well-typed terms, and thus counterexamples.
 As with @bold{stlc}, the property checked is
@@ -299,7 +299,7 @@ all of the store update operations. We classify this as a medium bug.
 
 The final list-machine bug is a missing subscript in one rule
 that has the effect that the list cons operator does not store
-its result. Essentially a type, and classified as a simple bug.
+its result. Essentially a typo, and classified as a simple bug.
 
 @section[#:tag "sec:b:rbtrees"]{rbtrees} A model that implements the red-black
 tree insertion function and checks that insertion preserves
@@ -370,7 +370,7 @@ reasons:
   requires building a complete, buggy version of the Racket
   runtime system to include in the benchmark.}
            
-          @item{All of the internal properties were inclueded,
+          @item{All of the internal properties were included,
   except those numbered 1 and 7, for practical reasons. The
   first is the only bug in the machine model, as opposed to
   just the verifier, which would have required the

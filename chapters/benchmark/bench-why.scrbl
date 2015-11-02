@@ -12,12 +12,12 @@
           (only-in pict scale))
 
 
-@title[#:tag "sec:benchmark-why"]{Benchmark Rationale}
+@title[#:tag "sec:benchmark-why"]{Benchmark Rationale and Related Work}
 
 As @citet[QuickCheck] point out in the original paper on QuickCheck,
 it is ``notoriously difficult'' to evaluate the effectiveness
 of an approach to testing.
-Their paper provided strong @italic{anecdotal} evidence that
+Their paper provided strong anecdotal evidence that
 QuickCheck was effective for a variety of users with a variety
 of different applications, but didn't attempt a systematic study of its
 effectiveness. (A comparative study wasn't as easy
@@ -26,7 +26,7 @@ property-based testing for functional programmers.)
 In their case, the success of QuickCheck over the
 years has become the strongest evidence of its usefulness.
 
-Subsequent efforts have made the attempt to be slightly more
+Subsequent efforts have made the attempt to be more
 systematic. In a study introducing SmallCheck, a property-based testing
 library for Haskell using exhaustive generation (as opposed to random
 generation in QuickCheck's case), @citet[small-check] compare SmallCheck,
@@ -73,32 +73,28 @@ bugs introduced and found during the development of the model,
 or inserted because they are judged to be representative of bugs
 that could be introduced in a typical development.
 A short description of each model and each bug is given in
-@secref["sec:benchmark-models"]. Introducing
-faults through automatic mutation was rejected because it is
-difficult to connect success at finding such
-bugs to  success at finding bugs that engineers might
-need assistance uncovering.
+@secref["sec:benchmark-models"]. 
 
 The models themselves represent a wider variety and a deeper
 complexity than those used in previous studies. As in both studies
 mentioned above, we include an implementation of a functional data
-structure, namely red-black trees. The rest of the models, on the other
-hand, are programming languages or virtual machines that typically have much
+structure, namely red-black trees. The rest of the models, however,
+are programming languages or virtual machines that typically have much
 richer properties to test, such as type-soundness. This provides a broader
 range of models and properties to test and targets
 the domain (PL semantics) for which Redex's automated testing support
 is intended.
 
 We also test the models for much longer time periods, up to 24 hours
-or more for each generator/bug pair. This is intended to coincide
+(and more, in one case) for each generator/bug pair. This is intended to coincide
 more closely with actual use cases, where a test run may frequently
 extend over lunch, overnight, or a weekend. It also exposes
 differences at larger time scales that can be exploited
 through optimization of the testing method or parallelism.
-(Since test runs are totally independent, it is easy to take
+(Since test runs are independent, it is easy to take
 advantage of parallelism in this setting.)
 
-Finally, as a metric we choose only the (average) time to find a counterexample.
+Finally, as a metric we choose the (average) time to find a counterexample.
 This measures exactly the property we desire in a test generator. Other possibilities, such
 as the time to exhaust a finite space of possible test cases, or the
 ratio of attempts to counterexample, are also interesting, but are not as
