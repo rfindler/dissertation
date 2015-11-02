@@ -37,7 +37,8 @@ library@~cite[data-enumerate], which provides a rich set of
 combinators for constructing enumerations that are both efficient
 and fair. Efficiency means roughly that very large natural numbers
 can be decoded without too much computational cost.
-(In this case, it is usually linear in the size of the number in bits.)
+(In this case, it is usually linear in the size of the
+number in bits used to represent the index.)
 Fairness means that when combining different enumerations, such
 as when constructing an enumeration of an @italic{n}-tuple out of
 @italic{n} enumerations,
@@ -231,6 +232,10 @@ the pattern @racket[(list/e x/e τ/e e/e)] is generated, where
 @racket[x/e], @racket[τ/e] and @racket[e/e] correspond to the enumerations
 for those non-terminals, from which the appropriate term is constructed.
 
+@;{
+
+   Removed the following after discussing with Robby:
+
 Redex's pattern language is more general, however, and there are four
 issues in Redex patterns that require special care when enumerating.
 We enumerate them below and discuss how Redex constructs enumerations for them.
@@ -373,3 +378,4 @@ determined that a pattern is unambiguous and it is combined with a
 @racket[__!_] pattern, Redex will signal an error instead of enumerating
 the pattern.
 
+}

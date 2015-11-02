@@ -17,7 +17,7 @@
 
 @title[#:tag "sec:ad-hoc"]{Ad-hoc Recursive Generators}
 
-Given a grammar, an obvious method for generating random
+Given a grammar, a straightforward method for generating random
 terms conforming to some non-terminal is as follows. First,
 pick a production at random. If that production does not
 include any non-terminals, we are done. If it contains
@@ -38,8 +38,8 @@ that set for the non-terminal @ap['n].
 
 It is straightforward to write a recursive function
 in Racket implementing this method. The only thing we
-need to be careful of is the danger of unrestricted
-recursion arising from randomly choosing recursive
+need to be careful of is the danger of nontermination
+arising from randomly choosing recursive
 productions too often. We can deal with this by adding
 a ``fuel'' parameter that is decremented on recursive
 calls and only allows choosing recursive productions if
@@ -50,7 +50,7 @@ a natural number indicating ``fuel'', and returns an
 appropriate random term:
 @(racketblock #,generate-arith-stxobj)
 (The predicate @code{arith?} appearing in the contract
-on the second line just checks that the result does
+on the second line checks that the result does
 indeed conform to a non-terminal of the grammar above.)
 So, to generate a random expression, we can call
 @code{generate-arith} with @code{'e} and a depth limit
@@ -83,10 +83,6 @@ and, in Racket's case, @code{+inf.0}, a number larger than
 all other numbers. Similar issues arise when generating
 strings or symbols. Neglecting this point is common in
 naive critiques of random test-case generators.
-(See, for example, @citet[dart] or
-@citet[contract-driven-testing-of-javascript-code],
-and a refutation using Redex and Quickcheck in
-@citet[redex-enum].)
 Redex's grammar generator contains many such heuristics
 that have been tuned over years to make it more
 effective for random testing, which is why I refer
@@ -100,7 +96,10 @@ much stronger than conformance to a grammar. For
 example, they may require closed terms, or even
 well-typed terms. In such cases the fraction of
 valid expressions conforming to a grammar that meet
-the stronger condition is usually very small. To compensate,
+the stronger condition is usually very small.
+Even the ratio of closed lambda terms to lambda
+terms becomes vanishingly small as the size of terms
+increases, as shown by @citet[counting-lambdas]. To compensate,
 random generation from a grammar can still be leveraged
 by post-processing the term to fix these deficiencies.
 It is straightforward, for example, to write a function
