@@ -458,3 +458,28 @@ occur on all ``delim-cont'' models 2.9±1.1% of the time, on all ``poly-stlc''
 models 3.3±0.3% of the time, on the ``rvm-6'' model 8.6±2.9% of the time,
 and are not observed on the other models.
   
+@section[#:tag "sec:related-dqs"]{Related Work in Disequational Constraints}
+
+@citet[colmerauer-inequations] is the first
+to introduce a method of solving disequational constraints of
+the type used here, but his work handles only existentially quantified
+variables. Like him, Redex uses
+the unification algorithm to simplify disequations.
+
+@citet[equational-problems] address the more general 
+problem of solving all first order logical formulas
+where equality is the only predicate, which they term 
+``equational problems,'' of which our constraints are a subset.
+They present a set of rules as rewrites
+on such formulas to transform them into solved forms.
+Redex's solver is essentially a way of factoring
+a stand-alone unifier out of their rules.
+
+@citet[byrd-phd] notes that a related form of disequality 
+constraints has been available in many Prolog implementations
+and constraint programming systems since Prolog II. 
+Notably, miniKanren@~cite[byrd-phd] and cKanren@~cite[cKanren] 
+implement them in a way similar to Redex, using unification as
+a subroutine.
+However, to my knowledge, none of these systems supports
+the universally quantified constraints Redex requires.
