@@ -74,6 +74,7 @@
 (define aplas (string-append "Asian" Conference "Programming Languages and Systems"))
 (define ase (string-append International Conference "Automated Software Engineering"))
 (define tools (string-append International Conference "Objects, Models, Components, Patterns"))
+(define jlap "Journal of Logiac and Algebraic Programming")
 
 (define ibm-sys "IBM Systems Journal")
 (define jfp (string-append Journal "Functional Programming"))
@@ -1032,4 +1033,42 @@
    #:location (proceedings-location cc
                                     #:series "LNCS"
                                     #:volume 2027)))
-   
+
+(define rusty-fuzz
+  (make-bib
+   #:author (authors "Kyle Dewey" "Jared Roesch" "Ben Hardekopf")
+   #:title "Fuzzing the Rust Typechecker Using CLP"
+   #:date 2015
+   #:location (proceedings-location ase)))
+
+(define overview-k
+  (make-bib
+   #:author (authors "Girgore Rosu" "Traian Florin Serbanuta")
+   #:title "An Overview of the K Semantic Framework"
+   #:date 2010
+   #:location (journal-location jlap
+                                #:volume 79
+                                #:number 6
+                                #:pages (list 397 434))))
+
+(define c-k
+  (make-bib
+   #:title "A Formal Semantics of C with Applications"
+   #:author "Chucky Ellsion"
+   #:date 2012
+   #:location (dissertation-location #:institution "University of Illinois"
+                                     #:degree "PhD")))
+
+(define k-java
+  (make-bib
+   #:title "K-Java: A Complete Semantics of Java"
+   #:author (authors "Denix Bogdanas" "Grigore Rosu")
+   #:date 2015
+   #:location (proceedings-location popl)))
+
+(define k-js
+  (make-bib
+   #:title "KJS: A Complete Formal Semantics of JavaScript"
+   #:author (authors "Daejun Park" "Andrei Stefanescu" "Grigore Rosu")
+   #:date 2015
+   #:location (proceedings-location pldi)))
