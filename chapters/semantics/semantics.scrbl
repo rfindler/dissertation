@@ -20,12 +20,9 @@
 
 
 @title[#:tag "sec:semantics"]{Derivation Generation in Detail}
-
 @figure["fig:clp-grammar"
         @list{The syntax of the derivation generator model.}
               @(init-lang)]
-
-
 This chapter describes a formal model of the derivation generator.
 The centerpiece of the model is a relation that rewrites programs consisting
 of metafunctions and judgment forms into the set of possible derivations 
@@ -35,10 +32,6 @@ of the possible derivations that the rewriting relation can produce.
 The model is based on @citet[clp-semantics]'s constraint logic programming
 semantics.
 
-@figure["fig:clp-red"
-        @list{Reduction rules describing generation of the complete
-              tree of derivations.}
-        @(clp-red-pict)]
 
 The grammar in @figure-ref["fig:clp-grammar"] describes the language of the model.
 A program @clpt[P] consists of  definitions @clpt[D], which
@@ -57,6 +50,12 @@ disequational constraints later in this section, but as their form in
 in which the variables listed following @clpt[∀] are universally quantified.
 The remaining variables in a disequation are implicitly existentially
 quantified, as are the variables in equations.
+
+
+@figure["fig:clp-red"
+        @list{Reduction rules describing generation of the complete
+              tree of derivations.}
+        @(clp-red-pict)]
 
 The reduction relation shown in @figure-ref["fig:clp-red"] generates
 the complete tree of derivations for the program @clpt[P]

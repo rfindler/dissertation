@@ -145,7 +145,7 @@ and the programs it generates are finely tuned to be effective at finding
 bugs based on several years of experience. It had
 found over 300 bugs in mainstream C compilers as of 2011.
 
-@citet[αProlog-test] design an automated model-checking framework for
+@citet[αProlog-test] design an automated model-checking framework based on
 αProlog@~cite[αProlog], a programming language based on nominal logic,
 designed for modeling formal systems.
 They advocate automating mechanized checking for semantics in a manner

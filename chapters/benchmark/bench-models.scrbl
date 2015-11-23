@@ -212,12 +212,10 @@ The first substitution bug introduced simply omits the
 case that replaces the correct variable with the
 term to be substituted. We consider this to be a shallow
 error.
-
 Bug 2 permutes the order of arguments when making a
 recursive call. This is also categorized as a shallow bug,
 although it is a common one, at least based on
 experience writing substitutions in Redex.
-
 Bug 3 swaps the function and argument positions of
 an application while recurring, again essentially a typo and
 a shallow error, although one of the more difficult to
@@ -232,18 +230,15 @@ bound variable or the substituted variable. We categorized
 this error as deep because it corresponds to a
 misunderstanding of how to generate fresh variables, a
 central concern of the substitution function.
-
 Bug 5 carries out the substitution for all variables in the
 term, not just the given variable. We categorized it as SM,
 since it is essentially a missing side condition, although a
 fairly egregious one.
-
 Bugs 6-9 are duplicates of bugs 1-3 and bug 5, except that
 they are tested with type soundness instead. (It is
 impossible to detect bug 4 with this property.)
 
 @section[#:tag "sec:b:let-poly"]{let-poly}
-
 A language with ML-style @tt{let} polymorphism, included in
 the benchmark to explore the difficulty of finding the 
 classic let+references unsoundness. With the exception of
@@ -254,12 +249,10 @@ development).
 The first bug is simple; it corresponds to a typo, swapping
 an @tt{x} for a @tt{y} in a rule such that a type variable
 is used as a program variable.
-
 Bug number 2 is the classic let+references bug. It changes the rule
 for @tt{let}-bound variables in such a way that generalization
 is allowed even when the initial value expression is not a value.
 This is a deep bug.
-
 Bug number 3 is an error in the function application case where the
 wrong types are used for the function position (swapping two types
 in the rule).
@@ -301,7 +294,8 @@ The final list-machine bug is a missing subscript in one rule
 that has the effect that the list cons operator does not store
 its result. Essentially a typo, and classified as a simple bug.
 
-@section[#:tag "sec:b:rbtrees"]{rbtrees} A model that implements the red-black
+@section[#:tag "sec:b:rbtrees"]{rbtrees}
+A model that implements the red-black
 tree insertion function and checks that insertion preserves
 the red-black tree invariant (and that the red-black tree is
 a binary search tree).
