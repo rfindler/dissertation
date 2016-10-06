@@ -8,7 +8,7 @@
 
 @title[#:tag "sec:bench-table"]{Detailed Listing of Benchmark Bugs}
 
-@(define last-col-width 50)
+@(define last-col-width 45)
 @(define (break-last-cols rows)
    (let recur ([rows rows])
      (match rows
@@ -23,8 +23,8 @@
              (cons (list a b c d e) (recur rest))]
             [(equal? #\space (string-ref str n))
              (cons (list a b c d (list (substring str 0 n)))
-                   (cons (list "" "" "" "" (list (substring str (add1 n))))
-                         (recur rest)))]
+                   (recur (cons (list "" "" "" "" (list (substring str (add1 n))))
+                                rest)))]
             [else (loop (add1 n))]))]
        [(cons this rest)
         (cons this (recur rest))])))

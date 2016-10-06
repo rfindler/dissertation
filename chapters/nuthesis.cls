@@ -191,7 +191,7 @@
 \def\mainmatter{%
   \cleardoublepage
 %  \pagenumbering{arabic}
-%  \pagestyle{myheadings}
+  \pagestyle{myheadings}
 }
 \def\backmatter{\cleardoublepage}
 
@@ -251,7 +251,7 @@ By\par
 
 \renewcommand{\abstract}{%
 \chapter*{\abstractname}
-\thispagestyle{empty}
+\thispagestyle{myheadings}
 \bigskip
 \begin{center}
 \@title{}\par
@@ -263,7 +263,10 @@ By\par
 \def\abstractname{ABSTRACT} % capitalized - MAL 5/3/2002
 
 
-\newcommand{\acknowledgements}{\chapter*{\acknowledgementsname}}
+\newcommand{\acknowledgements}{
+\chapter*{\acknowledgementsname}
+\thispagestyle{myheadings}
+}
 \def\acknowledgementsname{Acknowledgments}
 \newcommand{\preface}{\chapter*{\prefacename}}
 \def\prefacename{Preface}

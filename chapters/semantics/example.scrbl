@@ -82,7 +82,7 @@ The resulting reduction graph is shown in @figure-ref["fig:red-graph"].
 @figure["fig:red-graph"
         @list{Reduction graph for example generator program. The
               program is abbreviated as @code{P}.}
-        @raw-latex{\includegraphics[scale=0.75]{graph2.pdf}}]
+        @raw-latex{\includegraphics[scale=0.7]{graph2.pdf}}]
 
 The first thing to notice about the reduction graph is that
 there are two possible reductions using the @rule-name{reduce}
