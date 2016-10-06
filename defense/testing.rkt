@@ -3,7 +3,6 @@
 (require slideshow
          pict
          pict/flash
-         unstable/gui/pict
          "common.rkt"
          "settings.rkt"
          "examples/stlc.rkt"
